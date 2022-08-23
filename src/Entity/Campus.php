@@ -16,6 +16,7 @@ class Campus
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+
     public function getId(): ?int
     {
         return $this->id;
