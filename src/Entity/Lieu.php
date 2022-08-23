@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LieuRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
@@ -13,8 +15,6 @@ class Lieu
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idLieu = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -28,25 +28,24 @@ class Lieu
     #[ORM\Column]
     private ?float $longitude = null;
 
-    #[ORM\ManyToOne]
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Date::class)]
+    private Collection $dates;
+
+    #[ORM\ManyToOne(inversedBy: 'lieus')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
+
+    public function __construct()
+    {
+        $this->dates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdLieu(): ?int
-    {
-        return $this->idLieu;
-    }
-
-    public function setIdLieu(int $idLieu): self
-    {
-        $this->idLieu = $idLieu;
-
-        return $this;
-    }
 
     public function getNom(): ?string
     {
@@ -104,6 +103,36 @@ class Lieu
     public function setVille(?Ville $ville): self
     {
         $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Date>
+     */
+    public function getDates(): Collection
+    {
+        return $this->dates;
+    }
+
+    public function addDate(Date $date): self
+    {
+        if (!$this->dates->contains($date)) {
+            $this->dates->add($date);
+            $date->setLieu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDate(Date $date): self
+    {
+        if ($this->dates->removeElement($date)) {
+            // set the owning side to null (unless already changed)
+            if ($date->getLieu() === $this) {
+                $date->setLieu(null);
+            }
+        }
 
         return $this;
     }

@@ -43,17 +43,20 @@ class Date
     #[ORM\ManyToOne]
     private ?Etat $etatSortie = null;
 
-    #[ORM\ManyToOne]
-    private ?Lieu $Lieu = null;
-
-    #[ORM\ManyToOne]
-    private ?Campus $campus = null;
 
     #[ORM\ManyToOne]
     private ?User $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $participants;
+
+    #[ORM\ManyToOne(inversedBy: 'Sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dates')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lieu $lieu = null;
 
     public function __construct()
     {
