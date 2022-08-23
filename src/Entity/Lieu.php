@@ -3,61 +3,46 @@
 namespace App\Entity;
 
 use App\Repository\LieuRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=LieuRepository::class)
- */
+#[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=250)
-     */
-    private $nom;
+    #[ORM\Column]
+    private ?int $idLieu = null;
 
-    /**
-     * @ORM\Column(type="string", length=250)
-     */
-    private $rue;
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $latitude;
+    #[ORM\Column(length: 255)]
+    private ?string $rue = null;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $longitude;
+    #[ORM\Column]
+    private ?float $latitude = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $LieuVille;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Date::class, mappedBy="DateLieux")
-     */
-    private $dates;
-
-    public function __construct()
-    {
-        $this->dates = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?float $longitude = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getIdLieu(): ?int
+    {
+        return $this->idLieu;
+    }
+
+    public function setIdLieu(int $idLieu): self
+    {
+        $this->idLieu = $idLieu;
+
+        return $this;
     }
 
     public function getNom(): ?string
@@ -104,48 +89,6 @@ class Lieu
     public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    public function getLieuVille(): ?Ville
-    {
-        return $this->LieuVille;
-    }
-
-    public function setLieuVille(?Ville $LieuVille): self
-    {
-        $this->LieuVille = $LieuVille;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Date>
-     */
-    public function getDates(): Collection
-    {
-        return $this->dates;
-    }
-
-    public function addDate(Date $date): self
-    {
-        if (!$this->dates->contains($date)) {
-            $this->dates[] = $date;
-            $date->setDateLieux($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDate(Date $date): self
-    {
-        if ($this->dates->removeElement($date)) {
-            // set the owning side to null (unless already changed)
-            if ($date->getDateLieux() === $this) {
-                $date->setDateLieux(null);
-            }
-        }
 
         return $this;
     }
