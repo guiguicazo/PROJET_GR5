@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $actif = null;
 
     #[ORM\ManyToOne]
-    private ?Campus $Campus = null;
+    private ?Campus $Campus;
 
     public function getId(): ?int
     {

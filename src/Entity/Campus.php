@@ -13,27 +13,12 @@ class Campus
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idCampus = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdCampus(): ?int
-    {
-        return $this->idCampus;
-    }
-
-    public function setIdCampus(int $idCampus): self
-    {
-        $this->idCampus = $idCampus;
-
-        return $this;
     }
 
     public function getNom(): ?string
@@ -46,5 +31,11 @@ class Campus
         $this->nom = $nom;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return $this->getNom();
     }
 }
