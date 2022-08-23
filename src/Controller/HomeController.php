@@ -49,6 +49,7 @@ class HomeController extends AbstractController
 
         return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/home", name="app_home_admin")
@@ -56,8 +57,7 @@ class HomeController extends AbstractController
     public function panelAdmin(): Response
     {
 
-        // je force la redirection sur la route app_home
-        return new Response("Je suis dans la page admin");
+        return $this->render('pannelAdmin/pannelAdmin.html.twig');
     }
 
 }
