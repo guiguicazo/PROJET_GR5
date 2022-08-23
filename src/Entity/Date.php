@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DateRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +39,26 @@ class Date
 
     #[ORM\Column]
     private ?int $etat = null;
+
+    #[ORM\ManyToOne]
+    private ?Etat $etatSortie = null;
+
+    #[ORM\ManyToOne]
+    private ?Lieu $Lieu = null;
+
+    #[ORM\ManyToOne]
+    private ?Campus $campus = null;
+
+    #[ORM\ManyToOne]
+    private ?User $organisateur = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +157,78 @@ class Date
     public function setEtat(int $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getEtatSortie(): ?Etat
+    {
+        return $this->etatSortie;
+    }
+
+    public function setEtatSortie(?Etat $etatSortie): self
+    {
+        $this->etatSortie = $etatSortie;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->Lieu;
+    }
+
+    public function setLieu(?Lieu $Lieu): self
+    {
+        $this->Lieu = $Lieu;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(User $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $participant): self
+    {
+        $this->participants->removeElement($participant);
 
         return $this;
     }
