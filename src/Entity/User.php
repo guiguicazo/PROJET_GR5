@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -45,9 +47,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[ORM\ManyToOne]
-    private ?Campus $Campus = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -80,9 +79,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
+        $administrateur = $this->administrateur;
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+
+        if ($administrateur == 1){
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }
@@ -190,15 +195,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCampus(): ?Campus
-    {
-        return $this->Campus;
-    }
 
-    public function setCampus(?Campus $Campus): self
-    {
-        $this->Campus = $Campus;
-
-        return $this;
-    }
 }

@@ -5,7 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request; //Request
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Date; //import l'Entité Date
 
 use App\Form\CreerUneSortieType; //importation du formulaire CreeUneSortie
@@ -65,6 +67,15 @@ class HomeController extends AbstractController
 
             return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
     }
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/admin/home", name="app_home_admin")
+     */
+    public function panelAdmin(): Response
+    {
 
+        // je force la redirection sur la route app_home
+        return new Response("Je suis dans la page admin");
+    }
 
 }
