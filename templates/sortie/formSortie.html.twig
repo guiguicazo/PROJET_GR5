@@ -4,8 +4,32 @@
 
 {% block body %}
     <h1> Créer une Sortie </h1>
+    <div>
+        <div>
+            {{ form(sortieForm) }}
+        </div>
+        <div>
+            <a> Campus : </a>
+            <a> Ville : </a>
+            <a> Lieu :</a>
+            <a> Rue :</a>
+            <a> Code postal :</a>
+            <a> Latitude :</a>
+            <a> Longitude :</a>
+        </div>
+    </div>
 
-    {{ form(sortieForm) }}
+
+
+
+
+
+
+    <div>
+        <button type="button" class="btn btn-outline-danger">Enregistrer</button>
+        <button type="button" class="btn btn-outline-warning">Publier la sortie</button>
+        <button type="button" class="btn btn-outline-info">Annuler</button>
+    </div>
 
 
 {% endblock %}

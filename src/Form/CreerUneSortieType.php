@@ -6,6 +6,7 @@ use App\Entity\Date;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CreerUneSortieType extends AbstractType
 {
@@ -15,14 +16,12 @@ class CreerUneSortieType extends AbstractType
             ->add('nom')
             ->add('dateHeureDebut')
             ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
+            ->add('dateLimiteInscritpion')
+            ->add('nbInscritpionsMax')
+            ->add('duree')
             ->add('infosSortie')
-            ->add('etat')
 
-            ->add('campus')
-            ->add('etatDate')
-            ->add('DateLieux')
+
 
         ;
     }

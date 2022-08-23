@@ -42,10 +42,28 @@ class HomeController extends AbstractController
 
         // Part : 03
         // --Tester si le form à des données envoyées
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            // Traitement
+            // -- récuperer l'entité du formumlaire
+            $formToSave = $sortieForm->getData();
+
+            // -- partie base de données
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formToSave);
+            $em->flush();
+
+            // version string format
+            $this->addFlash("message_success", "Commentaire envoyé avec succès !");
+
+            $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $formToSave->getNom()));
+
+            // Redirection sur home
+            return $this->redirectToRoute("app_home");
+        }
 
 
 
-        return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
+            return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
     }
 
 
