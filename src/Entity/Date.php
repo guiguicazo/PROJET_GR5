@@ -3,95 +3,56 @@
 namespace App\Entity;
 
 use App\Repository\DateRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=DateRepository::class)
- */
+#[ORM\Entity(repositoryClass: DateRepository::class)]
 class Date
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $nom;
+    #[ORM\Column]
+    private ?int $idSortie = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateHeureDebut;
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $duree;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateHeureDebut = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateLimiteInscription;
+    #[ORM\Column]
+    private ?int $duree = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $nbInscriptionsMax;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateLimiteInscritpion = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $infosSortie;
+    #[ORM\Column]
+    private ?int $nbInscritpionsMax = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $etat;
+    #[ORM\Column(length: 255)]
+    private ?string $infosSortie = null;
 
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="campusdate")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $campus;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="dates")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $etatDate;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="dates")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $DateLieux;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private $organisateur;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="dates")
-     */
-    private $participants;
-
-    public function __construct()
-    {
-        $this->participants = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?int $etat = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getIdSortie(): ?int
+    {
+        return $this->idSortie;
+    }
+
+    public function setIdSortie(int $idSortie): self
+    {
+        $this->idSortie = $idSortie;
+
+        return $this;
     }
 
     public function getNom(): ?string
@@ -130,26 +91,26 @@ class Date
         return $this;
     }
 
-    public function getDateLimiteInscription(): ?\DateTimeInterface
+    public function getDateLimiteInscritpion(): ?\DateTimeInterface
     {
-        return $this->dateLimiteInscription;
+        return $this->dateLimiteInscritpion;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    public function setDateLimiteInscritpion(\DateTimeInterface $dateLimiteInscritpion): self
     {
-        $this->dateLimiteInscription = $dateLimiteInscription;
+        $this->dateLimiteInscritpion = $dateLimiteInscritpion;
 
         return $this;
     }
 
-    public function getNbInscriptionsMax(): ?int
+    public function getNbInscritpionsMax(): ?int
     {
-        return $this->nbInscriptionsMax;
+        return $this->nbInscritpionsMax;
     }
 
-    public function setNbInscriptionsMax(int $nbInscriptionsMax): self
+    public function setNbInscritpionsMax(int $nbInscritpionsMax): self
     {
-        $this->nbInscriptionsMax = $nbInscriptionsMax;
+        $this->nbInscritpionsMax = $nbInscritpionsMax;
 
         return $this;
     }
@@ -166,87 +127,14 @@ class Date
         return $this;
     }
 
-    public function getEtat(): ?bool
+    public function getEtat(): ?int
     {
         return $this->etat;
     }
 
-    public function setEtat(bool $etat): self
+    public function setEtat(int $etat): self
     {
         $this->etat = $etat;
-
-        return $this;
-    }
-
-    public function getEtatDate(): ?Etat
-    {
-        return $this->etatDate;
-    }
-
-    public function setEtatDate(?Etat $etatDate): self
-    {
-        $this->etatDate = $etatDate;
-
-        return $this;
-    }
-
-    public function getDateLieux(): ?Lieu
-    {
-        return $this->DateLieux;
-    }
-
-    public function setDateLieux(?Lieu $DateLieux): self
-    {
-        $this->DateLieux = $DateLieux;
-
-        return $this;
-    }
-
-
-    public function getCampus(): ?Campus
-    {
-        return $this->campus;
-    }
-
-    public function setCampus(?Campus $campus): self
-    {
-        $this->campus = $campus;
-
-        return $this;
-    }
-
-    public function getOrganisateur(): ?User
-    {
-        return $this->organisateur;
-    }
-
-    public function setOrganisateur(?User $organisateur): self
-    {
-        $this->organisateur = $organisateur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-
-    public function addParticipant(User $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(User $participant): self
-    {
-        $this->participants->removeElement($participant);
 
         return $this;
     }

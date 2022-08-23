@@ -3,41 +3,37 @@
 namespace App\Entity;
 
 use App\Repository\CampusRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CampusRepository::class)
- */
+#[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=250)
-     */
-    private $nom;
+    #[ORM\Column]
+    private ?int $idCampus = null;
 
-
-    /**
-     * @ORM\OneToMany(targetEntity=Date::class, mappedBy="campus")
-     */
-    private $campusdate;
-
-    public function __construct()
-    {
-        $this->campusdate = new ArrayCollection();
-    }
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getIdCampus(): ?int
+    {
+        return $this->idCampus;
+    }
+
+    public function setIdCampus(int $idCampus): self
+    {
+        $this->idCampus = $idCampus;
+
+        return $this;
     }
 
     public function getNom(): ?string
@@ -48,38 +44,6 @@ class Campus
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-
-
-    /**
-     * @return Collection<int, Date>
-     */
-    public function getCampusdate(): Collection
-    {
-        return $this->campusdate;
-    }
-
-    public function addCampusdate(Date $campusdate): self
-    {
-        if (!$this->campusdate->contains($campusdate)) {
-            $this->campusdate[] = $campusdate;
-            $campusdate->setCampus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCampusdate(Date $campusdate): self
-    {
-        if ($this->campusdate->removeElement($campusdate)) {
-            // set the owning side to null (unless already changed)
-            if ($campusdate->getCampus() === $this) {
-                $campusdate->setCampus(null);
-            }
-        }
 
         return $this;
     }
