@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\DateRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
+use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +38,12 @@ class HomeController extends AbstractController
     * affichage du formulaire vide
      */
     #[Route('/CreerSortie/{idUser}', name: 'app_sortie')]
-    public function CreerSortie($idUser,Request $request,EntityManagerInterface $entityManager, UserRepository $userRepository , VilleRepository $villeRepository): Response
+    public function CreerSortie($idUser,
+                                Request $request,
+                                EntityManagerInterface $entityManager,
+                                UserRepository $userRepository ,
+                                VilleRepository $villeRepository ,
+                                LieuRepository $lieuRepository): Response
     {
         //Part : 01
         //creation d'un date(sortie vide)
@@ -45,7 +52,6 @@ class HomeController extends AbstractController
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
-
             $sortie->setEtat(1);
         }
         //regarde la valeur du boutton et si la valuer est publier
@@ -67,6 +73,9 @@ class HomeController extends AbstractController
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+              $sortie->setOrganisateur($idUser);
+              $campus = $request->get('campus');
+              $sortie->setCampus($campus);
               $entityManager->persist($sortie);
               $entityManager->flush();
 /************************************************************************************************************************/
@@ -78,7 +87,11 @@ class HomeController extends AbstractController
         return $this->redirectToRoute("app_home");
         }
 
-        return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(), 'userSortie'=>$userRepository->find($idUser), 'villeSortie'=>$villeRepository->findall()] );
+        return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
+            'userSortie'=>$userRepository->find($idUser),
+            'villeSortie'=>$villeRepository->findall() ,
+            'lieuSortie'=>$lieuRepository->findall() ,
+            ] );
     }
 
     /**
@@ -90,5 +103,20 @@ class HomeController extends AbstractController
 
         return $this->render('pannelAdmin/pannelAdmin.html.twig');
     }
+
+
+
+    /**
+     * affichage une sortie
+     */
+    #[Route('/RecapSortie/{id_sortie}', name: 'app_recap_sortie')]
+    public function recapSortie($id_sortie, DateRepository $dateRepository , LieuRepository $lieuRepository): Response
+    {
+        return $this->render( 'sortie/recapSortie.html.twig',[ 'userDate'=>$dateRepository->find($id_sortie),
+
+
+           ] );
+    }
+
 
 }

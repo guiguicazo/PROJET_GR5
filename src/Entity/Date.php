@@ -176,14 +176,14 @@ class Date
         return $this;
     }
 
-    public function getLieu(): ?Lieu
+    public function getLieu(): ?lieu
     {
-        return $this->Lieu;
+        return $this->lieu;
     }
 
-    public function setLieu(?Lieu $Lieu): self
+    public function setLieu(?lieu $lieu): self
     {
-        $this->Lieu = $Lieu;
+        $this->lieu = $lieu;
 
         return $this;
     }

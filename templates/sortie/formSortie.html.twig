@@ -17,19 +17,18 @@
         </div>
         <div class="p-6">
             <div class="d-flex flex-column mb-3">
-                <a> Campus : {{ userSortie.campus }}</a>
-                <a> Ville :
-                    <select name="villeSelect" >
-                        {% for ville in villeSortie %}
-                            <option>{{ville.getNom()}}</option>
-                        {% endfor %}
-                    </select>
-                </a>
-                <a> Lieu :</a>
+
+                <a>  {{ userSortie.campus }}</a>
+                <input type="hidden" id="campus" value="{{ userSortie.campus }}" name="campus">
+                <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
+
+
                 <a> Rue :</a>
                 <a> Code postal :</a>
                 <a> Latitude :</a>
                 <a> Longitude :</a>
+                <a class="color=red" >teste de menu campus :-) </a>
+                <a>Campus : {{ form_widget(sortieForm.campus) }}</a> <br>
             </div>
         </div>
     </div>
@@ -41,12 +40,6 @@
             </div>
     </div>
         {{ form_end(sortieForm) }}
-
-
-
-
-
-
 
 
 
