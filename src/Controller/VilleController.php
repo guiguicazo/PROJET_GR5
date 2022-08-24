@@ -9,8 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/ville')]
+#[IsGranted("ROLE_ADMIN")]
+#[Route('/admin/ville')]
 class VilleController extends AbstractController
 {
     #[Route('/', name: 'app_ville_index', methods: ['GET'])]

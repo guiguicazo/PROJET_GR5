@@ -3,8 +3,8 @@
 {% block title %}Admin Pannel{% endblock %}
 
 {% block body %}
-    <button type="button" class="btn btn-danger">Gerer User</button>
-    <button type="button" class="btn btn-primary">Gerer Campus</button>
-    <button type="button" class="btn btn-primary">Gerer Lieux</button>
+    <button type="button" class="btn btn-primary"><a class="text-white" href="{{ path('app_user_index') }}">Gerer Utilisateur</a></button>
+    <button type="button" class="btn btn-primary"><a class="text-white" href="{{ path('app_campus_index') }}">Gerer Campus</a></button>
+    <button type="button" class="btn btn-primary"><a class="text-white" href="{{ path('app_ville_index') }}">Gerer Ville</a></button>
 
 {% endblock %}
