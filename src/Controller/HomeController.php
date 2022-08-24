@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,12 +29,28 @@ class HomeController extends AbstractController
     /**
     * affichage du formulaire vide
      */
-    #[Route('/CreerSortie', name: 'app_sortie')]
-    public function CreerSortie(Request $request): Response
+    #[Route('/CreerSortie/{idUser}', name: 'app_sortie')]
+    public function CreerSortie($idUser,Request $request,EntityManagerInterface $entityManager): Response
     {
         //Part : 01
         //creation d'un date(sortie vide)
         $sortie = new Date();
+        $sortie->setIdSortie($idUser);
+        //si action sur boutton enregistre
+
+        //verifie la condition que mon boutton enregister est activer
+        if ($request->get("button")=="enregistre"){
+
+            $sortie->setEtat(1);
+        }
+        //regarde la valeur du boutton et si la valuer est publier
+        elseif ($request->get("button")=="publier"){
+            $sortie->setEtat(2);
+        }
+        //si action sur boutton annuler
+        elseif ($request->get("button")=="annuler"){
+            return $this->redirectToRoute("app_home");
+        }
 
         //instancie le formulaire avec CreerUneSortietuypes
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
@@ -43,28 +60,17 @@ class HomeController extends AbstractController
         $sortieForm->handleRequest($request);
 
         // Part : 03
-        // --Tester si le form à des données envoyées
+        // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            // Traitement
-            // -- récuperer l'entité du formumlaire
-            $formToSave = $sortieForm->getData();
-
-            // -- partie base de données
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($formToSave);
-            $em->flush();
+              $entityManager->persist($sortie);
+              $entityManager->flush();
 
             // version string format
-            $this->addFlash("message_success", "Commentaire envoyé avec succès !");
+            $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $sortie->getNom()));
 
-            $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $formToSave->getNom()));
-
-            // Redirection sur home
-            return $this->redirectToRoute("app_home");
+        // Redirection sur home
+        return $this->redirectToRoute("app_home");
         }
-
-
-
             return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
     }
     /**

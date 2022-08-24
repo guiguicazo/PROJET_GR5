@@ -20,9 +20,6 @@ class CreerUneSortieType extends AbstractType
             ->add('nbInscritpionsMax')
             ->add('duree')
             ->add('infosSortie')
-
-
-
         ;
     }
 
