@@ -28,7 +28,7 @@ class RegistrationFormType extends AbstractType
             ->add('administrateur')
             ->add('actif')
             ->add('campus')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
