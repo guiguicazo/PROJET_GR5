@@ -17,8 +17,14 @@
         </div>
         <div class="p-6">
             <div class="d-flex flex-column mb-3">
-                <a> Campus : </a>
-                <a> Ville : </a>
+                <a> Campus : {{ userSortie.campus }}</a>
+                <a> Ville :
+                    <select name="villeSelect" >
+                        {% for ville in villeSortie %}
+                            <option>{{ville.getNom()}}</option>
+                        {% endfor %}
+                    </select>
+                </a>
                 <a> Lieu :</a>
                 <a> Rue :</a>
                 <a> Code postal :</a>

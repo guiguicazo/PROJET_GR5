@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Date; //import l'Entité Date
+use App\Entity\User; //import l'entité User
+
+
 
 use App\Form\CreerUneSortieType; //importation du formulaire CreeUneSortie
 
@@ -30,13 +36,12 @@ class HomeController extends AbstractController
     * affichage du formulaire vide
      */
     #[Route('/CreerSortie/{idUser}', name: 'app_sortie')]
-    public function CreerSortie($idUser,Request $request,EntityManagerInterface $entityManager): Response
+    public function CreerSortie($idUser,Request $request,EntityManagerInterface $entityManager, UserRepository $userRepository , VilleRepository $villeRepository): Response
     {
         //Part : 01
         //creation d'un date(sortie vide)
         $sortie = new Date();
         $sortie->setIdSortie($idUser);
-        //si action sur boutton enregistre
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
@@ -64,14 +69,16 @@ class HomeController extends AbstractController
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
               $entityManager->persist($sortie);
               $entityManager->flush();
-
+/************************************************************************************************************************/
             // version string format
             $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $sortie->getNom()));
 
+/************************************************************************************************************************/
         // Redirection sur home
         return $this->redirectToRoute("app_home");
         }
-            return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview()] );
+
+        return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(), 'userSortie'=>$userRepository->find($idUser), 'villeSortie'=>$villeRepository->findall()] );
     }
 
     /**
