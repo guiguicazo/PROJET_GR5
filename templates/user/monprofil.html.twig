@@ -3,16 +3,21 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>Bonjour {{  app.user.username }}</h1>
+    <h1>Modifier l'utilisateur : {{ user.username }} </h1>
 
-    {{ form_start(form) }}
-    {{ form_row(form.username) }}
-    {{ form_row(form.nom) }}
-    {{ form_row(form.prenom) }}
-    {{ form_row(form.telephone) }}
-    {{ form_row(form.mail) }}
+    {{ form_start(requestForm) }}
+    {{ form_row(requestForm.username) }}
+    {{ form_row(requestForm.nom) }}
+    {{ form_row(requestForm.prenom) }}
+    {{ form_row(requestForm.telephone) }}
+    {{ form_row(requestForm.mail) }}
+    {{ form_row(requestForm.campus) }}
 
 
-    <button type="submit" class="btn">Register</button>
-    {{ form_end(form) }}
+
+
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(requestForm) }}
+
+
 {% endblock %}
