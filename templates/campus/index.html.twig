@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Campus index{% endblock %}
+{% block title %}Liste Campus{% endblock %}
 
 {% block body %}
     <h1>Liste de campus</h1>
-
+    {{ include('campus/filterCampus.html.twig', {'button_label': 'Rechercher'}) }}
     <table class="table">
         <thead>
             <tr>
