@@ -2,7 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Date;
+use App\Entity\Lieu;
+use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +24,25 @@ class CreerUneSortieType extends AbstractType
             ->add('nbInscritpionsMax')
             ->add('duree')
             ->add('infosSortie')
+            ->add('campus', EntityType::class,
+                [
+                    'class' => Campus::class,
+                    'choice_label' => 'nom',
+
+                ])
+
+
+            ->add('lieu', EntityType::class,
+                [
+                    'class' => Lieu::class,
+                    'choice_label' => 'nom',
+                ])
+
+
+
+
+
+
         ;
     }
 
