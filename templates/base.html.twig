@@ -45,9 +45,15 @@
                                 <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                             </li>
                             {% if app.user.isAdministrateur() == 1 %}
-                                <button type="button" class="btn btn-danger"><a class="text-white" href="{{ path('app_user_index') }}">Gerer Utilisateur</a></button>
-                                <button type="button" class="btn btn-danger"><a class="text-white" href="{{ path('app_campus_index') }}">Gerer Campus</a></button>
-                                <button type="button" class="btn btn-danger"><a class="text-white" href="{{ path('app_ville_index') }}">Gerer Ville</a></button>
+                                <li>
+                                <a class="nav-link text-danger" href="{{ path('app_user_index') }}">Gerer Utilisateur</a>
+                                </li>
+                                <li>
+                                <a class="nav-link text-danger" href="{{ path('app_campus_index') }}">Gerer Campus</a>
+                                </li>
+                                <li>
+                                <a class="nav-link text-danger" href="{{ path('app_ville_index') }}">Gerer Ville</a>
+                                </li>
                                 {%endif%}
                         {% else %}
                             <li class="nav-item">
