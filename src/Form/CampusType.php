@@ -13,7 +13,7 @@ class CampusType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('firstname', TextType::class, ['label' => 'Vorname ', 'placeholder' => 'Your name',])
+
         ;
     }
 
