@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
+use App\Repository\EtatRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
@@ -43,7 +45,9 @@ class HomeController extends AbstractController
                                 EntityManagerInterface $entityManager,
                                 UserRepository $userRepository ,
                                 VilleRepository $villeRepository ,
-                                LieuRepository $lieuRepository): Response
+                                LieuRepository $lieuRepository,
+                                CampusRepository $campusRepository,
+                                EtatRepository $etatRepository): Response
     {
         //Part : 01
         //creation d'un date(sortie vide)
@@ -73,9 +77,22 @@ class HomeController extends AbstractController
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-              $sortie->setOrganisateur($idUser);
-              $campus = $request->get('campus');
+              //recuperation du campus dans grace a id recuperer sur twig
+              $id_campus = $request->get('campus');
+              $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
               $sortie->setCampus($campus);
+
+              //recuperation de utilisateur et inserstion dans sortie
+              $user = $userRepository->findOneBy(['id'=>$idUser]);
+              $sortie->setOrganisateur($user);
+            /************************************************************************************************************************/
+              //etat_sortie_id a developper
+            $etatrep = $etatRepository->findOneBy(['id'=> 1 ]);
+            $sortie->setEtatSortie($etatrep);
+
+            /************************************************************************************************************************/
+
+
               $entityManager->persist($sortie);
               $entityManager->flush();
 /************************************************************************************************************************/

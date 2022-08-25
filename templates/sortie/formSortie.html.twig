@@ -19,7 +19,7 @@
             <div class="d-flex flex-column mb-3">
 
                 <a>  {{ userSortie.campus }}</a>
-                <input type="hidden" id="campus" value="{{ userSortie.campus }}" name="campus">
+                <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
                 <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
 
 
