@@ -1,4 +1,6 @@
 {{ form_start(form) }}
+<label for="campus">Chercher un campus:</label><br><br>
+<input type="texte" id="campus" name="campus" placeholder=""><br><br>
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

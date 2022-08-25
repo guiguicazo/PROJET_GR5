@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Wish;
+use App\Form\FilterType;
 use App\Form\UserType;
+use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +26,30 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/admin/user')]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_user_index', methods: ['GET', 'POST'])]
+    public function index(FilterRepository $filterRepository,UserRepository $userRepository , Request $request): Response
     {
-        return $this->render('user/index.html.twig', [
+        $form = $this->createForm(FilterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recherche = $request->get('username');
+
+
+            return $this->render( 'user/index.html.twig',["FilterType"=> $form->createview(),
+                'users' => $filterRepository->UserFilter($form->get('username')->getData()),
+            ]);
+        }
+
+        return $this->render( 'user/index.html.twig',["FilterType"=> $form->createview(),
             'users' => $userRepository->findAll(),
         ]);
     }
+
+
+
+
+
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
@@ -53,6 +72,9 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+
+
+
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]

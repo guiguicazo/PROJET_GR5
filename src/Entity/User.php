@@ -7,10 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\file\file;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+/**
+ * @Vich\Uploadable()
+ */
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,6 +57,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="images",fileNameProperty="image")
+     */
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
 
     public function getId(): ?int
     {
@@ -211,5 +230,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->nom,
+            $this->prenom,
+            $this->telephone,
+            $this->password,
+            $this->mail,
+            $this->image,
+            $this->administrateur,
+            $this->roles,
+        ));
+    }
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->nom,
+            $this->prenom,
+            $this->telephone,
+            $this->password,
+            $this->mail,
+            $this->image,
+            $this->administrateur,
+            $this->roles,
+            ) = unserialize($serialized);
+    }
 
 }

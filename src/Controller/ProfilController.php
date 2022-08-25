@@ -26,7 +26,7 @@ class ProfilController extends AbstractController
 
 
     #[Route('/{id}/profil', name: 'app_user_monprofil', methods: ['GET', 'POST'])]
-    public function gestionProfile(Request $request, User $user, UserRepository $userRepository,$id,UserPasswordHasherInterface $userPasswordHasher): Response
+    public function gestionProfile(Request $request, User $user, UserRepository $userRepository,$id): Response
     {
         $userRepository->find($id);
         $form = $this->createForm(ProfilUserType::class, $user);
@@ -35,6 +35,11 @@ class ProfilController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $uploadedFile = $form['imageFile']->getData();
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+
+
 
             $userRepository->add($user, true);
 
@@ -46,6 +51,7 @@ class ProfilController extends AbstractController
             'requestForm' => $form->createView(),
         ]);
     }
+
 
 
 
