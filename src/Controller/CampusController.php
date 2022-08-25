@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Form\CampusType;
+use App\Form\FilterCampusType;
 use App\Repository\CampusRepository;
+use App\Repository\FilterCampusRepository;
+use App\Repository\FilterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +18,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 #[Route('/campus')]
 class CampusController extends AbstractController
 {
-    #[Route('/', name: 'app_campus_index', methods: ['GET'])]
-    public function index(CampusRepository $campusRepository): Response
+    #[Route('/', name: 'app_campus_index', methods: ['GET' , 'POST'])]
+    public function index(FilterCampusRepository $filterCampusRepository,CampusRepository $campusRepository , Request $request): Response
     {
-        return $this->render('campus/index.html.twig', [
+        $form = $this->createForm(FilterCampusType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recherche = $request->get('nom');
+
+
+            return $this->render( 'campus/index.html.twig',["FilterCampusType"=> $form->createview(),
+                'campuses' => $filterCampusRepository->CampusFilter($form->get('nom')->getData()),
+            ]);
+        }
+        return $this->render('campus/index.html.twig',["FilterCampusType"=> $form->createview(),
             'campuses' => $campusRepository->findAll(),
         ]);
     }
