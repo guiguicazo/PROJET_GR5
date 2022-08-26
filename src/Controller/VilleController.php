@@ -31,11 +31,11 @@ class VilleController extends AbstractController
 
 
             return $this->render( 'ville/index.html.twig',["FilterVilleType"=> $form->createview(),
-                'ville' => $filterVilleRepository->VilleFilter($form->get('nom')->getData()),
+                'villes' => $filterVilleRepository->VilleFilter($form->get('nom')->getData()),
             ]);
         }
-        return $this->render('ville/index.html.twig', [
-            'ville' => $villeRepository->findAll(),
+        return $this->render('ville/index.html.twig', ["FilterVilleType"=> $form->createview(),
+            'villes' => $villeRepository->findAll(),
         ]);
     }
 
