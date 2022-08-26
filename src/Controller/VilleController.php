@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Ville;
 use App\Form\VilleType;
+use App\Repository\FilterVilleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\VilleRepository;
-use ContainerHlZuFGk\getFilterRepositoryService;
+use App\Form\FilterVilleType;
+use App\Repository\FilterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,21 +21,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class VilleController extends AbstractController
 {
     #[Route('/', name: 'app_ville_index', methods: ['GET', 'POST'])]
-    public function index(FilterRepository $filterRepository, VilleRepository $villeRepository, Request $request): Response
+    public function index(FilterVilleRepository $filterVilleRepository, VilleRepository $villeRepository, Request $request): Response
     {
-        $form = $this->createForm(FilterType::class);
+        $form = $this->createForm(FilterVilleType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recherche = $request->get('username');
+            $recherche = $request->get('nom');
 
 
-            return $this->render( 'user/index.html.twig',["FilterType"=> $form->createview(),
-                'users' => $filterRepository->UserFilter($form->get('username')->getData()),
+            return $this->render( 'ville/index.html.twig',["FilterVilleType"=> $form->createview(),
+                'ville' => $filterVilleRepository->VilleFilter($form->get('nom')->getData()),
             ]);
         }
         return $this->render('ville/index.html.twig', [
-            'villes' => $villeRepository->findAll(),
+            'ville' => $villeRepository->findAll(),
         ]);
     }
 

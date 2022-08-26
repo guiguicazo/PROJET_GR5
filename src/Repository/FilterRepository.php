@@ -16,8 +16,8 @@ class FilterRepository extends ServiceEntityRepository{
 
     public function UserFilter(string $text){
         $entityManager = $this->getEntityManager();
-        $dql = "SELECT u FROM App\Entity\User u
-               WHERE u.username LIKE '% :$text %'";
+        $dql = "SELECT u FROM App\Entity\User u 
+        WHERE u.username LIKE '% :$text %'";
         $query= $entityManager->createQuery($dql);
         return $query->getResult();
     }
