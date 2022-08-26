@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
 use App\Repository\EtatRepository;
@@ -22,6 +23,7 @@ use App\Entity\User; //import l'entité User
 
 
 use App\Form\CreerUneSortieType; //importation du formulaire CreeUneSortie
+
 
 class HomeController extends AbstractController
 {
@@ -56,15 +58,15 @@ class HomeController extends AbstractController
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
-            $sortie->setEtat(1);
-        }
-        //regarde la valeur du boutton et si la valuer est publier
-        elseif ($request->get("button")=="publier"){
-            $sortie->setEtat(2);
-        }
-        //si action sur boutton annuler
-        elseif ($request->get("button")=="annuler"){
-            return $this->redirectToRoute("app_home");
+                $sortie->setEtat(1);
+            }
+            //regarde la valeur du boutton et si la valuer est publier
+            elseif ($request->get("button")=="publier"){
+                $sortie->setEtat(2);
+            }
+            //si action sur boutton annuler
+            elseif ($request->get("button")=="annuler"){
+                return $this->redirectToRoute("app_home");
         }
 
         //instancie le formulaire avec CreerUneSortietuypes
@@ -127,13 +129,27 @@ class HomeController extends AbstractController
      * affichage une sortie
      */
     #[Route('/RecapSortie/{id_sortie}', name: 'app_recap_sortie')]
-    public function recapSortie($id_sortie, DateRepository $dateRepository , LieuRepository $lieuRepository): Response
+    public function recapSortie($id_sortie, DateRepository $dateRepository ): Response
     {
         return $this->render( 'sortie/recapSortie.html.twig',[ 'userDate'=>$dateRepository->find($id_sortie),
-
-
            ] );
     }
 
+
+
+    /**
+     * S'inscrite a une sortie
+     */
+    #[Route('/inscrire/{id_sortie}', name: 'app_inscription_sortie')]
+    public function inscrireSortie($id_sortie, DateRepository $dateRepository ,CampusRepository $campusRepository): Response
+    {
+        //instancie le formulaire avec CreerUneSortietuypes
+        $recap = $this->createForm(RegistrationFormDateType::class);
+
+
+
+        return $this->render( 'sortie/inscrireDate.html.twig',[ "RecapSortie"=> $recap->createview(),'userDate'=>$dateRepository->find($id_sortie), 'campusAll'=>$campusRepository->findAll()
+        ] );
+    }
 
 }

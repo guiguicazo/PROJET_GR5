@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <h1> Afficher sortie </h1>
+    <div >
+            <h2>Filter les sorties </h2>
+
+        <div>
+            <label>Campus : </label>
+            {{ form_start(RecapSortie) }}
+            <div>
+                <a>Campus : {{ form_widget(RecapSortie.campus) }}</a> <br>
+                <a>Le nom de la sortie contient : {{ form_widget(RecapSortie.search) }}</a> <br>
+                <a>Entre : {{ form_widget(RecapSortie.dateStart) }} et {{ form_widget(RecapSortie.dateFin) }}</a>
+            </div>
+            <div>
+                <a>Sorties dont je suis l'organisateur/trice : {{ form_widget(RecapSortie.SortieOrganisateur) }}</a> <br>
+                <a>Sorties auxquelles je suis inscrit/e : {{ form_widget(RecapSortie.Sortieinscrit) }}</a> <br>
+                <a>Sorties auxquelles je me suis pas inscrit/e : {{ form_widget(RecapSortie.SortieNonInscrit) }}</a> <br>
+                <a>Sorties passées : {{ form_widget(RecapSortie.SortiePassees) }}</a> <br>
+            </div>
+
+
+
+            {{ form_end(RecapSortie) }}
+            <div>
+                <a>Tableau des resultat:</a>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
