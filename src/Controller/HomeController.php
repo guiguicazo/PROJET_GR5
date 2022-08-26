@@ -144,9 +144,6 @@ class HomeController extends AbstractController
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
 
-
-
-
         //appel de la fonction search
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             $recherche = $request->get('search');
@@ -154,7 +151,6 @@ class HomeController extends AbstractController
                 'returnSearch'=>$filterRegistration->NameDateFilter( $recherche)
                 ]);
         }
-
 
         return $this->render( '/sortie/inscrireSotie.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortieOuverte'=>$filterRegistration->DateFilterOpen()
