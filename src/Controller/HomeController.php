@@ -160,5 +160,12 @@ class HomeController extends AbstractController
             'listeSortieOuverte'=>$filterRegistration->DateFilterOpen()
         ] );
     }
+    #[Route('/annulerSortie/{id_sortie}', name: 'app_annuler_show', methods: ['GET'])]
+    public function show($id_sortie): Response
+    {
+        return $this->render('sortie/annulerSortie.html.twig', [
+            'search' => $id_sortie,
+        ]);
+    }
 
 }
