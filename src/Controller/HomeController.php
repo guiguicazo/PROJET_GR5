@@ -148,7 +148,8 @@ class HomeController extends AbstractController
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             $recherche = $request->get('search');
             return $this->render('/sortie/inscrireSotie.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'returnSearch'=>$filterRegistration->NameDateFilter( $recherche)
+                'listeSortieOuverte'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
+
                 ]);
         }
 

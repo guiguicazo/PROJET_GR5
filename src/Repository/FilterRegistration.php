@@ -19,7 +19,7 @@ class FilterRegistration extends ServiceEntityRepository{
     }
 
 
-
+/***************************************************************************/
     //filtre qui recherche dans la basse le nom de la sortie
     public function NameDateFilter(string $text){
         $entityManager = $this->getEntityManager();
@@ -29,7 +29,7 @@ class FilterRegistration extends ServiceEntityRepository{
         $query= $entityManager->createQuery($dql)-> setParameter('text','%'.$text.'%');
         return $query->getResult();
     }
-
+/***************************************************************************/
 
 
 
@@ -39,9 +39,12 @@ class FilterRegistration extends ServiceEntityRepository{
 
         $dql = "SELECT a FROM App\Entity\Date a
                WHERE a.etatSortie = 2 or a.etatSortie = 4";
+
         $query= $entityManager->createQuery($dql) ;
         return $query->getResult();
     }
+
+
 
 
 }
