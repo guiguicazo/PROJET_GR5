@@ -21,8 +21,8 @@
                 <td>{{ ville.nom }}</td>
                 <td>{{ ville.codePostal }}</td>
                 <td>
-                    <a href="{{ path('app_ville_show', {'id': ville.id}) }}">Détail</a>
-                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">Modifier</a>
+                    <a class="text-success" href="{{ path('app_ville_show', {'id': ville.id}) }}">Détail</a>
+                    <a class="text-primary" href="{{ path('app_ville_edit', {'id': ville.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_ville_new') }}">Create new</a>
+    <a href="{{ path('app_ville_new') }}">Creer une nouvelle ville</a>
 {% endblock %}
