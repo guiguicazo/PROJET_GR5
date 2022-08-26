@@ -6,6 +6,8 @@ use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
 use App\Repository\EtatRepository;
+use App\Repository\FilterRegistration;
+use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
@@ -59,10 +61,12 @@ class HomeController extends AbstractController
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
                 $sortie->setEtat(1);
+                $sortie->setEtatSortie($etatRepository->find(1));
             }
             //regarde la valeur du boutton et si la valuer est publier
             elseif ($request->get("button")=="publier"){
                 $sortie->setEtat(2);
+                $sortie->setEtatSortie($etatRepository->find(2));
             }
             //si action sur boutton annuler
             elseif ($request->get("button")=="annuler"){
@@ -87,21 +91,14 @@ class HomeController extends AbstractController
               //recuperation de utilisateur et inserstion dans sortie
               $user = $userRepository->findOneBy(['id'=>$idUser]);
               $sortie->setOrganisateur($user);
-            /************************************************************************************************************************/
-              //etat_sortie_id a developper
-            $etatrep = $etatRepository->findOneBy(['id'=> 1 ]);
-            $sortie->setEtatSortie($etatrep);
-
-            /************************************************************************************************************************/
-
 
               $entityManager->persist($sortie);
               $entityManager->flush();
-/************************************************************************************************************************/
+            /************************************************************************************************************************/
             // version string format
             $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $sortie->getNom()));
 
-/************************************************************************************************************************/
+            /************************************************************************************************************************/
         // Redirection sur home
         return $this->redirectToRoute("app_home");
         }
@@ -140,15 +137,27 @@ class HomeController extends AbstractController
     /**
      * S'inscrite a une sortie
      */
-    #[Route('/inscrire/{id_sortie}', name: 'app_inscription_sortie')]
-    public function inscrireSortie($id_sortie, DateRepository $dateRepository ,CampusRepository $campusRepository): Response
+    #[Route('/inscrireSortie/{id}', name: 'app_inscription_sortie')]
+    public function inscrireSortie($id,Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
     {
         //instancie le formulaire avec CreerUneSortietuypes
-        $recap = $this->createForm(RegistrationFormDateType::class);
+        $recapForm = $this->createForm(RegistrationFormDateType::class);
+        $recapForm->handleRequest($request);
 
 
 
-        return $this->render( 'sortie/inscrireDate.html.twig',[ "RecapSortie"=> $recap->createview(),'userDate'=>$dateRepository->find($id_sortie), 'campusAll'=>$campusRepository->findAll()
+
+        //appel de la fonction search
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            $recherche = $request->get('search');
+            return $this->render('/sortie/inscrireSotie.html.twig',["RecapSortie"=>$recapForm->createView(),
+                'returnSearch'=>$filterRegistration->NameDateFilter( $recherche)
+                ]);
+        }
+
+
+        return $this->render( '/sortie/inscrireSotie.html.twig',[ "RecapSortie"=> $recapForm->createview(),
+            'listeSortieOuverte'=>$filterRegistration->DateFilterOpen()
         ] );
     }
 
