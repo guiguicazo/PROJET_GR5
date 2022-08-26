@@ -18,10 +18,14 @@ class FilterCampusRepository extends ServiceEntityRepository
 
 
     public function CampusFilter(string $text){
+
+
+
         $entityManager = $this->getEntityManager();
-        $dql = "SELECT u FROM App\Entity\Campus u
-               WHERE u.nom LIKE '% :$text %'";
-        $query= $entityManager->createQuery($dql);
+
+        $dql1 = "SELECT u FROM App\Entity\Campus u
+               WHERE u.nom LIKE :text ";
+        $query= $entityManager->createQuery($dql1)->setParameter('text', '%'.$text.'%');
         return $query->getResult();
     }
 }
