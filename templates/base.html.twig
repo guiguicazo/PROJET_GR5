@@ -36,9 +36,6 @@
 
                         {% if app.user %}
                             <li class="nav-item">
-                                <p>Bonjour {{  app.user.username }}</p>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_user_monprofil',{'id': app.user.id})}}">Mon profil</a>
                             </li>
                             <li class="nav-item">
@@ -69,6 +66,11 @@
         </nav>
     </div>
     <div class="Body">
+        {% if app.user %}
+        <h1>
+            Bonjour {{  app.user.prenom }} !
+        </h1>
+        {% endif %}
         {% block body %}{% endblock %}
     </div>
     <div class="Footer">

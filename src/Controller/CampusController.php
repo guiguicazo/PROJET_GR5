@@ -26,7 +26,8 @@ class CampusController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recherche = $request->get('nom');
-
+    //dd($form->get('nom')->getData());
+           //dd($filterCampusRepository->CampusFilter($form->get('nom')->getData()));
 
             return $this->render( 'campus/index.html.twig',["FilterCampusType"=> $form->createview(),
                 'campuses' => $filterCampusRepository->CampusFilter($form->get('nom')->getData()),
