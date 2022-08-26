@@ -35,8 +35,8 @@
                 <td>{{ user.administrateur ? 'Yes' : 'No' }}</td>
                 <td>{{ user.actif ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Détail</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+                    <a class="text-success" href="{{ path('app_user_show', {'id': user.id}) }}">Détail</a>
+                    <a class="text-primary" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
