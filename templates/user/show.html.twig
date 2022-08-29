@@ -3,11 +3,12 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">{{ user.username }}</h1>
+    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Utilisateur</h1>
+    <div class="container">
         <div class="row">
             <div class="card text-center w-100 align-middle">
                 <div class="card-body">
-
+                    <h1>{{  user.username }}</h1>
                     <table class="table">
                         <tbody>
                         <tr>
