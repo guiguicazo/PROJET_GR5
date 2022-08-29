@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -166,15 +167,15 @@ class HomeController extends AbstractController
                 ]);
             }
         }
-        //apple de la fonction qui affiche suivant le campus
-        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            //recupére la valuer du formulaire qui c'est afficher
-            $campusFlitre= $recapForm->get('campus')->getData();
-            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
-            ]);
-        }
-//
+//        //apple de la fonction qui affiche suivant le campus
+//        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+//            //recupére la valuer du formulaire qui c'est afficher
+//            $campusFlitre= $recapForm->get('campus')->getData();
+//            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+//                'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
+//            ]);
+//        }
+
         // appel de la fonction qui renvoi les sorties ou je suis inscrit
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             if ($recapForm->get('Sortieinscrit')->getData()) {
@@ -197,7 +198,17 @@ class HomeController extends AbstractController
             }
         }
 
+        //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            //recupére la valuer du formulaire qui c'est afficher dateStart
+            $dateStartRecup= $recapForm->get('dateStart')->getData();
+            //recupére la valuer du formulaire qui c'est afficher datefin
+            $dateFinRecup= $recapForm->get('dateFin')->getData();
 
+        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
+
+        }
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen()
         ] );

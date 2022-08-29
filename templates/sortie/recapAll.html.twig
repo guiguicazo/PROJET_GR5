@@ -45,8 +45,8 @@
                                     <p>{{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                                     <p>{{ liste.nbInscritpionsMax }}</p>
                                     <p>{{ liste.etat }}</p>
-                                    <p>inscrit</p>
-                                    <p>{{ liste.organisateur.nom }}</p>
+                                    <p style= 'color:green'>inscrit</p>
+                                    <p style= 'color:red' >{{ liste.organisateur.nom }}</p>
 
                                 {% endfor %}
                             </div>
