@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CampusType extends AbstractType
+
+    // form pour les campus
+
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

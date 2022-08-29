@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterType extends AbstractType
 {
+    // form pour filtrer les users
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Date[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class DateRepository extends ServiceEntityRepository
+//repository pour l'affichage et la création des sorties
 {
     public function __construct(ManagerRegistry $registry)
     {

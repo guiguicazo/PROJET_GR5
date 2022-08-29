@@ -6,7 +6,7 @@ use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+//entite campus
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
 {

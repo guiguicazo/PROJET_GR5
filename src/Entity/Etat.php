@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EtatRepository;
 use Doctrine\ORM\Mapping as ORM;
+//entité Etat
 
 #[ORM\Entity(repositoryClass: EtatRepository::class)]
 class Etat

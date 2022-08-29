@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VilleType extends AbstractType
+//form pour les users
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
