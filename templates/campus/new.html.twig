@@ -3,9 +3,17 @@
 {% block title %}Creer Campus{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF">Creer un nouveau campus</h1>
+<div class="container"><h1 style=" color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Campus</h1>
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
+    <h1>Creer un nouveau campus</h1>
 
     {{ include('campus/_form.html.twig') }}
 
-    <a style="color: #FFFFFF" href="{{ path('app_campus_index') }}">Retour à la liste</a>
+    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
+            </div>
+            </div>
+    </div>
+</div>
 {% endblock %}
