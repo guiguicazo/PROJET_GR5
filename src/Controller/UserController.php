@@ -24,6 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted("ROLE_ADMIN")]
 #[Route('/admin/user')]
+//Route utilisable seulement pour voir tout les utilisateur
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET', 'POST'])]
@@ -50,7 +51,7 @@ class UserController extends AbstractController
 
 
 
-
+    //Route utilisable seulement pour creer un utilisateur
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -77,6 +78,7 @@ class UserController extends AbstractController
 
     }
 
+    //Route utilisable seulement pour afficher le détail d'un utilisateur
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -85,6 +87,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    //Route utilisable seulement pour modifier un utilisateur
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
@@ -104,6 +107,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    //Route utilisable seulement pour supprimer un utilisateur
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {

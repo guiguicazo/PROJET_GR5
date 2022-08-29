@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CreerUneSortieType extends AbstractType
 {
+    // form pour creer une sortie
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

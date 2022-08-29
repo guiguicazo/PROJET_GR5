@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Lieu[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class LieuRepository extends ServiceEntityRepository
+//repository pour les différent lieu
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -14,6 +14,7 @@ class FilterRepository extends ServiceEntityRepository{
         parent::__construct($registry, User::class);
     }
 
+    // fonction pour filtrer les users
     public function UserFilter(string $text){
         $entityManager = $this->getEntityManager();
         $dql = "SELECT u FROM App\Entity\User u 

@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UserType extends AbstractType
+//form pour les users
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

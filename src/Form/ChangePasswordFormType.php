@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangePasswordFormType extends AbstractType
 {
+    // form pour changer les mot de passe
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
