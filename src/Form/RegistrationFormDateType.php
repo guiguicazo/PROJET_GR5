@@ -25,15 +25,14 @@ class RegistrationFormDateType extends AbstractType
                 [
                     'class' => Campus::class,
                     'choice_label' => 'nom',
-
                 ])
-            ->add('search',TextType::class)
+            ->add('search',TextType::class,['required'=> false])
             ->add('dateStart',DateTimeType::class)
             ->add('dateFin',DateTimeType::class)
-            ->add('SortieOrganisateur', CheckboxType::class)
-            ->add('Sortieinscrit', CheckboxType::class)
-            ->add('SortieNonInscrit', CheckboxType::class)
-            ->add('SortiePassees', CheckboxType::class)
+            ->add('SortieOrganisateur', CheckboxType::class, ['required'=> false])
+            ->add('Sortieinscrit', CheckboxType::class, ['required'=> false])
+            ->add('SortieNonInscrit', CheckboxType::class,['required'=> false])
+            ->add('SortiePassees', CheckboxType::class,['required'=> false])
 
 
             ->add('Rechercher', SubmitType::class); // Ajouter le bouton submit
