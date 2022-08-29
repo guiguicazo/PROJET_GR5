@@ -135,25 +135,37 @@ class HomeController extends AbstractController
 
 
     /**
-     * S'inscrite a une sortie
+     * recpate de toutes les sorties
      */
-    #[Route('/inscrireSortie/{id}', name: 'app_inscription_sortie')]
-    public function inscrireSortie($id,Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
+    #[Route('/recapAll', name: 'app_recapAll')]
+    public function recapAll(Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
     {
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
-
+        dd($recapForm);
         //appel de la fonction search
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             $recherche = $request->get('search');
-            return $this->render('/sortie/inscrireSotie.html.twig',["RecapSortie"=>$recapForm->createView(),
+            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
                 'listeSortieOuverte'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
 
                 ]);
         }
 
-        return $this->render( '/sortie/inscrireSotie.html.twig',[ "RecapSortie"=> $recapForm->createview(),
+        // apple de la fonction affiche la date qui est passer
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            $recherche = $request->get('SortiePassees');
+            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+                'listeSortieOuverte'=>$filterRegistration-> DateFilterlast()
+
+            ]);
+        }
+
+
+
+
+        return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortieOuverte'=>$filterRegistration->DateFilterOpen()
         ] );
     }
