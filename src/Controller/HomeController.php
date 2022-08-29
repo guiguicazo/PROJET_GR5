@@ -11,6 +11,7 @@ use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
+use ContainerQuUlvr1\getMaker_AutoCommand_MakeUserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
@@ -145,6 +146,9 @@ class HomeController extends AbstractController
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
 
+
+
+
         //appel de la fonction search
         if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
             $request->get('search');
@@ -170,8 +174,28 @@ class HomeController extends AbstractController
                 'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
             ]);
         }
+//
+        // appel de la fonction qui renvoi les sorties ou je suis inscrit
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            if ($recapForm->get('Sortieinscrit')->getData()) {
+                $user = $this->getUser();
+                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                    'listeSortie' => $filterRegistration->sortieInscrit($user)
 
+                ]);
+            }
+        }
 
+        // appel de la fonction qui renvoi les sorties ou je ne suis pas inscrit
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            if ($recapForm->get('SortieNonInscrit')->getData()) {
+                $user = $this->getUser();
+                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                    'listeSortie' => $filterRegistration->sortieNonInscrit($user)
+
+                ]);
+            }
+        }
 
 
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),

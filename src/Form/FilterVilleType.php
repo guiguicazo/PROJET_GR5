@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterVilleType extends AbstractType
 {
+    // form pour filtrer les villes
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

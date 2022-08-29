@@ -22,6 +22,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+//Routre pour montrer le profil de l'utilisateur
 #[Route('/user', name: 'app_showUser_index')]
 class ShowUserController extends AbstractController
 {

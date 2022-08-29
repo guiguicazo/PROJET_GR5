@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+//vérifie si l'utilisateur est actif
 class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user)

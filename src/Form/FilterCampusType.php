@@ -10,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FilterCampusType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
+        // form pour filtrer les campus
+
     {
         $builder
             ->add('nom')

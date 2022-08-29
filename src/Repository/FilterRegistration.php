@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Campus;
 use App\Entity\Date;
+use App\Entity\Campus;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,8 +53,10 @@ class FilterRegistration extends ServiceEntityRepository{
 
         $dql = "SELECT a FROM App\Entity\Date a
                WHERE a.organisateur = id" ;
+
         $query= $entityManager->createQuery($dql)-> setParameter('id',$id);
         return $query->getResult();
+
     }
 
 
@@ -66,6 +68,35 @@ class FilterRegistration extends ServiceEntityRepository{
                WHERE datediff(a.dateLimiteInscritpion,current_date)>0 " ;
         $query= $entityManager->createQuery($dql);
         return $query->getResult();
+    }
+
+    //filtre qui recherche si je suis inscrit à la sortie
+    public function sortieInscrit(User $user){
+        $em = $this->getEntityManager();
+        $idUser = $user->getId();
+
+        $sortieUser = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
+            ->innerJoin('d.participants','p')
+            ->where('p.id = :iduser')
+            ->setParameter('iduser',$idUser)
+            ->getQuery()->getResult();
+
+        return $sortieUser;
+
+    }
+
+    //filtre qui recherche si je ne suis pas inscrit à la sortie
+    public function sortieNonInscrit(User $user){
+        $em = $this->getEntityManager();
+        $idUser = $user->getId();
+        $sortieUser = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
+            ->leftJoin('d.participants','u')
+            ->addSelect('u')
+            ->where('u.id != :iduser')
+            ->setParameter('iduser',$idUser)
+            ->getQuery()->getResult();
+        return $sortieUser;
+
     }
 
 

@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ResetPasswordRequestFormType extends AbstractType
+//form pour reset les password
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

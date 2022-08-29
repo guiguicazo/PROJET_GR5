@@ -16,6 +16,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProfilUserType extends AbstractType
 {
+    //form pour la modification de profil
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

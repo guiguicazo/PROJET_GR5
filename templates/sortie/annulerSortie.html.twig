@@ -3,12 +3,20 @@
 {% block title %}{{ userDate.nom }}{% endblock %}
 
 {% block body %}
-    <tbody style="color: #FFFFFF">
-    <h1> Profil de {{ userDate.nom }}</h1>
-    <p>Pseudo : {{ userDate.date_heure_debut }}</p>
-    <p>Nom : {{ userDate.duree }}</p>
-    <p>Description : {{ userDate.info_sortie }}</p>
-    <p>Etat : {{ userDate.etat }}</p>
-    </tbody>
-    </table>
+
+    <div class="container">
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <tbody>
+                    <h1> Profil de {{ userDate.nom }}</h1>
+                    <p>Pseudo : {{ userDate.date_heure_debut }}</p>
+                    <p>Nom : {{ userDate.duree }}</p>
+                    <p>Description : {{ userDate.info_sortie }}</p>
+                    <p>Etat : {{ userDate.etat }}</p>
+                    </tbody>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
