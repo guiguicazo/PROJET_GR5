@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Campus;
 use App\Entity\Date;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -51,10 +52,8 @@ class FilterRegistration extends ServiceEntityRepository{
 
         $dql = "SELECT a FROM App\Entity\Date a
                WHERE a.organisateur = id" ;
-
         $query= $entityManager->createQuery($dql)-> setParameter('id',$id);
         return $query->getResult();
-
     }
 
 
@@ -69,6 +68,16 @@ class FilterRegistration extends ServiceEntityRepository{
     }
 
 
+    //filtre qui cherche suivant le campus
+    public function DateCampus(Campus $campus){
+
+        $entityManager = $this->getEntityManager();
+        $dql ="SELECT d FROM App\Entity\Date d JOIN App\Entity\Campus c  
+           WHERE d.campus = :monCampus" ;
+        $query= $entityManager->createQuery($dql)-> setParameter('monCampus',$campus);
+
+        return $query->getResult();
+    }
 
 
 
