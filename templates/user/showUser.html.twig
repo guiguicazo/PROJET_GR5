@@ -3,13 +3,20 @@
 {% block title %}Profil {{ user.username }}{% endblock %}
 
 {% block body %}
-        <tbody>
-        <h1> Profil de {{ user.username }}</h1>
-        <p>Pseudo : {{ user.username }}</p>
-        <p>Nom : {{ user.nom }}</p>
-        <p>Prenom : {{ user.prenom }}</p>
-        <p>Telephone : {{ user.telephone }}</p>
-        <img src='{{ user.image }}' alt=''>
-        </tbody>
-    </table>
+    <div class="container"><h1 style="padding-top: 2rem; padding-bottom: 5rem">user.username</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <tbody>
+                    <h1>Profil de {{ user.username }}</h1>
+                    <p>Pseudo : {{ user.username }}</p>
+                    <p>Nom : {{ user.nom }}</p>
+                    <p>Prenom : {{ user.prenom }}</p>
+                    <p>Telephone : {{ user.telephone }}</p>
+                    <img src='{{ user.image }}' alt=''>
+                    </tbody>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -3,45 +3,58 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <h1> Créer une Sortie </h1>
-    <div class="d-flex justify-content-center">
-        <div class="p-6">
-            {{ form_start(sortieForm) }}
-            <a>Nom de la Sortie : {{ form_widget(sortieForm.nom) }}</a> <br>
-            <a>Date et Heure de la sortie : {{ form_widget(sortieForm.dateHeureDebut) }}</a>
-            <a>Date limite d'inscription : {{ form_widget(sortieForm.dateLimiteInscritpion) }}</a>
-            <a>Nombre de places : {{ form_widget(sortieForm.nbInscritpionsMax) }}</a> <br>
-            <a>Durée : {{ form_widget(sortieForm.duree) }}</a> <br>
-            <a>Description et infos : {{ form_widget(sortieForm.infosSortie) }}</a> <br>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Connexion</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1> Créer une Sortie </h1>
+                    <div class="d-flex justify-content-center">
+                        <div class="p-6">
+                            {{ form_start(sortieForm) }}
+                            <a>Nom de la Sortie : {{ form_widget(sortieForm.nom) }}</a> <br>
+                            <a>Date et Heure de la sortie : {{ form_widget(sortieForm.dateHeureDebut) }}</a>
+                            <a>Date limite d'inscription : {{ form_widget(sortieForm.dateLimiteInscritpion) }}</a>
+                            <a>Nombre de places : {{ form_widget(sortieForm.nbInscritpionsMax) }}</a> <br>
+                            <a>Durée : {{ form_widget(sortieForm.duree) }}</a> <br>
+                            <a>Description et infos : {{ form_widget(sortieForm.infosSortie) }}</a> <br>
 
-        </div>
-        <div class="p-6">
-            <div class="d-flex flex-column mb-3">
+                        </div>
+                        <div class="p-6">
+                            <div class="d-flex flex-column mb-3">
 
-                <a>  {{ userSortie.campus }}</a>
-                <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
-                <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
-
-
-                <a> Rue :</a>
-                <a> Code postal :</a>
-                <a> Latitude :</a>
-                <a> Longitude :</a>
+                                <a>  {{ userSortie.campus }}</a>
+                                <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
+                                <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
 
 
-                <a class="color=red" >teste de menu campus :-) </a>
-                <a>Campus : {{ form_widget(sortieForm.campus) }}</a> <br>
+                                <a> Rue :</a>
+                                <a> Code postal :</a>
+                                <a> Latitude :</a>
+                                <a> Longitude :</a>
+
+
+                                <a class="color=red">teste de menu campus :-) </a>
+                                <a>Campus : {{ form_widget(sortieForm.campus) }}</a> <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="p-12">
+                            <button type="submit" name="button" value="enregistre" class="btn btn-outline-danger">
+                                Enregistrer
+                            </button>
+                            <button type="submit" name="button" value="publier" class="btn btn-outline-warning">Publier
+                                la sortie
+                            </button>
+                            <button type="submit" name="button" value="annuler" class="btn btn-outline-info">Annuler
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(sortieForm) }}
+                </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-            <div class="p-12">
-                <button  type="submit" name="button" value = "enregistre" class="btn btn-outline-danger">Enregistrer</button>
-                <button  type="submit" name="button" value = "publier" class="btn btn-outline-warning">Publier la sortie</button>
-                <button  type="submit" name="button" value = "annuler" class="btn btn-outline-info">Annuler</button>
-            </div>
-    </div>
-        {{ form_end(sortieForm) }}
 
 
 

@@ -3,11 +3,19 @@
 {% block title %}Modifier Campus : {{ campus.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier le campus : {{ campus.nom }}</h1>
+    <div class="container"><h1 style="padding-top: 2rem; padding-bottom: 5rem; color: #FFFFFF">{{ campus.nom }}</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <h1>Modifier le campus</h1>
+                <div class="card-body">
 
-    {{ include('campus/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
+                    {{ include('campus/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
 
-    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
+                    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
 
-    {{ include('campus/_delete_form.html.twig') }}
+                    {{ include('campus/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

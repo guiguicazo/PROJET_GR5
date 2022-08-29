@@ -3,9 +3,17 @@
 {% block title %}New Ville{% endblock %}
 
 {% block body %}
-    <h1>Creer une nouvelle ville</h1>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Ville</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1>Creer une nouvelle ville</h1>
 
-    {{ include('ville/_form.html.twig') }}
+                    {{ include('ville/_form.html.twig') }}
 
-    <a href="{{ path('app_ville_index') }}">Retour a la liste</a>
+                    <a href="{{ path('app_ville_index') }}">Retour a la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

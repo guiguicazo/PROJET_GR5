@@ -3,16 +3,20 @@
 {% block title %}Ville index{% endblock %}
 
 {% block body %}
+<div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Ville</h1>
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
     <h1>Liste de ville</h1>
     {{ include('ville/filterVille.html.twig', {'button_label': 'Rechercher'}) }}
-    <table class="table">
+    <table class="table" style=>
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>CodePostal</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>CodePostal</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for ville in villes %}
@@ -34,4 +38,8 @@
     </table>
 
     <a href="{{ path('app_ville_new') }}">Creer une nouvelle ville</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -3,23 +3,27 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>Liste des utilisateur</h1>
+
+    <h1 style="color: #FFFFFF">Liste des utilisateur</h1>
+<div class="container">
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
     {{ include('user/filterUser.html.twig', {'button_label': 'Rechercher'}) }}
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Mail</th>
-                <th>Administrateur</th>
-                <th>Actif</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Telephone</th>
+            <th>Mail</th>
+            <th>Administrateur</th>
+            <th>Actif</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for user in users %}
@@ -27,7 +31,6 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
                 <td>{{ user.telephone }}</td>
@@ -48,4 +51,8 @@
     </table>
 
     <a href="{{ path('app_user_new') }}">Creer un utilisateur</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
