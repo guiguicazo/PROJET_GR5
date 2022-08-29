@@ -6,6 +6,7 @@ use App\Entity\Date;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -43,6 +44,31 @@ class FilterRegistration extends ServiceEntityRepository{
         $query= $entityManager->createQuery($dql) ;
         return $query->getResult();
     }
+
+    //filtre qui recherche si je suis l' organisateur de la sortie
+    public function DateFilterOrga(Integer $id){
+        $entityManager = $this->getEntityManager();
+
+        $dql = "SELECT a FROM App\Entity\Date a
+               WHERE a.organisateur = id" ;
+
+        $query= $entityManager->createQuery($dql)-> setParameter('id',$id);
+        return $query->getResult();
+
+    }
+
+
+
+    //filtre qui recherche si la sortie est passer
+    public function DateFilterlast(){
+        $entityManager = $this->getEntityManager();
+        $dql = "SELECT a FROM App\Entity\Date a
+               WHERE datediff(a.dateLimiteInscritpion,current_date)>0 " ;
+        $query= $entityManager->createQuery($dql);
+        return $query->getResult();
+    }
+
+
 
 
 
