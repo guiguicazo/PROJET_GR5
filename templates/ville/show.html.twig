@@ -5,26 +5,36 @@
 {% block body %}
     <h1 style="color: #FFFFFF">{{ ville.nom }}</h1>
 
-    <table style="color: #FFFFFF" class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ ville.id }}</td>
-        </tr>
-        <tr>
-            <th>Nom</th>
-            <td>{{ ville.nom }}</td>
-        </tr>
-        <tr>
-            <th>CodePostal</th>
-            <td>{{ ville.codePostal }}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container"><h1 style="padding-top: 2rem; padding-bottom: 5rem; color: #FFFFFF">Ville</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
 
-    <a style="color: #FFFFFF" href="{{ path('app_ville_index') }}">Retour a la liste</a>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ ville.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ ville.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>CodePostal</th>
+                            <td>{{ ville.codePostal }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-    <a style="color: #FFFFFF" href="{{ path('app_ville_edit', {'id': ville.id}) }}">Modifier</a>
+                    <a style="color: #FFFFFF" href="{{ path('app_ville_index') }}">Retour a la liste</a>
 
-    {{ include('ville/_delete_form.html.twig') }}
+                    <a style="color: #FFFFFF" href="{{ path('app_ville_edit', {'id': ville.id}) }}">Modifier</a>
+
+                    {{ include('ville/_delete_form.html.twig') }}
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
