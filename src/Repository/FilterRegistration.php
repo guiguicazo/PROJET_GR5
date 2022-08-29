@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -79,6 +80,20 @@ class FilterRegistration extends ServiceEntityRepository{
         return $query->getResult();
     }
 
+
+    //filtre qui cherche suivant les dates
+    public function startEndDate(DateTimeType $dateHeureDebut, DateTimeType $dateHeureFin){
+        if ($dateHeureDebut >  $dateHeureFin){
+            return "vous ne pouvez pas mettre de date de debut antérieur a la fin" ;
+        }else{
+            $entityManager = $this->getEntityManager();
+            $dql ="SELECT d FROM App\Entity\Date  d WHERE d.dateHeureDebut >= :dateHeureDebut and d.dateHeureDebut <= :dateHeureFin" ;
+            $query= $entityManager->createQuery($dql)-> setParameter('dateHeureDebut',$dateHeureDebut) ->setParameter('dateHeureFin', $dateHeureFin);
+
+            return $query->getResult();
+        }
+
+    }
 
 
 
