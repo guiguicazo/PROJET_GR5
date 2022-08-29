@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Date;
+use App\Entity\Campus;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -87,14 +88,12 @@ class FilterRegistration extends ServiceEntityRepository{
     public function sortieNonInscrit(User $user){
         $em = $this->getEntityManager();
         $idUser = $user->getId();
-
         $sortieUser = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->Join('d.participants','p')
-            ->where('p.id != :iduser')
+            ->leftJoin('d.participants','u')
+            ->addSelect('u')
+            ->where('u.id != :iduser')
             ->setParameter('iduser',$idUser)
             ->getQuery()->getResult();
-
-
         return $sortieUser;
 
     }
