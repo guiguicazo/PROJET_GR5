@@ -3,13 +3,13 @@
 {% block title %}Profil {{ user.username }}{% endblock %}
 
 {% block body %}
-        <tbody>
-        <h1>Profil de {{ user.username }}</h1>
-        <p>Pseudo : {{ user.username }}</p>
-        <p>Nom : {{ user.nom }}</p>
-        <p>Prenom : {{ user.prenom }}</p>
-        <p>Telephone : {{ user.telephone }}</p>
-        <img src='{{ user.image }}' alt=''>
-        </tbody>
+    <tbody>
+    <h1>Profil de {{ user.username }}</h1>
+    <p>Pseudo : {{ user.username }}</p>
+    <p>Nom : {{ user.nom }}</p>
+    <p>Prenom : {{ user.prenom }}</p>
+    <p>Telephone : {{ user.telephone }}</p>
+    <img src='{{ user.image }}' alt=''>
+    </tbody>
     </table>
 {% endblock %}
