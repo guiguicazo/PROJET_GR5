@@ -3,11 +3,10 @@
 {% block title %}Liste Campus{% endblock %}
 
 {% block body %}
-    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Campus</h1>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Liste des campus</h1>
         <div class="row">
             <div class="card text-center w-100 align-middle">
                 <div class="card-body">
-                    <h1>Liste de campus</h1>
                     {{ include('campus/filterCampus.html.twig', {'button_label': 'Rechercher'}) }}
                     <table class="table">
                         <thead>
