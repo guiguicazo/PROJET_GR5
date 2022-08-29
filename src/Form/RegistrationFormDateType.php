@@ -31,6 +31,7 @@ class RegistrationFormDateType extends AbstractType
             ->add('dateStart',DateTimeType::class)
             ->add('dateFin',DateTimeType::class)
             ->add('SortieOrganisateur', CheckboxType::class)
+
             ->add('Sortieinscrit', CheckboxType::class)
             ->add('SortieNonInscrit', CheckboxType::class)
             ->add('SortiePassees', CheckboxType::class)
