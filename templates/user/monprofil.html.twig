@@ -3,31 +3,29 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem" >Modification de profil</h1>
-    <div class="row">
-        <div class="card text-center w-100">
-            <div class="card-body">
-    <h1>Modifier l'utilisateur : {{ user.username }} </h1>
+    <div class="container">
+        <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Modification de profil</h1>
+        <div class="row">
+            <div class="card text-center w-100">
+                <div class="card-body">
+                    <h1>Modifier l'utilisateur : {{ user.username }} </h1>
 
-    {{ form_start(requestForm) }}
-    {{ form_row(requestForm.username) }}
-    {{ form_row(requestForm.nom) }}
-    {{ form_row(requestForm.prenom) }}
-    {{ form_row(requestForm.telephone) }}
-    {{ form_row(requestForm.mail) }}
-    {{ form_row(requestForm.campus) }}
-    {{ form_row(requestForm.imageFile) }}
-
-
+                    {{ form_start(requestForm) }}
+                    {{ form_row(requestForm.username) }}
+                    {{ form_row(requestForm.nom) }}
+                    {{ form_row(requestForm.prenom) }}
+                    {{ form_row(requestForm.telephone) }}
+                    {{ form_row(requestForm.mail) }}
+                    {{ form_row(requestForm.campus) }}
+                    {{ form_row(requestForm.imageFile) }}
 
 
-    <button type="submit" class="btn">Modifier</button>
-    {{ form_end(requestForm) }}
+                    <button type="submit" class="btn">Modifier</button>
+                    {{ form_end(requestForm) }}
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 {% endblock %}

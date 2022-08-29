@@ -3,24 +3,32 @@
 {% block title %}{{ campus.nom }}{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF">{{ campus.nom }}</h1>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Campus</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1>{{ campus.nom }}</h1>
 
-    <table class="table" style="color: #FFFFFF">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ campus.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ campus.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ campus.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ campus.nom }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-    <a style="color: #FFFFFF" href="{{ path('app_campus_index') }}">Retour à la liste</a>
+                    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_campus_edit', {'id': campus.id}) }}" style="color: #FFFFFF">Modifier</a>
+                    <a href="{{ path('app_campus_edit', {'id': campus.id}) }}">Modifier</a>
 
-    {{ include('campus/_delete_form.html.twig') }}
+                    {{ include('campus/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

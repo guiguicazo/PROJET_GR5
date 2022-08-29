@@ -7,8 +7,10 @@
     <div class="d-flex justify-content-center">
         <div class="p-3" style="background-color: #dec3c3">
             <a>Nom de la Sortie : {{ userDate.nom }}</a> <br>
-            <a>Date et Heure de la sortie : {{ userDate.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a>  <br>
-            <a>Date limite d'inscription : {{ userDate.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</a>  <br>
+            <a>Date et Heure de la sortie
+                : {{ userDate.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
+            <a>Date limite d'inscription
+                : {{ userDate.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
             <a>Nombre de places : {{ userDate.nbInscritpionsMax }}</a> <br>
             <a>Durée : {{ userDate.duree }} minutes</a> <br>
             <a>Description et infos : {{ userDate.infosSortie }}</a> <br>
@@ -17,8 +19,8 @@
 
         <div class="p-3" style="background-color:  #c1c1c6">
             <a>Campus : {{ userDate.campus }}</a> <br>
-            <a>Lieu: {{ userDate.lieu }}</a>  <br>
-            <a>Rue : {{ userDate.lieu.rue }}</a>  <br>
+            <a>Lieu: {{ userDate.lieu }}</a> <br>
+            <a>Rue : {{ userDate.lieu.rue }}</a> <br>
             <a>Code postal : {{ userDate.lieu.ville.codePostal }}</a> <br>
             <a>Latitude : {{ userDate.lieu.latitude }} minutes</a> <br>
             <a>Longitude : {{ userDate.lieu.longitude }}</a> <br>
@@ -38,10 +40,10 @@
             boucle a faire par rapport au nombre de place
             <tr>
 
-                <td>affiche le pseudo  </td>                <td>affiche le non et prenom</td>
+                <td>affiche le pseudo</td>
+                <td>affiche le non et prenom</td>
 
             </tr>
-
 
 
         </table>

@@ -39,7 +39,7 @@ class FilterRegistration extends ServiceEntityRepository{
         $entityManager = $this->getEntityManager();
 
         $dql = "SELECT a FROM App\Entity\Date a
-               WHERE a.etatSortie = 1 or a.etatSortie = 2";
+               WHERE a.etatSortie = 2 or a.etatSortie = 4";
 
         $query= $entityManager->createQuery($dql) ;
         return $query->getResult();
@@ -94,11 +94,23 @@ class FilterRegistration extends ServiceEntityRepository{
             ->setParameter('iduser',$idUser)
             ->getQuery()->getResult();
 
-        dd($sortieUser);
 
         return $sortieUser;
 
     }
+
+
+    //filtre qui cherche suivant le campus
+    public function DateCampus(Campus $campus){
+
+        $entityManager = $this->getEntityManager();
+        $dql ="SELECT d FROM App\Entity\Date d JOIN App\Entity\Campus c  
+           WHERE d.campus = :monCampus" ;
+        $query= $entityManager->createQuery($dql)-> setParameter('monCampus',$campus);
+
+        return $query->getResult();
+    }
+
 
 
 

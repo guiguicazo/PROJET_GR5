@@ -3,9 +3,17 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF">Creer un nouvel utilisateur</h1>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Utilisateur</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1>Creer un nouvel utilisateur</h1>
 
-    {{ include('user/_form.html.twig') }}
+                    {{ include('user/_form.html.twig') }}
 
-    <a style="color: #FFFFFF" href="{{ path('app_user_index') }}">Retour à la liste</a>
+                    <a href="{{ path('app_user_index') }}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
