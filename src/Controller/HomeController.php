@@ -149,43 +149,54 @@ class HomeController extends AbstractController
 
 
 
-        //appel de la fonction search
-        if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
-            $request->get('search');
-            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
-
-                ]);
-        }
-
-        // apple de la fonction affiche la date qui est passer
+        ////appel de la fonction search
+        //if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
+        //    $request->get('search');
+        //    return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+        //        'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
+//
+        //        ]);
+        //}
+//
+        //// apple de la fonction affiche la date qui est passer
+        //if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+        //    if ( $request->get('SortiePassees')){
+        //        return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+        //            'listeSortie'=>$filterRegistration-> DateFilterlast()
+        //        ]);
+        //    }
+        //}
+        ////apple de la fonction qui affiche suivant le campus
+        //if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+        //    //recupére la valuer du formulaire qui c'est afficher
+        //    $campusFlitre= $recapForm->get('campus')->getData();
+//
+        //    return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+        //        'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
+        //    ]);
+        //}
+//
+        // appel de la fonction qui renvoi les sorties ou je suis inscrit
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            if ( $request->get('SortiePassees')){
-                return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                    'listeSortie'=>$filterRegistration-> DateFilterlast()
+            if ($recapForm->get('Sortieinscrit')->getData()) {
+                $user = $this->getUser();
+                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                    'listeSortie' => $filterRegistration->sortieInscrit($user)
+
                 ]);
             }
         }
-        //apple de la fonction qui affiche suivant le campus
-        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            //recupére la valuer du formulaire qui c'est afficher
-            $campusFlitre= $recapForm->get('campus')->getData();
 
-            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
-            ]);
-        }
-
+        // appel de la fonction qui renvoi les sorties ou je ne suis pas inscrit
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             if ($recapForm->get('SortieNonInscrit')->getData()) {
                 $user = $this->getUser();
                 return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-                    'listeSortieOuverte' => $filterRegistration->sortieNonInscrit($user)
+                    'listeSortie' => $filterRegistration->sortieNonInscrit($user)
 
                 ]);
             }
         }
-
 
 
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
