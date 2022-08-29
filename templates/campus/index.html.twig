@@ -3,9 +3,13 @@
 {% block title %}Liste Campus{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF">Liste de campus</h1>
+<div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Campus</h1>
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
+    <h1>Liste de campus</h1>
     {{ include('campus/filterCampus.html.twig', {'button_label': 'Rechercher'}) }}
-    <table class="table" style="color: #FFFFFF">
+    <table class="table">
         <thead>
         <tr>
             <th>Id</th>
@@ -32,4 +36,8 @@
     </table>
 
     <a href="{{ path('app_campus_new') }}">Creer un nouveau campus</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
