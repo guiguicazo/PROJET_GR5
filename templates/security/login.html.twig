@@ -3,14 +3,19 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row">
+    <div class="card text-center w-100 align-middle">
+        <div class="card-body">
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        <div class="mb-3 ">
+            Vous etes déja connecter en tant que <strong>{{ app.user.userIdentifier }}</strong>, <a class="text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
     {% endif %}
 
@@ -20,13 +25,14 @@
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
     <label for="inputPassword">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+    <br>
     <label>
         <input type="checkbox" name="_remember_me" checked/>
         Se souvenir de moi
     </label>
+    <br>
     <a  href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
-
+    <br>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
@@ -46,4 +52,9 @@
         Sign in
     </button>
 </form>
+        </div>
+    </div>
+    </div>
+</div>
+
 {% endblock %}
