@@ -3,11 +3,11 @@
 {% block title %}Modifier Campus : {{ campus.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier le campus : {{ campus.nom }}</h1>
+    <h1 style="color: #FFFFFF">Modifier le campus : {{ campus.nom }}</h1>
 
     {{ include('campus/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
 
-    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
+    <a style="color: #FFFFFF" href="{{ path('app_campus_index') }}">Retour à la liste</a>
 
     {{ include('campus/_delete_form.html.twig') }}
 {% endblock %}

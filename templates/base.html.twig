@@ -71,15 +71,10 @@
         </nav>
     </div>
     <div class="Body text-center" style="background: rgb(56,62,66)">
-        {% if app.user %}
-        <h1 style="color: #FFFFFF; padding-bottom: 5rem; padding-top: 2rem">
-            Bonjour {{  app.user.prenom }} !
-        </h1>
-        {% endif %}
         {% block body %}
         {% endblock %}
     </div>
-    <div class="Footer" style= "height: 35rem; background: rgb(56,62,66)">
+    <div class="Footer" style= "height: 100rem; background: rgb(56,62,66)">
        <p class="text-center" style="color: #FFFFFF;padding-top: 10rem">Site ENI Sortir.com de Renan, Thomas, Guillaume</p>
     </div>
 
