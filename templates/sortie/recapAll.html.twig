@@ -50,18 +50,18 @@
         </div>
         <div>
             <div class="container">
-                <div class="row justify-content-between" style="padding: 1rem">
+                <div class="row justify-content-between" style="padding-top:1rem ">
                     {% for liste in listeSortie %}
 
-                        <div class="card col-sm-3">
+                        <div class="card col-sm-3" style="padding: 2rem">
                             <div class="card-body">
                                 <p>{{ liste.nom }}</p>
                                 <p>{{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                                 <p>{{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                                 <p>{{ liste.nbInscritpionsMax }}</p>
                                 <p>{{ liste.etat }}</p>
-                                <p style='color:green'>inscrit</p>
-                                <p style='color:red'>{{ liste.organisateur.nom }}</p>
+                                <p class="text-success">inscrit</p>
+                                <p class="text-primary">{{ liste.organisateur.nom }}</p>
                             </div>
                         </div>
                     {% endfor %}
