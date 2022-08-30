@@ -19,15 +19,15 @@ class FilterLieuRepository extends ServiceEntityRepository
 
     // fonction pour filtrer les lieux
 
-    public function LieuFilter(string $text){
-
+    public function LieuFilter(string $text)
+    {
 
 
         $entityManager = $this->getEntityManager();
 
         $dql1 = "SELECT u FROM App\Entity\Lieu u
                WHERE u.nom LIKE :text ";
-        $query= $entityManager->createQuery($dql1)->setParameter('text', '%'.$text.'%');
+        $query = $entityManager->createQuery($dql1)->setParameter('text', '%' . $text . '%');
         return $query->getResult();
     }
 }
