@@ -12,13 +12,25 @@
                         <h2>Filter les sorties </h2>
                         <div>
                             <div>
-                                <label>Campus : </label>
+
+                                <?php
+        $originalDate = "2020-04-29";
+        //original date is in format YYYY-mm-dd
+        $timestamp = strtotime($originalDate);
+        $newDate = date("m-d-Y", $timestamp );
+        echo "The new date is $newDate.";
+    ?>
+
+
+
                                 {{ form_start(RecapSortie) }}
                                 <div>
-                                    <a>Campus : {{ form_widget(RecapSortie.campus) }}</a> <br>
-                                    <a>Le nom de la sortie contient : {{ form_widget(RecapSortie.search) }}</a> <br>
-                                    <a>Entre : {{ form_widget(RecapSortie.dateStart) }}
-                                        et {{ form_widget(RecapSortie.dateFin) }}</a>
+                                    <a>Campus : {{ form_widget(RecapSortie.campus) }}</a> <br/>
+                                    <a>Le nom de la sortie contient : {{ form_widget(RecapSortie.search) }}</a> <br/>
+
+                                     <a>Entre :  </a> <input type="datetime-local" id="dateStart"  value= "{{dateStart |date('Y-m-d h:m')}}" name="dateStart">
+                                    <a> et  </a> <input type="datetime-local" id="dateFin"  value= "{{dateFin |date('Y-m-d h:m')}}" name="dateFin"> <br/>
+
                                 </div>
                                 <div>
                                     <a>Sorties dont je suis l'organisateur/trice
@@ -59,6 +71,7 @@
             </div>
         </div>
     </div>
+
 
 
 

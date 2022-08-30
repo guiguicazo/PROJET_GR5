@@ -64,7 +64,6 @@ class HomeController extends AbstractController
         $sortie = new Date();
         $sortie->setIdSortie($idUser);
 
-
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
                 $sortie->setEtat(1);
@@ -244,8 +243,6 @@ class HomeController extends AbstractController
                 'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
 
         }
-
-
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen()
         ] );

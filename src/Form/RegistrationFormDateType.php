@@ -28,8 +28,8 @@ class RegistrationFormDateType extends AbstractType
 
                 ])
             ->add('search',TextType::class,['required'=> false])
-            ->add('dateStart',DateTimeType::class,)
-            ->add('dateFin',DateTimeType::class)
+
+
             ->add('SortieOrganisateur', CheckboxType::class,
                 ['required'=> false
                 ])

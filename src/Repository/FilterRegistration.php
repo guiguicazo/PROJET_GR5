@@ -30,16 +30,15 @@ class FilterRegistration extends ServiceEntityRepository
 
     /***************************************************************************/
     //filtre qui recherche dans la basse le nom de la sortie
-    //public function NameDateFilter(string $text)
-    //{
-    //    $entityManager = $this->getEntityManager();
-//
-    //    $dql = "SELECT a FROM App\Entity\Date a
-    //           WHERE a.nom LIKE :text";
-    //    $query = $entityManager->createQuery($dql)->setParameter('text', '%' . $text . '%');
-    //    return $query->getResult();
-    //}
-    /***************************************************************************/
+    public function NameDateFilter(string $text){
+        $entityManager = $this->getEntityManager();
+
+        $dql = "SELECT a FROM App\Entity\Date a
+               WHERE a.nom LIKE :text";
+        $query= $entityManager->createQuery($dql)-> setParameter('text','%'.$text.'%');
+        return $query->getResult();
+    }
+/***************************************************************************/
 
 
     //filtre qui recherche les sortie en cours et ouverte
