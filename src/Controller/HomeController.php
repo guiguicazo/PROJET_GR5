@@ -13,7 +13,6 @@ use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
-use ContainerQuUlvr1\getMaker_AutoCommand_MakeUserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
