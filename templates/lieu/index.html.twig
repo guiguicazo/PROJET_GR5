@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieu index{% endblock %}
+
+{% block body %}
+
+    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Liste des Lieux</h1>
+    <div class="container">
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    {{ include('lieu/filterLieu.html.twig', {'button_label': 'Rechercher'}) }}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Rue</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for lieu in lieus %}
+                            <tr>
+                                <td>{{ lieu.id }}</td>
+                                <td>{{ lieu.nom }}</td>
+                                <td>{{ lieu.rue }}</td>
+                                <td>{{ lieu.latitude }}</td>
+                                <td>{{ lieu.longitude }}</td>
+                                <td>
+                                    <a class="text-success"
+                                       href="{{ path('app_lieu_show', {'id': lieu.id}) }}">Détail</a>
+                                    <a class="text-primary"
+                                       href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Pas de lieu trouver</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="{{ path('app_lieu_new') }}">Creer un nouveau lieu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

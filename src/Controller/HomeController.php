@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
+use App\Form\LieuType;
 use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
@@ -249,6 +251,26 @@ class HomeController extends AbstractController
     {
         return $this->render('sortie/annulerSortie.html.twig', [
             'search' => $id_sortie,
+        ]);
+    }
+
+
+    #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, LieuRepository $lieuRepository): Response
+    {
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $lieuRepository->add($lieu, true);
+
+            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('lieu/new.html.twig', [
+            'lieu' => $lieu,
+            'form' => $form,
         ]);
     }
 

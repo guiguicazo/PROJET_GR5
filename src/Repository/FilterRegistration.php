@@ -18,7 +18,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 
-class FilterRegistration extends ServiceEntityRepository{
+class FilterRegistration extends ServiceEntityRepository
+{
 
 
     public function __construct(ManagerRegistry $registry)
@@ -27,63 +28,66 @@ class FilterRegistration extends ServiceEntityRepository{
     }
 
 
-/***************************************************************************/
+    /***************************************************************************/
     //filtre qui recherche dans la basse le nom de la sortie
-    public function NameDateFilter(string $text){
+    public function NameDateFilter(string $text)
+    {
         $entityManager = $this->getEntityManager();
 
         $dql = "SELECT a FROM App\Entity\Date a
                WHERE a.nom LIKE :text";
-        $query= $entityManager->createQuery($dql)-> setParameter('text','%'.$text.'%');
+        $query = $entityManager->createQuery($dql)->setParameter('text', '%' . $text . '%');
         return $query->getResult();
     }
-/***************************************************************************/
-
+    /***************************************************************************/
 
 
     //filtre qui recherche les sortie en cours et ouverte
-    public function DateFilterOpen(){
+    public function DateFilterOpen()
+    {
         $entityManager = $this->getEntityManager();
 
         $dql = "SELECT a FROM App\Entity\Date a
                WHERE a.etatSortie = 2 or a.etatSortie = 4";
 
-        $query= $entityManager->createQuery($dql) ;
+        $query = $entityManager->createQuery($dql);
         return $query->getResult();
     }
 
     //filtre qui recherche si je suis l' organisateur de la sortie
-    public function DateFilterOrga(Integer $id){
+    public function DateFilterOrga(Integer $id)
+    {
         $entityManager = $this->getEntityManager();
 
         $dql = "SELECT a FROM App\Entity\Date a
-               WHERE a.organisateur = id" ;
+               WHERE a.organisateur = id";
 
-        $query= $entityManager->createQuery($dql)-> setParameter('id',$id);
+        $query = $entityManager->createQuery($dql)->setParameter('id', $id);
         return $query->getResult();
 
     }
 
 
-
     //filtre qui recherche si la sortie est passer
-    public function DateFilterlast(){
+    public function DateFilterlast()
+    {
         $entityManager = $this->getEntityManager();
         $dql = "SELECT a FROM App\Entity\Date a
-               WHERE datediff(a.dateLimiteInscritpion,current_date)>0 " ;
-        $query= $entityManager->createQuery($dql);
+               WHERE datediff(a.dateLimiteInscritpion,current_date)>0 ";
+        $query = $entityManager->createQuery($dql);
         return $query->getResult();
     }
 
     //filtre qui recherche si je suis inscrit à la sortie
-    public function sortieInscrit(User $user){
+    public function sortieInscrit(User $user)
+    {
         $em = $this->getEntityManager();
         $idUser = $user->getId();
 
         $sortieUser = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->innerJoin('d.participants','p')
+            ->innerJoin('d.participants', 'p')
             ->where('p.id = :iduser')
-            ->setParameter('iduser',$idUser)
+            ->setParameter('iduser', $idUser)
             ->getQuery()->getResult();
 
         return $sortieUser;
@@ -91,14 +95,15 @@ class FilterRegistration extends ServiceEntityRepository{
     }
 
     //filtre qui recherche si je ne suis pas inscrit à la sortie
-    public function sortieNonInscrit(User $user){
+    public function sortieNonInscrit(User $user)
+    {
         $em = $this->getEntityManager();
         $idUser = $user->getId();
         $sortieUser = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->leftJoin('d.participants','u')
+            ->leftJoin('d.participants', 'u')
             ->addSelect('u')
             ->where('u.id != :iduser')
-            ->setParameter('iduser',$idUser)
+            ->setParameter('iduser', $idUser)
             ->getQuery()->getResult();
         return $sortieUser;
 
@@ -106,25 +111,27 @@ class FilterRegistration extends ServiceEntityRepository{
 
 
     //filtre qui cherche suivant le campus
-    public function DateCampus(Campus $campus){
+    public function DateCampus(Campus $campus)
+    {
 
         $entityManager = $this->getEntityManager();
-        $dql ="SELECT d FROM App\Entity\Date d JOIN App\Entity\Campus c  
-           WHERE d.campus = :monCampus" ;
-        $query= $entityManager->createQuery($dql)-> setParameter('monCampus',$campus);
+        $dql = "SELECT d FROM App\Entity\Date d JOIN App\Entity\Campus c  
+           WHERE d.campus = :monCampus";
+        $query = $entityManager->createQuery($dql)->setParameter('monCampus', $campus);
 
         return $query->getResult();
     }
 
 
     //filtre qui cherche suivant les dates
-    public function startEndDate(DateTime $dateHeureDebut, DateTime $dateHeureFin){
-        if ($dateHeureDebut >  $dateHeureFin){
-            return "vous ne pouvez pas mettre de date de debut antérieur a la fin" ;
-        }else{
+    public function startEndDate(DateTime $dateHeureDebut, DateTime $dateHeureFin)
+    {
+        if ($dateHeureDebut > $dateHeureFin) {
+            return "vous ne pouvez pas mettre de date de debut antérieur a la fin";
+        } else {
             $entityManager = $this->getEntityManager();
-            $dql ="SELECT d FROM App\Entity\Date  d WHERE d.dateHeureDebut >= :dateHeureDebut and d.dateHeureDebut <= :dateHeureFin" ;
-            $query= $entityManager->createQuery($dql)-> setParameter('dateHeureDebut',$dateHeureDebut) ->setParameter('dateHeureFin', $dateHeureFin);
+            $dql = "SELECT d FROM App\Entity\Date  d WHERE d.dateHeureDebut >= :dateHeureDebut and d.dateHeureDebut <= :dateHeureFin";
+            $query = $entityManager->createQuery($dql)->setParameter('dateHeureDebut', $dateHeureDebut)->setParameter('dateHeureFin', $dateHeureFin);
 
             return $query->getResult();
         }
@@ -183,6 +190,5 @@ class FilterRegistration extends ServiceEntityRepository{
         return $query;
 
     }
-
 
 }

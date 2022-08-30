@@ -4,7 +4,8 @@
 
 {% block body %}
     <p>
-        Si un compte correspondant à votre adresse e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour
+        Si un compte correspondant à votre adresse e-mail existe, un e-mail vient d'être envoyé contenant un lien que
+        vous pouvez utiliser pour
         réinitialisez votre mot de passe.
         Ce lien expirera
         dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.

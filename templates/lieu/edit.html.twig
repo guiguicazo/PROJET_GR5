@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Lieu{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="container"><h1
+                    style="padding-top: 2rem; padding-bottom: 5rem; color: #FFFFFF">{{ lieu.nom }}</h1>
+            <div class="row">
+                <div class="card text-center w-100 align-middle">
+                    <div class="card-body">
+                        <h1>Modifier Lieu</h1>
+
+                        {{ include('lieu/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
+
+                        <a href="{{ path('app_lieu_index') }}">Retour a la liste</a>
+
+                        {{ include('lieu/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
