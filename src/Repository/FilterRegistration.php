@@ -145,7 +145,6 @@ class FilterRegistration extends ServiceEntityRepository
         $idUser = $user->getId();
         $idCampus =$campusFlitre->getId();
 
-
         $em = $this->getEntityManager();
         $builderFilter = $em->getRepository('App\Entity\Date')->createQueryBuilder('d')
             ->Where('d.campus = :monCampus')
@@ -164,7 +163,8 @@ class FilterRegistration extends ServiceEntityRepository
                     ->andWhere('p.id = :iduser')
                     ->setParameter('iduser', $idUser);
             }
-        $builderFilter
+
+            $builderFilter
             ->andWhere('d.dateHeureDebut >= :dateHeureDebut')
             ->setParameter('dateHeureDebut',$dateStartRecup)
             ->andWhere('d.dateHeureDebut <= :dateHeureFin')
@@ -175,13 +175,11 @@ class FilterRegistration extends ServiceEntityRepository
                     ->andWhere('d.organisateur = : iduser')
                     ->setParameter('iduser',$idUser);
              }
-
             if ($sortiePassee=='1'){
                 $builderFilter
                     ->andWhere('datediff(d.dateLimiteInscritpion,current_date)>0');
 
             }
-
 
 
         $query = $builderFilter->getQuery()->getResult();
