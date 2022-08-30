@@ -53,6 +53,7 @@
                             <p class="text-success">inscrit</p>
                             <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
                             <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                            <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
                         </div>
                 {% endfor %}
             </div>
