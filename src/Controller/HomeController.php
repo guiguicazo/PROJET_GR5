@@ -174,13 +174,16 @@ class HomeController extends AbstractController
             $sortieNonInscrit = $recapForm->get('SortieNonInscrit')->getData();
             $sortiePassee = $recapForm->get('SortiePassees')->getData();
             $sortieOrganisateur = $recapForm->get('SortieOrganisateur')->getData();
-            $dateStartRecup= $request->get('dateStart');
-            $dateFinRecup= $request->get('dateFin');
+            $dateStartRecupString= $request->get('dateStart');
+            $dateFinRecupString= $request->get('dateFin');
+            $dateStartRecup = new \DateTime($dateStartRecupString);
+            $dateFinRecup = new DateTime($dateFinRecupString) ;
             $campusFlitre= $recapForm->get('campus')->getData();
 
             return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
                 'listeSortie'=>$filterRegistration
-                    ->globalFilter( $user,$search,$sortieNonInscrit,$sortieInscrit,$sortieOrganisateur,$sortiePassee,$campusFlitre,$dateStartRecup,$dateFinRecup)
+                    ->globalFilter( $user,$search,$sortieNonInscrit,$sortieInscrit,$sortieOrganisateur,$sortiePassee,$campusFlitre,$dateStartRecup,$dateFinRecup),
+                'dateStart'=>$dateStartRecup,'dateFin'=>$dateFinRecup
 
             ]);
 
