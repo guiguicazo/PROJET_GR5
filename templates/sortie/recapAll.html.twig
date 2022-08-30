@@ -45,7 +45,7 @@
             <div class="row justify-content-between" style="padding-top:1rem ">
                 {% for liste in listeSortie %}
 
-                    <div class="card col-sm-3" style="padding: 2rem">
+                    <div class="card col-sm-4" style="padding: 2rem">
                         <div class="card-body">
                             <p>{{ liste.nom }}</p>
                             <p>{{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>

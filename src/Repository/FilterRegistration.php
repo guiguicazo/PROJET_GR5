@@ -30,53 +30,53 @@ class FilterRegistration extends ServiceEntityRepository
 
     /***************************************************************************/
     //filtre qui recherche dans la basse le nom de la sortie
-    public function NameDateFilter(string $text)
-    {
-        $entityManager = $this->getEntityManager();
-
-        $dql = "SELECT a FROM App\Entity\Date a
-               WHERE a.nom LIKE :text";
-        $query = $entityManager->createQuery($dql)->setParameter('text', '%' . $text . '%');
-        return $query->getResult();
-    }
+    //public function NameDateFilter(string $text)
+    //{
+    //    $entityManager = $this->getEntityManager();
+//
+    //    $dql = "SELECT a FROM App\Entity\Date a
+    //           WHERE a.nom LIKE :text";
+    //    $query = $entityManager->createQuery($dql)->setParameter('text', '%' . $text . '%');
+    //    return $query->getResult();
+    //}
     /***************************************************************************/
 
 
     //filtre qui recherche les sortie en cours et ouverte
     public function DateFilterOpen()
     {
-        $entityManager = $this->getEntityManager();
+        $em = $this->getEntityManager();
 
-        $dql = "SELECT a FROM App\Entity\Date a
-               WHERE a.etatSortie = 2 or a.etatSortie = 4";
+        $listesortie = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
+            ->where('a.etatSortie = 2 or a.etatSortie = 4');
 
-        $query = $entityManager->createQuery($dql);
+        $query = $listesortie->getQuery()->getResult();
         return $query->getResult();
     }
 
     //filtre qui recherche si je suis l' organisateur de la sortie
-    public function DateFilterOrga(Integer $id)
-    {
-        $entityManager = $this->getEntityManager();
-
-        $dql = "SELECT a FROM App\Entity\Date a
-               WHERE a.organisateur = id";
-
-        $query = $entityManager->createQuery($dql)->setParameter('id', $id);
-        return $query->getResult();
-
-    }
+    //public function DateFilterOrga(Integer $id)
+    //{
+    //    $entityManager = $this->getEntityManager();
+//
+    //    $dql = "SELECT a FROM App\Entity\Date a
+    //           WHERE a.organisateur = id";
+//
+    //    $query = $entityManager->createQuery($dql)->setParameter('id', $id);
+    //    return $query->getResult();
+//
+    //}
 
 
     //filtre qui recherche si la sortie est passer
-    public function DateFilterlast()
-    {
-        $entityManager = $this->getEntityManager();
-        $dql = "SELECT a FROM App\Entity\Date a
-               WHERE datediff(a.dateLimiteInscritpion,current_date)>0 ";
-        $query = $entityManager->createQuery($dql);
-        return $query->getResult();
-    }
+    //public function DateFilterlast()
+    //{
+    //    $entityManager = $this->getEntityManager();
+    //    $dql = "SELECT a FROM App\Entity\Date a
+    //           WHERE datediff(a.dateLimiteInscritpion,current_date)>0 ";
+    //    $query = $entityManager->createQuery($dql);
+    //    return $query->getResult();
+    //}
 
     //filtre qui recherche si je suis inscrit à la sortie
     public function sortieInscrit(User $user)
