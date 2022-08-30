@@ -77,6 +77,7 @@ class HomeController extends AbstractController
             elseif ($request->get("button")=="publier"){
                 $sortie->setEtat(2);
                 $sortie->setEtatSortie($etatRepository->find(2));
+                return $this->redirectToRoute("app_home");
             }
             //si action sur boutton annuler
             elseif ($request->get("button")=="annuler"){
@@ -97,11 +98,12 @@ class HomeController extends AbstractController
               $id_campus = $request->get('campus');
               $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
               $sortie->setCampus($campus);
+              $sortie->setNbInscrit(1);
 
               //recuperation de utilisateur et inserstion dans sortie
               $user = $userRepository->findOneBy(['id'=>$idUser]);
               $sortie->setOrganisateur($user);
-
+              $sortie->addParticipant($user);
               $entityManager->persist($sortie);
               $entityManager->flush();
             /************************************************************************************************************************/
@@ -110,7 +112,7 @@ class HomeController extends AbstractController
 
             /************************************************************************************************************************/
         // Redirection sur home
-        return $this->redirectToRoute("app_home");
+        return $this->redirectToRoute("app_recapAll");
         }
 
         return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
@@ -159,25 +161,54 @@ class HomeController extends AbstractController
         $dateFinRecup->modify('+1 day');
 
 
+        // récupere les données du formulaires
+        $user=$this->getUser();
+        if (!is_null($request->get('search'))){
+            $search = $recapForm->get('search')->getData();
+        }else {
+            $search = -1;
+        }
+        $sortieInscrit = $recapForm->get('Sortieinscrit')->getData();
+        $sortieNonInscrit = $recapForm->get('SortieNonInscrit')->getData();
+        $sortiePassee = $recapForm->get('SortiePassees')->getData();
+        $sortieOrganisateur = $recapForm->get('SortieOrganisateur')->getData();
+        $dateStartRecup= $recapForm->get('dateStart')->getData();
+        $dateFinRecup= $recapForm->get('dateFin')->getData();
+        $campusFlitre= $recapForm->get('campus')->getData();
+
+
+
+        //appel de la fonction filtre global
+
+        if ($recapForm->isSubmitted() && $recapForm->isValid()){
+
+            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+                'listeSortie'=>$filterRegistration
+                    ->globalFilter( $user,$search,$sortieNonInscrit,$sortieInscrit,$sortieOrganisateur,$sortiePassee,$campusFlitre,$dateStartRecup,$dateFinRecup)
+
+            ]);
+
+        }
+
 
 
         //appel de la fonction search
-        if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
-            $request->get('search');
-            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
-
-                ]);
-        }
+        //if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
+        //    $request->get('search');
+        //    return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+        //        'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
+//
+        //        ]);
+        //}
 
         // apple de la fonction affiche la date qui est passer
-        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            if ( $request->get('SortiePassees')){
-                return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                    'listeSortie'=>$filterRegistration-> DateFilterlast()
-                ]);
-            }
-        }
+        //if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+        //    if ( $request->get('SortiePassees')){
+        //        return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+        //            'listeSortie'=>$filterRegistration-> DateFilterlast()
+        //        ]);
+        //    }
+        //}
 //        //apple de la fonction qui affiche suivant le campus
 //        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
 //            //recupére la valuer du formulaire qui c'est afficher
@@ -188,26 +219,26 @@ class HomeController extends AbstractController
 //        }
 
         // appel de la fonction qui renvoi les sorties ou je suis inscrit
-        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            if ($recapForm->get('Sortieinscrit')->getData()) {
-                $user = $this->getUser();
-                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-                    'listeSortie' => $filterRegistration->sortieInscrit($user)
-
-                ]);
-            }
-        }
+        //if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+        //    if ($recapForm->get('Sortieinscrit')->getData()) {
+        //        $user = $this->getUser();
+        //        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+        //            'listeSortie' => $filterRegistration->sortieInscrit($user)
+//
+        //        ]);
+        //    }
+        //}
 
         // appel de la fonction qui renvoi les sorties ou je ne suis pas inscrit
-        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-            if ($recapForm->get('SortieNonInscrit')->getData()) {
-                $user = $this->getUser();
-                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-                    'listeSortie' => $filterRegistration->sortieNonInscrit($user)
-
-                ]);
-            }
-        }
+        //if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+        //    if ($recapForm->get('SortieNonInscrit')->getData()) {
+        //        $user = $this->getUser();
+        //        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+        //            'listeSortie' => $filterRegistration->sortieNonInscrit($user)
+//
+        //        ]);
+        //    }
+        //}
 
         //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
@@ -226,11 +257,42 @@ class HomeController extends AbstractController
             'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
         ] );
     }
-    #[Route('/annulerSortie/{id_sortie}', name: 'app_annuler_show', methods: ['GET'])]
-    public function show($id_sortie): Response
+    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
+    public function annuler($id_sortie): Response
     {
         return $this->render('sortie/annulerSortie.html.twig', [
             'search' => $id_sortie,
+        ]);
+    }
+
+    #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
+    public function inscrire($id_sortie,DateRepository $dateRepository): Response
+    {
+        $sortie = $dateRepository->find($id_sortie);
+        $user = $this->getUser();
+        $sortie->setNbInscrit(1);
+        $sortie->addParticipant($user);
+                return $this->redirectToRoute('app_recapAll');
+    }
+
+
+
+    #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, LieuRepository $lieuRepository): Response
+    {
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $lieuRepository->add($lieu, true);
+
+            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('lieu/new.html.twig', [
+            'lieu' => $lieu,
+            'form' => $form,
         ]);
     }
 
