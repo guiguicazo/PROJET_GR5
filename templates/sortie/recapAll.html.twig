@@ -42,11 +42,9 @@
             </div>
         </div>
         <div class="container">
-            <div class="row justify-content-around" style="padding-top:1rem ">
+            <div class="row justify-content-around" style="padding-top:1REM ">
                 {% for liste in listeSortie %}
-
-                    <div class="card col-sm-3">
-                        <div class="card-body">
+                        <div class="card col-3" style="margin: 1rem">
                             <p>Sortie : {{ liste.nom }}</p>
                             <p>Date de Début : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                             <p>Date Limite Inscription : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
@@ -54,7 +52,6 @@
                             <p class="text-success">inscrit</p>
                             <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
                         </div>
-                    </div>
                 {% endfor %}
             </div>
         </div>
