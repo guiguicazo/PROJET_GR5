@@ -46,27 +46,10 @@
                                 </div>
                             </div>
                             {{ form_end(RecapSortie) }}
-                            <div>
-                                <a>Tableau des resultat:</a>
-
-                                {% for liste in listeSortie %}
-                                    <p>{{ liste.nom }}</p>
-                                    <p>{{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                                    <p>{{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                                    <p>{{ liste.nbInscritpionsMax }}</p>
-                                    <p>{{ liste.etat }}</p>
-                                    <p style= 'color:green'>inscrit</p>
-                                    <p style= 'color:red' >{{ liste.organisateur.nom }}</p>
-
-                                {% endfor %}
-                            </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
             </div>
