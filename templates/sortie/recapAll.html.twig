@@ -10,6 +10,7 @@
                 <div class="card-body">
                     <div>
                         <h2>Filter les sorties </h2>
+
                         <div>
                             <div>
 
@@ -44,29 +45,32 @@
                                     <a>Sorties passées : {{ form_widget(RecapSortie.SortiePassees) }}</a> <br>
                                 </div>
                             </div>
+
+
                             {{ form_end(RecapSortie) }}
                             <div>
                                 <a>Tableau des resultat:</a>
+
+                                {% for liste in listeSortie %}
+                                    <p>{{ liste.nom }}</p>
+                                    <p>{{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                    <p>{{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                    <p>{{ liste.nbInscritpionsMax }}</p>
+                                    <p>{{ liste.etat }}</p>
+                                    <p style= 'color:green'>inscrit</p>
+                                    <p style= 'color:red' >{{ liste.organisateur.nom }}</p>
+
+                                {% endfor %}
                             </div>
+
+
                         </div>
+
+
                     </div>
+
+
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row justify-content-around" style="padding-top:1REM ">
-                {% for liste in listeSortie %}
-                        <div class="card col-3" style="margin: 1rem">
-                            <p>Sortie : <strong>{{ liste.nom }}</strong></p>
-                            <p>Date de Début : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Date Limite Inscription : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Nombre d'inscrit : {{ liste.nbInscrit }}</p>
-                            <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
-                            <p class="text-success">inscrit</p>
-                            <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
-                            <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
-                        </div>
-                {% endfor %}
             </div>
         </div>
     </div>

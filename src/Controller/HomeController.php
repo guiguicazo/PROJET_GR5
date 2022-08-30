@@ -13,6 +13,7 @@ use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
@@ -28,7 +29,10 @@ use App\Entity\User; //import l'entité User
 
 
 
-use App\Form\CreerUneSortieType; //importation du formulaire CreeUneSortie
+use App\Form\CreerUneSortieType;
+
+
+//importation du formulaire CreeUneSortie
 
 
 class HomeController extends AbstractController
@@ -150,6 +154,10 @@ class HomeController extends AbstractController
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
 
+        $dateStartRecup = new DateTime();
+        $dateFinRecup = new DateTime();
+        $dateFinRecup->modify('+1 day');
+
 
 
 
@@ -204,16 +212,18 @@ class HomeController extends AbstractController
         //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             //recupére la valuer du formulaire qui c'est afficher dateStart
-            $dateStartRecup= $recapForm->get('dateStart')->getData();
+            $dateStartRecupString= $request->get('dateStart');
             //recupére la valuer du formulaire qui c'est afficher datefin
-            $dateFinRecup= $recapForm->get('dateFin')->getData();
+            $dateFinRecupString= $request->get('dateFin');
 
+            $dateStartRecup = new \DateTime($dateStartRecupString);
+            $dateFinRecup = new DateTime($dateStartRecupString) ;
         return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
                 'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
 
         }
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
-            'listeSortie'=>$filterRegistration->DateFilterOpen()
+            'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
         ] );
     }
     #[Route('/annulerSortie/{id_sortie}', name: 'app_annuler_show', methods: ['GET'])]
