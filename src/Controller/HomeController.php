@@ -35,9 +35,11 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+
+        return $this->redirectToRoute('app_recapAll');
+        //return $this->render('home/index.html.twig', [
+        //    'controller_name' => 'HomeController',
+        //]);
     }
 
 
@@ -61,6 +63,7 @@ class HomeController extends AbstractController
         $sortie = new Date();
         $sortie->setIdSortie($idUser);
 
+
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
                 $sortie->setEtat(1);
@@ -70,6 +73,7 @@ class HomeController extends AbstractController
             elseif ($request->get("button")=="publier"){
                 $sortie->setEtat(2);
                 $sortie->setEtatSortie($etatRepository->find(2));
+                return $this->redirectToRoute("app_home");
             }
             //si action sur boutton annuler
             elseif ($request->get("button")=="annuler"){
@@ -94,7 +98,7 @@ class HomeController extends AbstractController
               //recuperation de utilisateur et inserstion dans sortie
               $user = $userRepository->findOneBy(['id'=>$idUser]);
               $sortie->setOrganisateur($user);
-
+              $sortie->addParticipant($user);
               $entityManager->persist($sortie);
               $entityManager->flush();
             /************************************************************************************************************************/
@@ -103,7 +107,7 @@ class HomeController extends AbstractController
 
             /************************************************************************************************************************/
         // Redirection sur home
-        return $this->redirectToRoute("app_home");
+        return $this->redirectToRoute("app_recapAll");
         }
 
         return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
