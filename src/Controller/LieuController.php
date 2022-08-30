@@ -3,20 +3,35 @@
 namespace App\Controller;
 
 use App\Entity\Lieu;
+use App\Form\FilterLieuType;
 use App\Form\LieuType;
+use App\Repository\FilterLieuRepository;
 use App\Repository\LieuRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+#[IsGranted("ROLE_ADMIN")]
 #[Route('/lieu')]
 class LieuController extends AbstractController
 {
     #[Route('/', name: 'app_lieu_index', methods: ['GET'])]
-    public function index(LieuRepository $lieuRepository): Response
+    public function index(FilterLieuRepository $filterLieuRepository,LieuRepository $lieuRepository , Request $request): Response
     {
-        return $this->render('lieu/index.html.twig', [
+        $form = $this->createForm(FilterLieuType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recherche = $request->get('nom');
+            //dd($form->get('nom')->getData());
+            //dd($filterCampusRepository->CampusFilter($form->get('nom')->getData()));
+
+            return $this->render( 'lieu/index.html.twig',["FilterLieuType"=> $form->createview(),
+                'lieus' => $filterLieuRepository->LieuFilter($form->get('nom')->getData()),
+            ]);
+        }
+        return $this->render('lieu/index.html.twig',["FilterLieuType"=> $form->createview(),
             'lieus' => $lieuRepository->findAll(),
         ]);
     }
