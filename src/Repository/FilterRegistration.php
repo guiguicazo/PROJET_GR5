@@ -6,9 +6,11 @@ use App\Entity\Date;
 use App\Entity\Campus;
 use App\Entity\User;
 
+use App\Form\RegistrationFormDateType;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Integer;
 
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -129,6 +131,58 @@ class FilterRegistration extends ServiceEntityRepository{
 
     }
 
+    // filtre global qui lance la requete en fonction des différents filtres activés
+
+    public function globalFilter(User $user,string $search,String $sortieNonInscrit,String $sortieInscrit,String $sortieOrganisateur,String $sortiePassee,Campus $campusFlitre,DateTime $dateStartRecup,DateTime $dateFinRecup)
+    {
+        $idUser = $user->getId();
+        $idCampus =$campusFlitre->getId();
+
+
+        $em = $this->getEntityManager();
+        $builderFilter = $em->getRepository('App\Entity\Date')->createQueryBuilder('d')
+            ->Where('d.campus = :monCampus')
+            ->setParameter('monCampus',$idCampus)
+            ->leftJoin('d.participants','p')
+            ->addSelect('p');
+
+            if ($sortieNonInscrit=='1')
+            {
+                $builderFilter
+                    ->andwhere('p.id != :iduser')
+                    ->setParameter('iduser',$idUser);
+            }
+            if ($sortieInscrit=="1") {
+                $builderFilter
+                    ->andWhere('p.id = :iduser')
+                    ->setParameter('iduser', $idUser);
+            }
+        $builderFilter
+            ->andWhere('d.dateHeureDebut >= :dateHeureDebut')
+            ->setParameter('dateHeureDebut',$dateStartRecup)
+            ->andWhere('d.dateHeureDebut <= :dateHeureFin')
+            ->setParameter('dateHeureFin',$dateFinRecup);
+
+            if ($sortieOrganisateur=='1'){
+                $builderFilter
+                    ->andWhere('d.organisateur = : iduser')
+                    ->setParameter('iduser',$idUser);
+             }
+
+            if ($sortiePassee=='1'){
+                $builderFilter
+                    ->andWhere('datediff(d.dateLimiteInscritpion,current_date)>0');
+
+            }
+
+
+
+        $query = $builderFilter->getQuery()->getResult();
+
+
+        return $query;
+
+    }
 
 
 }
