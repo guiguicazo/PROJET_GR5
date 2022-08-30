@@ -246,7 +246,7 @@ class HomeController extends AbstractController
             'listeSortie'=>$filterRegistration->DateFilterOpen()
         ] );
     }
-    #[Route('/annulerSortie/{id_sortie}', name: 'app_annuler_show', methods: ['GET'])]
+    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
     public function show($id_sortie): Response
     {
         return $this->render('sortie/annulerSortie.html.twig', [
