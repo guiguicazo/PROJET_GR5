@@ -270,14 +270,12 @@ class HomeController extends AbstractController
     }
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
-    public function inscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
+    public function inscrire($id_sortie,DateRepository $dateRepository): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
-        $sortie->setNbInscrit(1);
-        $sortie->addParticipant($user);
-        $entityManager->persist($sortie);
-        $entityManager->flush();
+        $dateRepository->inscrireSortie($sortie,$user);
+
                 return $this->redirectToRoute('app_recapAll');
     }
 
