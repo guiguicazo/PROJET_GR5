@@ -48,10 +48,10 @@ class FilterRegistration extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $listesortie = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->where('a.etatSortie = 2 or a.etatSortie = 4');
+            ->where('d.etatSortie = 2 or d.etatSortie = 4');
 
         $query = $listesortie->getQuery()->getResult();
-        return $query->getResult();
+        return $query;
     }
 
     //filtre qui recherche si je suis l' organisateur de la sortie
