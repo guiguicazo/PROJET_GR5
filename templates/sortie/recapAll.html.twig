@@ -50,6 +50,7 @@
                             <p>Sortie : {{ liste.nom }}</p>
                             <p>Date de Début : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                             <p>Date Limite Inscription : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                            <p>Nombre d'inscrit : {{ liste.nbInscrit }}</p>
                             <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
                             <p class="text-success">inscrit</p>
                             <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>

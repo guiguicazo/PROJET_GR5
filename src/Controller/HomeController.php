@@ -96,6 +96,7 @@ class HomeController extends AbstractController
               $id_campus = $request->get('campus');
               $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
               $sortie->setCampus($campus);
+              $sortie->setNbInscrit(1);
 
               //recuperation de utilisateur et inserstion dans sortie
               $user = $userRepository->findOneBy(['id'=>$idUser]);
@@ -153,6 +154,8 @@ class HomeController extends AbstractController
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
 
+
+        // récupere les données du formulaires
         $user=$this->getUser();
         if (!is_null($request->get('search'))){
             $search = $recapForm->get('search')->getData();
@@ -242,6 +245,8 @@ class HomeController extends AbstractController
                 'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
 
         }
+
+
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen()
         ] );
