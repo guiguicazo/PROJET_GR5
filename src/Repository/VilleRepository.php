@@ -14,7 +14,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Ville[]    findAll()
  * @method Ville[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-
 //repo pour les villes
 class VilleRepository extends ServiceEntityRepository
 {

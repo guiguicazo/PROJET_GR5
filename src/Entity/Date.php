@@ -35,6 +35,9 @@ class Date
     #[ORM\Column]
     private ?int $nbInscritpionsMax = null;
 
+    #[ORM\Column]
+    private ?int $nbInscrit = null;
+
     #[ORM\Column(length: 255)]
     private ?string $infosSortie = null;
 
@@ -43,7 +46,6 @@ class Date
 
     #[ORM\ManyToOne]
     private ?Etat $etatSortie = null;
-
 
     #[ORM\ManyToOne]
     private ?User $organisateur = null;
@@ -248,6 +250,18 @@ class Date
     public function setMotif(?string $motif): self
     {
         $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getNbInscrit(): ?int
+    {
+        return $this->nbInscrit;
+    }
+
+    public function setNbInscrit(?int $nb): self
+    {
+        $this->nbInscrit = $this->nbInscrit + $nb;
 
         return $this;
     }

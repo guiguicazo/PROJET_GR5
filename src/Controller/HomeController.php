@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
+use App\Form\LieuType;
 use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
@@ -11,7 +13,6 @@ use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use App\Repository\LieuRepository;
-use ContainerQuUlvr1\getMaker_AutoCommand_MakeUserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
@@ -35,9 +36,11 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+
+        return $this->redirectToRoute('app_recapAll');
+        //return $this->render('home/index.html.twig', [
+        //    'controller_name' => 'HomeController',
+        //]);
     }
 
 
@@ -136,102 +139,88 @@ class HomeController extends AbstractController
     }
 
 
-    /***************************************************************************************************************/
+
     /**
      * recpate de toutes les sorties
      */
     #[Route('/recapAll', name: 'app_recapAll')]
     public function recapAll(Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
     {
-
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
 
-        $dateStartRecup =new \Datetime;
-        $dateFinRecup=new \DateTime();
-        $dateFinRecup =  $dateFinRecup->modify( '+1 day' )->format('Y-m-d T H:m');
 
 
 
-//            //appel de la fonction search
-//            if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
-//                $request->get('search');
-//                return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-//                    'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
-//
-//                    ]);
-//            }
+        //appel de la fonction search
+        if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
+            $request->get('search');
+            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+                'listeSortie'=>$filterRegistration->NameDateFilter( $recapForm->get('search')->getData())
 
-//            // apple de la fonction affiche la date qui est passer
-//            if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-//                if ( $request->get('SortiePassees')){
-//                    return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-//                        'listeSortie'=>$filterRegistration-> DateFilterlast()
-//                    ]);
-//                }
-//            }
-        /*******************************************************************************************************************************/
-//            //apple de la fonction qui affiche suivant le campus
-//            if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-//                //recupére la valuer du formulaire qui c'est afficher
-//                $campusFlitre= $recapForm->get('campus')->getData();
-//                return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-//                    'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
-//                ]);
-//            }
-//            // appel de la fonction qui renvoi les sorties ou je suis inscrit
-//            if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-//                if ($recapForm->get('Sortieinscrit')->getData()) {
-//                    $user = $this->getUser();
-//                    return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-//                        'listeSortie' => $filterRegistration->sortieInscrit($user)
-//
-//                    ]);
-//                }
-//            }
-//            // appel de la fonction qui renvoi les sorties ou je ne suis pas inscrit
-//            if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-//                if ($recapForm->get('SortieNonInscrit')->getData()) {
-//                    $user = $this->getUser();
-//                    return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-//                        'listeSortie' => $filterRegistration->sortieNonInscrit($user)
-//
-//                    ]);
-//                }
-//            }
+                ]);
+        }
 
-            //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
-            if ($recapForm->isSubmitted() && $recapForm->isValid()) {
-
-
-                //recupére la valuer qui c'est afficher dateStart attention c'est un string qui l'on recupére
-                $dateStartRecupstring= $request->get('dateStart');
-                $dateStartRecup = new \DateTime( $dateStartRecupstring);
-                //recupére la valuer du formulaire qui c'est afficher datefin attention c'est un string qui l'on recupére
-                $dateFinRecupstring= $request->get('dateFin');
-                $dateFinRecup = new \DateTime( $dateFinRecupstring);
-
-            return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-                    'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup),'dateStart' => $dateStartRecup,'dateFin'=>$dateFinRecup,]);
-
+        // apple de la fonction affiche la date qui est passer
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            if ( $request->get('SortiePassees')){
+                return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+                    'listeSortie'=>$filterRegistration-> DateFilterlast()
+                ]);
             }
+        }
+//        //apple de la fonction qui affiche suivant le campus
+//        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+//            //recupére la valuer du formulaire qui c'est afficher
+//            $campusFlitre= $recapForm->get('campus')->getData();
+//            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
+//                'listeSortie'=>$filterRegistration-> DateCampus($campusFlitre)
+//            ]);
+//        }
 
+        // appel de la fonction qui renvoi les sorties ou je suis inscrit
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            if ($recapForm->get('Sortieinscrit')->getData()) {
+                $user = $this->getUser();
+                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                    'listeSortie' => $filterRegistration->sortieInscrit($user)
+
+                ]);
+            }
+        }
+
+        // appel de la fonction qui renvoi les sorties ou je ne suis pas inscrit
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            if ($recapForm->get('SortieNonInscrit')->getData()) {
+                $user = $this->getUser();
+                return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                    'listeSortie' => $filterRegistration->sortieNonInscrit($user)
+
+                ]);
+            }
+        }
+
+        //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
+            //recupére la valuer du formulaire qui c'est afficher dateStart
+            $dateStartRecup= $recapForm->get('dateStart')->getData();
+            //recupére la valuer du formulaire qui c'est afficher datefin
+            $dateFinRecup= $recapForm->get('dateFin')->getData();
+
+        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
+
+        }
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
-            'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart' => $dateStartRecup,'dateFin'=>$dateFinRecup,
-
+            'listeSortie'=>$filterRegistration->DateFilterOpen()
         ] );
     }
-
-
-    /************************************************************************************************************/
-
-
     #[Route('/annulerSortie/{id_sortie}', name: 'app_annuler_show', methods: ['GET'])]
     public function show($id_sortie): Response
     {
         return $this->render('sortie/annulerSortie.html.twig', [
-            'search' => $id_sortie
+            'search' => $id_sortie,
         ]);
     }
 

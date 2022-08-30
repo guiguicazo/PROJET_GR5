@@ -7,7 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 
-class FilterRepository extends ServiceEntityRepository{
+class FilterRepository extends ServiceEntityRepository
+{
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -15,11 +16,12 @@ class FilterRepository extends ServiceEntityRepository{
     }
 
     // fonction pour filtrer les users
-    public function UserFilter(string $text){
+    public function UserFilter(string $text)
+    {
         $entityManager = $this->getEntityManager();
         $dql = "SELECT u FROM App\Entity\User u 
         WHERE u.username LIKE '% :$text %'";
-        $query= $entityManager->createQuery($dql);
+        $query = $entityManager->createQuery($dql);
         return $query->getResult();
     }
 }

@@ -25,6 +25,8 @@
                                 <a>  {{ userSortie.campus }}</a>
                                 <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
                                 <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
+                                <button><a class="nav-link text-primary" href="{{ path('app_lieu_new') }}">Creer
+                                        Lieu</a></button>
 
 
                                 <a> Rue :</a>
