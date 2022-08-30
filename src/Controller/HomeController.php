@@ -172,8 +172,8 @@ class HomeController extends AbstractController
         $sortieNonInscrit = $recapForm->get('SortieNonInscrit')->getData();
         $sortiePassee = $recapForm->get('SortiePassees')->getData();
         $sortieOrganisateur = $recapForm->get('SortieOrganisateur')->getData();
-        $dateStartRecup= $recapForm->get('dateStart')->getData();
-        $dateFinRecup= $recapForm->get('dateFin')->getData();
+        $dateStartRecup= $request->get('dateStart');
+        $dateFinRecup= $request->get('dateFin');
         $campusFlitre= $recapForm->get('campus')->getData();
 
 
