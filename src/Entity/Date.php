@@ -26,6 +26,7 @@ class Date
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThan(propertyPath :"dateLimiteInscritpion",message: "La date de début doit être supérieure à la date de limite d'inscription")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
@@ -33,14 +34,13 @@ class Date
 
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\GreaterThan(propertyPath :"dateHeureDebut")]
     private ?\DateTimeInterface $dateLimiteInscritpion = null;
 
     #[ORM\Column]
     private ?int $nbInscritpionsMax = null;
 
     #[ORM\Column]
-    private ?int $nbInscrit = null;
+    private ?int $nbInscrit = -1;
 
     #[ORM\Column(length: 255)]
     private ?string $infosSortie = null;

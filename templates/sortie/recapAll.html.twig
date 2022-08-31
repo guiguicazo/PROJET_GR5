@@ -76,7 +76,7 @@
                             <div class="card-body">
                                 <p>Date de la sortie : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                                 <p>Clotûre : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                                <p>Nombre d'inscrit: {{ liste.participants|length }}</p>
+                                <p>Nombre d'inscrit : {{ liste.participants|length -1 }}</p>
                                 <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
                                 {% if app.user in liste.participants %}
                                     <p class="text-success">Vous êtes inscrit</p>
@@ -85,10 +85,14 @@
                             </div>
                             <div class="card-body">
                                 <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
-                                {% if app.user in liste.participants %}
-                                    <a href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}">Se désinscrire</a>
-                                    {% elseif app.user not in liste.participants %}
-                                    <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                                {% if liste.etat != 1 or liste.etat != 6 %}
+                                    {% if liste.dateLimiteInscritpion > dateJour %}
+                                        {% if app.user in liste.participants %}
+                                        <a href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}">Se désinscrire</a>
+                                        {% elseif app.user not in liste.participants %}
+                                        <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                                        {% endif %}
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

@@ -156,8 +156,6 @@ class HomeController extends AbstractController
         $recapForm->handleRequest($request);
 
 
-
-
         //appel de la fonction filtre global
 
         if ($recapForm->isSubmitted() && $recapForm->isValid()){
@@ -182,7 +180,7 @@ class HomeController extends AbstractController
             return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
                 'listeSortie'=>$filterRegistration
                     ->globalFilter( $user,$search,$sortieNonInscrit,$sortieInscrit,$sortieOrganisateur,$sortiePassee,$campusFlitre,$dateStartRecup,$dateFinRecup),
-                'dateStart'=>$dateStartRecup,'dateFin'=>$dateFinRecup
+                'dateStart'=>$dateStartRecup,'dateFin'=>$dateFinRecup,'dateJour'=> $dateJour = new DateTime()
 
             ]);
 
@@ -248,7 +246,8 @@ class HomeController extends AbstractController
             $dateStartRecup = new \DateTime($dateStartRecupString);
             $dateFinRecup = new DateTime($dateStartRecupString) ;
         return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
-                'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
+                'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup),
+            'dateJour'=> $dateJour = new DateTime()]);
 
         }
 
@@ -258,6 +257,7 @@ class HomeController extends AbstractController
 
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
+            'dateJour'=> $dateJour = new DateTime()
         ] );
     }
     #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
