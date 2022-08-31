@@ -9,7 +9,7 @@
             <div class="card-body">
     <h1> {{ sortie.nom }} </h1>
     <div class="d-flex justify-content-center">
-        <div class="p-3" style="background-color: #dec3c3">
+        <div>
             <a>Nom de la Sortie : {{ sortie.nom }}</a> <br>
             <a>Date et Heure de la sortie
                 : {{ sortie.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
@@ -19,7 +19,7 @@
             <a>Durée : {{ sortie.duree }} minutes</a> <br>
             <a>Description et infos : {{ sortie.infosSortie }}</a> <br>
         </div>
-        <div class="p-3" style="background-color:  #c1c1c6">
+        <div>
             <a>Campus : {{ sortie.campus }}</a> <br>
             <a>Lieu: {{ sortie.lieu }}</a> <br>
             <a>Rue : {{ sortie.lieu.rue }}</a> <br>
