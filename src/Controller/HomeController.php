@@ -274,7 +274,6 @@ class HomeController extends AbstractController
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
-        $dateRepository->inscrireSortie($sortie,$user);
 
                 return $this->redirectToRoute('app_recapAll');
     }
