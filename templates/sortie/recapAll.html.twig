@@ -64,7 +64,7 @@
                             <div class="card-body">
                                 <p>Date de la sortie : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
                                 <p>Clotûre : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                                <p>Nombre d'inscrit': {{ liste.participants|length }}</p>
+                                <p>Nombre d'inscrit: {{ liste.participants|length }}</p>
                                 <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
                                 {% if app.user in liste.participants %}
                                     <p class="text-success">Vous êtes inscrit</p>

@@ -270,7 +270,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
-    public function inscrire($id_sortie,DateRepository $dateRepository): Response
+    public function inscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
@@ -282,32 +282,35 @@ class HomeController extends AbstractController
         }
         $sortie->setNbInscrit(1);
         $sortie->addParticipant($user);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
 
                 return $this->redirectToRoute('app_recapAll');
     }
 
     #[Route('/desinscrireSortie/{id_sortie}', name: 'app_sortie_desinscrire', methods: ['GET'])]
-    public function desinscrire($id_sortie,DateRepository $dateRepository): Response
+    public function desinscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
-        $participants = $sortie->getParticipants();
-        if ($user instanceof $participants)
+        if ($sortie->getParticipants()->contains($user))
         {
-            $this->addFlash("message_success", sprintf("Vous êtes déjà inscrit"));
+            $sortie->setNbInscrit(-1);
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             return $this->redirectToRoute('app_recapAll');
         }
-        $sortie->setNbInscrit(1);
-        $sortie->addParticipant($user);
 
-
+        $this->addFlash("message_success", sprintf("Vous ne participez pas à cet évènement"));
         return $this->redirectToRoute('app_recapAll');
     }
 
 
 
     #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, LieuRepository $lieuRepository): Response
+    public function new(Request $request, LieuRepository $lieuRepository,EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
