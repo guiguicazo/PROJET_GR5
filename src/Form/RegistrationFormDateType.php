@@ -31,13 +31,36 @@ class RegistrationFormDateType extends AbstractType
 
 
             ->add('SortieOrganisateur', CheckboxType::class,
-                ['required'=> false
+                ['label_attr' => [
+                    'class' => 'checkbox-inline',
+
+                ],
+
+                    'required'=> false
                 ])
             ->add('Sortieinscrit', CheckboxType::class,
-                ['required'=> false
+                ['label_attr' => [
+                    'class' => 'checkbox-inline',
+
+                ],
+
+                    'required'=> false
+
                 ])
-            ->add('SortieNonInscrit', CheckboxType::class,['required'=> false])
-            ->add('SortiePassees', CheckboxType::class,['required'=> false])
+            ->add('SortieNonInscrit', CheckboxType::class,[
+                'label_attr' => [
+                    'class' => 'checkbox-inline',
+
+                ],
+
+                'required'=> false])
+            ->add('SortiePassees', CheckboxType::class,[
+                'label_attr' => [
+                    'class' => 'checkbox-inline',
+
+                ],
+
+                'required'=> false])
 
 
             ->add('Rechercher', SubmitType::class); // Ajouter le bouton submit
