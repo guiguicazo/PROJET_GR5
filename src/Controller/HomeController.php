@@ -31,6 +31,7 @@ use App\Entity\User; //import l'entité User
 
 //import l'Entité Date
 
+
 //import l'entité User
 
 
@@ -276,7 +277,7 @@ class HomeController extends AbstractController
      */
     #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
     //affichage de des infornation de la sortie
-    public function annuler($id_sortie, DateRepository $dateRepository, Request $request, EtatRepository $etatRepository, CampusRepository $campusRepository, lieuRepository $lieuRepository): Response
+    public function modifierSortie($id_sortie, DateRepository $dateRepository, Request $request, EtatRepository $etatRepository, CampusRepository $campusRepository, lieuRepository $lieuRepository): Response
     {
 
         //Part : 01
