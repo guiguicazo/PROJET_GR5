@@ -59,7 +59,19 @@
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
                             <div class="card-header">
-                                <p>Nom de la sortie : <strong>{{ liste.nom }}</strong></p>
+                                <p>Nom de la sortie : <a href="{{ path('app_recap_sortie', {'id_sortie': liste.id}) }}"> <strong>{{ liste.nom }}</strong></a></p>
+                                {% if liste.etat == 1 %}
+                                    <p>Etat : <strong>Créée</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 2 %}
+                                    <p>Etat : <strong>Ouverte</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 3 %}
+                                    <p>Etat : <strong>En cours</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 6 %}
+                                    <p>Etat : <strong>Fermée</strong></p>
+                                {% endif %}
                             </div>
                             <div class="card-body">
                                 <p>Date de la sortie : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
@@ -69,7 +81,7 @@
                                 {% if app.user in liste.participants %}
                                     <p class="text-success">Vous êtes inscrit</p>
                                 {% endif %}
-                                <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
+                                <p class="text-primary">Organisateur :<a href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
                             </div>
                             <div class="card-body">
                                 <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>

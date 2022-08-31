@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Form\LieuType;
-use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
+use App\Form\RegistrationFormDateType;//importation du formulaire Registartion
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
 use App\Repository\EtatRepository;
@@ -140,17 +140,16 @@ class HomeController extends AbstractController
     #[Route('/RecapSortie/{id_sortie}', name: 'app_recap_sortie')]
     public function recapSortie($id_sortie, DateRepository $dateRepository ): Response
     {
-        return $this->render( 'sortie/recapSortie.html.twig',[ 'userDate'=>$dateRepository->find($id_sortie),
+        return $this->render( 'sortie/recapSortie.html.twig',[ 'sortie'=>$dateRepository->find($id_sortie),
            ] );
     }
-
 
 
     /**
      * recpate de toutes les sorties
      */
     #[Route('/recapAll', name: 'app_recapAll')]
-    public function recapAll(Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
+    public function recapAll(Request $request,FilterRegistration $filterRegistration): Response
     {
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
@@ -281,6 +280,16 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_recapAll');
         }
         $sortie->setNbInscrit(1);
+        if ($sortie->getNbInscrit()==$sortie->getNbInscritpionsMax())
+        {
+            $sortie->setEtat(6);
+            $sortie->addParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_recapAll');
+        }
         $sortie->addParticipant($user);
         $entityManager->persist($sortie);
         $entityManager->flush();
@@ -297,10 +306,18 @@ class HomeController extends AbstractController
         if ($sortie->getParticipants()->contains($user))
         {
             $sortie->setNbInscrit(-1);
+            if ($sortie->getNbInscrit()<$sortie->getNbInscritpionsMax()) {
+                $sortie->setEtat(2);
+                $sortie->removeParticipant($user);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_recapAll');
+            }
             $sortie->removeParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this->redirectToRoute('app_recapAll');
+
         }
 
         $this->addFlash("message_success", sprintf("Vous ne participez pas à cet évènement"));
@@ -310,7 +327,7 @@ class HomeController extends AbstractController
 
 
     #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, LieuRepository $lieuRepository,EntityManagerInterface $entityManager): Response
+    public function new(Request $request, LieuRepository $lieuRepository): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);

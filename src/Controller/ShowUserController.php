@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Wish;
 use App\Form\FilterType;
+use App\Form\ProfilUserType;
 use App\Form\UserType;
 use App\Repository\FilterRepository;
 use App\Repository\UserRepository;
@@ -24,12 +24,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 //Routre pour montrer le profil de l'utilisateur
-#[Route('/user', name: 'app_showUser_index')]
+//#[Route('/user/{id}', name: 'app_showUser_index')]
 class ShowUserController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_showuser_show', methods: ['GET'])]
-    public function show(User $user): Response
+    #[Route('/user/{id}', name: 'app_showuser_show', methods: ['GET'])]
+    public function show($id,UserRepository $userRepository,Request $request): Response
     {
+
+        $user = $userRepository->find($id);
+
+
         return $this->render('user/showUser.html.twig', [
             'user' => $user,
         ]);
