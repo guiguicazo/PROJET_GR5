@@ -3,7 +3,11 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <h1> Afficher une sortie </h1>
+<div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Détail Sortie</h1>
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
+    <h1> {{ sortie.nom }} </h1>
     <div class="d-flex justify-content-center">
         <div class="p-3" style="background-color: #dec3c3">
             <a>Nom de la Sortie : {{ sortie.nom }}</a> <br>
@@ -24,7 +28,7 @@
             <a>Longitude : {{ sortie.lieu.longitude }}</a> <br>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center card-footer">
         <a>Liste des participants inscrits:</a>
         <table>
             {% for participant in sortie.participants %}
@@ -35,6 +39,10 @@
         </table>
 
     </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
