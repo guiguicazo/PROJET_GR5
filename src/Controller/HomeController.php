@@ -161,7 +161,9 @@ class HomeController extends AbstractController
 
                 // récupere les données du formulaires
                 $user = $this->getUser();
-                if (!is_null($request->get('search'))) {
+
+
+                if (!is_null($recapForm->get('search')->getData())) {
                     $search = $recapForm->get('search')->getData();
                 } else {
                     $search = -1;

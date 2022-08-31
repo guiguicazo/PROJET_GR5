@@ -195,6 +195,11 @@ class FilterRegistration extends ServiceEntityRepository
                     ->andWhere('datediff(d.dateLimiteInscritpion,current_date)>0');
 
             }
+            if ($search!=-1){
+                $builderFilter
+                    ->andWhere('d.nom LIKE :text')
+                    ->setParameter('text','%'.$search.'%');
+            }
 
 
         $query = $builderFilter->getQuery()->getResult();

@@ -6,6 +6,9 @@ use App\Entity\Campus;
 use App\Entity\Date;
 use App\Entity\Lieu;
 use App\Entity\Ville;
+use Doctrine\DBAL\Types\TextType;
+use phpDocumentor\Reflection\Types\Integer;
+use SebastianBergmann\CodeCoverage\Report\Text;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +24,6 @@ class CreerUneSortieType extends AbstractType
         $builder
             ->add('nom')
             ->add('dateHeureDebut')
-            ->add('duree')
             ->add('dateLimiteInscritpion')
             ->add('nbInscritpionsMax')
             ->add('duree')
