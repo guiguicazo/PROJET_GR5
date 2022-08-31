@@ -30,7 +30,6 @@ use App\Entity\Date; //import l'Entité Date
 use App\Entity\User; //import l'entité User
 
 //import l'Entité Date
-use App\Entity\User;
 
 //import l'entité User
 
@@ -343,7 +342,7 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('app_recapAll');
 
 
-                return $this->redirectToRoute('app_recapAll');
+
     }
 
     #[Route('/desinscrireSortie/{id_sortie}', name: 'app_sortie_desinscrire', methods: ['GET'])]
@@ -409,6 +408,13 @@ class HomeController extends AbstractController
         return new JsonResponse($lieuApi);
     }
 
+    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
+    public function annuler($id_sortie): Response
+    {
+        return $this->render('sortie/annulerSortie.html.twig', [
+            'search' => $id_sortie,
+        ]);
+    }
 
 }
 
