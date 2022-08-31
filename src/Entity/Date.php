@@ -30,6 +30,7 @@ class Date
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(30)]
     private ?int $duree = null;
 
 
@@ -37,6 +38,7 @@ class Date
     private ?\DateTimeInterface $dateLimiteInscritpion = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(0)]
     private ?int $nbInscritpionsMax = null;
 
     #[ORM\Column]

@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier sortie{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="p-6">
+
+
+                            <form action="" method="get" class="form-example">
+                                <div class="p-3" style="background-color:  #ea7d7d">
+                                    <div class="form-modifSortie">
+                                        <label for="nameDate" >Nom de la Sortie : </label>
+                                        <input type="text" name="nameDate" id="nameDate" value="{{ modifierSortie.nom }}">
+                                    </div>
+                                    <div class="form-modifSortie">
+                                        <label for="timeStartDate" >Date et Heure de la sortie :</label>
+                                        <input type="datetime-local"  id="timeStartDate" value="{{ modifierSortie.dateHeureDebut |date('Y-m-d H:i', timezone="Europe/Paris") }}" name="timeStartDate">
+                                    </div>
+
+                                    <div class="form-modifSortie">
+                                        <label for="timeEndDate" >Date et Heure de la sortie :</label>
+                                        <input type="datetime-local"  id="timeEndDate" value="{{ modifierSortie.dateLimiteInscritpion|date('Y-m-d H:i', timezone="Europe/Paris") }}" name="timeEndDate">
+                                    </div>
+
+                                    <div class="form-modifSortie">
+                                        <label for="nbPlace" >Nombre de places : </label>
+                                        <input type="number"  id="nbPlace" value="{{ modifierSortie.nbInscritpionsMax }}" name="nbPlace">
+                                    </div>
+
+                                    <div class="form-modifSortie">
+                                        <label for="nbTime" >Durée : <input type="number"  id="nbTime"  value="{{ modifierSortie.duree }}" name="nbTime"> minutes</label>
+                                    </div>
+
+
+                                <div class="p-3" style="background-color:  #c1c1c6">
+                                    <a>Campus :   <select name="menuCampus" id="menuCampus">
+                                                        {% for c in  listecampus %}
+                                                            <option value="{{ c.nom }}">{{ c.nom }}</option>
+                                                        {% endfor %}
+                                                 </select>
+                                    </a> <br>
+                                    <a>Lieu :   <select name="menulieu" id="menulieu">
+                                            {% for l in  listelieu %}
+                                                <option value="{{ l.nom }}">{{ l.nom }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </a> <br>
+
+                                    <div class="form-modifSortie">
+                                        <label for="nomRue" >Rue : <input type="text"  id="nomRue"  name="nomRue" value="" ></label>
+                                    </div>
+
+
+
+
+                                    <script>
+
+
+                                        fetch('http://api.open-notify.org/iss-now.json')
+                                            .then(retour=>retour.json())
+                                            .then(position=> {
+                                                let longitudeIss = position.iss_position.longitude;
+                                                let latitudeIss = position.iss_position.latitude;
+                                                document.getElementById("latitude").innerText=latitudeIss;
+                                                document.getElementById("longitude").innerText=longitudeIss;
+
+                                        document.getElementById('nomRue').value='tutu';
+                                    </script>
+
+
+
+
+                                    <div class="form-modifSortie">
+                                        <label for="codePostal" >Code Postal : <input type="text"  id="codePostal"  name="codePostal" value="" ></label>
+                                    </div>
+                                    <div class="form-modifSortie">
+                                        <label for="latitude" >Latitude : <input type="text"  id="latitude"  name="latitude" value="" ></label>
+                                    </div>
+                                    <div class="form-modifSortie">
+                                        <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
+                                    </div>
+
+                                </div>
+
+                                </div>
+
+
+
+                                <a>Description et infos : <textarea name="NomSortie" id="NomSortie" cols="30" rows="1">{{ modifierSortie.infosSortie }}</textarea></a>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-12">
+                                        <button type="submit" name="button" value="enregistre" class="btn btn-outline-danger">
+                                            Enregistrer
+                                        </button>
+                                        <button type="submit" name="button" value="publier" class="btn btn-outline-success">Publier
+                                            la sortie
+                                        </button>
+                                        <button type="submit" name="button" value="supprimer" class="btn btn-outline-warning">Supprimer la sortie
+
+                                        </button>
+                                        <button type="submit" name="button" value="annuler" class="btn btn-outline-info">Annuler
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

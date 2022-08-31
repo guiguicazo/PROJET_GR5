@@ -17,8 +17,10 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +29,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Date; //import l'Entité Date
 use App\Entity\User; //import l'entité User
 
+//import l'Entité Date
+
+
+//import l'entité User
 
 
 use App\Form\CreerUneSortieType;
@@ -51,14 +57,14 @@ class HomeController extends AbstractController
 
 
     /**
-    * affichage du formulaire vide
+     * affichage du formulaire vide
      */
     #[Route('/CreerSortie/{idUser}', name: 'app_sortie')]
     public function CreerSortie($idUser,
                                 Request $request,
                                 EntityManagerInterface $entityManager,
-                                UserRepository $userRepository ,
-                                VilleRepository $villeRepository ,
+                                UserRepository $userRepository,
+                                VilleRepository $villeRepository,
                                 LieuRepository $lieuRepository,
                                 CampusRepository $campusRepository,
                                 EtatRepository $etatRepository): Response
@@ -145,6 +151,7 @@ class HomeController extends AbstractController
     }
 
 
+
     /**
      * recpate de toutes les sorties
      */
@@ -161,7 +168,9 @@ class HomeController extends AbstractController
 
                 // récupere les données du formulaires
                 $user = $this->getUser();
-                if (!is_null($request->get('search'))) {
+
+
+                if (!is_null($recapForm->get('search')->getData())) {
                     $search = $recapForm->get('search')->getData();
                 } else {
                     $search = -1;
@@ -259,16 +268,55 @@ class HomeController extends AbstractController
             'user'=> $user=-1
         ] );
     }
-    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
-    public function annuler($id_sortie): Response
+    /***********************************************************************************************************/
+    /***********************************************************************************************************/
+
+
+    /**
+     * recpate de la sorties et posibiliter de la modiffier
+     */
+    #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
+    //affichage de des infornation de la sortie
+    public function modifierSortie($id_sortie, DateRepository $dateRepository, Request $request, EtatRepository $etatRepository, CampusRepository $campusRepository, lieuRepository $lieuRepository): Response
     {
-        return $this->render('sortie/annulerSortie.html.twig', [
-            'search' => $id_sortie,
+
+        //Part : 01
+        //creation d'un date(sortie vide)
+        $sortie = new Date();
+        /************************************************************/
+        //recupere les information de la sortie
+
+        $sortie = $dateRepository->find($id_sortie);
+
+        //verifie la condition que mon boutton enregister est activer
+        if ($request->get("button") == "enregistre") {
+            $sortie->setEtat(1);
+            $sortie->setEtatSortie($etatRepository->find(1));
+        } //regarde la valeur du boutton et si la valuer est publier
+        elseif ($request->get("button") == "publier") {
+            $sortie->setEtat(2);
+            $sortie->setEtatSortie($etatRepository->find(2));
+            return $this->redirectToRoute("app_home");
+        } //regarde la valeur du boutton et si la valuer est supprimer
+        elseif ($request->get("button") == "supprimer") {
+            $sortie->setEtat(6);
+            $sortie->setEtatSortie($etatRepository->find(6));
+            return $this->redirectToRoute("app_home");
+        } //si action sur boutton annuler
+        elseif ($request->get("button") == "annuler") {
+            return $this->redirectToRoute("app_home");
+        }
+
+
+        return $this->render('sortie/modifierSortie.html.twig', ['modifierSortie' => $dateRepository->find($id_sortie),
+            'listecampus' => $campusRepository->findAll(), 'listelieu' => $lieuRepository->findall(),
         ]);
     }
+    /***********************************************************************************************************/
+    /***********************************************************************************************************/
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
-    public function inscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
+    public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
@@ -292,9 +340,10 @@ class HomeController extends AbstractController
         $sortie->addParticipant($user);
         $entityManager->persist($sortie);
         $entityManager->flush();
+        return $this->redirectToRoute('app_recapAll');
 
 
-                return $this->redirectToRoute('app_recapAll');
+
     }
 
     #[Route('/desinscrireSortie/{id_sortie}', name: 'app_sortie_desinscrire', methods: ['GET'])]
@@ -344,4 +393,29 @@ class HomeController extends AbstractController
         ]);
     }
 
+
+    #[Route('modifierSortie/api/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
+    //EntityManagerInterface $entityManager permet de créer une requette sql
+    //{lieu} doit etre identique a  $lieu dans la bare de modifierSortie/api/1 il va cherche l'objet 1 de la base
+    public function apiLieu(Lieu $lieu): Response
+    {
+        $lieuApi=[
+            'id'=>$lieu->getId(),
+            'nom'=>$lieu->getNom(),
+            'rue'=>$lieu->getRue(),
+            'latitude'=>$lieu->getLatitude(),
+            'longitude'=>$lieu->getLongitude(),
+        ];
+        return new JsonResponse($lieuApi);
+    }
+
+    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
+    public function annuler($id_sortie): Response
+    {
+        return $this->render('sortie/annulerSortie.html.twig', [
+            'search' => $id_sortie,
+        ]);
+    }
+
 }
+

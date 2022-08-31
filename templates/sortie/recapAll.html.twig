@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Filter les sorties!{% endblock %}
 
 {% block body %}
     <h1 style="color: #FFFFFF"> Afficher sortie </h1>
@@ -13,16 +13,6 @@
 
                         <div>
                             <div>
-
-                                <?php
-        $originalDate = "2020-04-29";
-        //original date is in format YYYY-mm-dd
-        $timestamp = strtotime($originalDate);
-        $newDate = date("m-d-Y", $timestamp );
-        echo "The new date is $newDate.";
-    ?>
-
-
 
                                 {{ form_start(RecapSortie) }}
                                 <div>
