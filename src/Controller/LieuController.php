@@ -71,4 +71,5 @@ class LieuController extends AbstractController
 
         return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

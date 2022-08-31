@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Form\LieuType;
-use App\Form\RegistrationFormDateType;//imprtation du formulaire Registartion
+use App\Form\RegistrationFormDateType;
+
+//imprtation du formulaire Registartion
+
+use App\Repository\ApiRepository;
 use App\Repository\CampusRepository;
 use App\Repository\DateRepository;
 use App\Repository\EtatRepository;
@@ -17,16 +21,21 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Entity\Date; //import l'Entité Date
-use App\Entity\User; //import l'entité User
+use App\Entity\Date;
 
+//import l'Entité Date
+use App\Entity\User;
+
+//import l'entité User
 
 
 use App\Form\CreerUneSortieType;
@@ -48,17 +57,15 @@ class HomeController extends AbstractController
     }
 
 
-
-
     /**
-    * affichage du formulaire vide
+     * affichage du formulaire vide
      */
     #[Route('/CreerSortie/{idUser}', name: 'app_sortie')]
     public function CreerSortie($idUser,
                                 Request $request,
                                 EntityManagerInterface $entityManager,
-                                UserRepository $userRepository ,
-                                VilleRepository $villeRepository ,
+                                UserRepository $userRepository,
+                                VilleRepository $villeRepository,
                                 LieuRepository $lieuRepository,
                                 CampusRepository $campusRepository,
                                 EtatRepository $etatRepository): Response
@@ -69,23 +76,21 @@ class HomeController extends AbstractController
         $sortie->setIdSortie($idUser);
 
         //verifie la condition que mon boutton enregister est activer
-        if ($request->get("button")=="enregistre"){
-                $sortie->setEtat(1);
-                $sortie->setEtatSortie($etatRepository->find(1));
-            }
-            //regarde la valeur du boutton et si la valuer est publier
-            elseif ($request->get("button")=="publier"){
-                $sortie->setEtat(2);
-                $sortie->setEtatSortie($etatRepository->find(2));
-                return $this->redirectToRoute("app_home");
-            }
-            //si action sur boutton annuler
-            elseif ($request->get("button")=="annuler"){
-                return $this->redirectToRoute("app_home");
+        if ($request->get("button") == "enregistre") {
+            $sortie->setEtat(1);
+            $sortie->setEtatSortie($etatRepository->find(1));
+        } //regarde la valeur du boutton et si la valuer est publier
+        elseif ($request->get("button") == "publier") {
+            $sortie->setEtat(2);
+            $sortie->setEtatSortie($etatRepository->find(2));
+            return $this->redirectToRoute("app_home");
+        } //si action sur boutton annuler
+        elseif ($request->get("button") == "annuler") {
+            return $this->redirectToRoute("app_home");
         }
 
         //instancie le formulaire avec CreerUneSortietuypes
-        $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
+        $sortieForm = $this->createForm(CreerUneSortieType::class, $sortie);
 
         //Part : 02
         //remplie le sortieform avec request
@@ -94,32 +99,32 @@ class HomeController extends AbstractController
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-              //recuperation du campus dans grace a id recuperer sur twig
-              $id_campus = $request->get('campus');
-              $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
-              $sortie->setCampus($campus);
-              $sortie->setNbInscrit(1);
+            //recuperation du campus dans grace a id recuperer sur twig
+            $id_campus = $request->get('campus');
+            $campus = $campusRepository->findOneBy(['id' => $id_campus]);
+            $sortie->setCampus($campus);
+            $sortie->setNbInscrit(1);
 
-              //recuperation de utilisateur et inserstion dans sortie
-              $user = $userRepository->findOneBy(['id'=>$idUser]);
-              $sortie->setOrganisateur($user);
-              $sortie->addParticipant($user);
-              $entityManager->persist($sortie);
-              $entityManager->flush();
+            //recuperation de utilisateur et inserstion dans sortie
+            $user = $userRepository->findOneBy(['id' => $idUser]);
+            $sortie->setOrganisateur($user);
+            $sortie->addParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             /************************************************************************************************************************/
             // version string format
             $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $sortie->getNom()));
 
             /************************************************************************************************************************/
-        // Redirection sur home
-        return $this->redirectToRoute("app_recapAll");
+            // Redirection sur home
+            return $this->redirectToRoute("app_recapAll");
         }
 
-        return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
-            'userSortie'=>$userRepository->find($idUser),
-            'villeSortie'=>$villeRepository->findall() ,
-            'lieuSortie'=>$lieuRepository->findall() ,
-            ] );
+        return $this->render('sortie/formSortie.html.twig', ["sortieForm" => $sortieForm->createview(),
+            'userSortie' => $userRepository->find($idUser),
+            'villeSortie' => $villeRepository->findall(),
+            'lieuSortie' => $lieuRepository->findall(),
+        ]);
     }
 
     /**
@@ -133,63 +138,52 @@ class HomeController extends AbstractController
     }
 
 
-
     /**
      * affichage une sortie
      */
     #[Route('/RecapSortie/{id_sortie}', name: 'app_recap_sortie')]
-    public function recapSortie($id_sortie, DateRepository $dateRepository ): Response
+    public function recapSortie($id_sortie, DateRepository $dateRepository): Response
     {
-        return $this->render( 'sortie/recapSortie.html.twig',[ 'userDate'=>$dateRepository->find($id_sortie),
-           ] );
+        return $this->render('sortie/recapSortie.html.twig', ['userDate' => $dateRepository->find($id_sortie),
+        ]);
     }
-
 
 
     /**
      * recpate de toutes les sorties
      */
     #[Route('/recapAll', name: 'app_recapAll')]
-    public function recapAll(Request $request,FilterRegistration $filterRegistration ,DateRepository $dateRepository): Response
+    public function recapAll(Request $request, FilterRegistration $filterRegistration, DateRepository $dateRepository): Response
     {
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
-
-
-
-
         //appel de la fonction filtre global
-
-        if ($recapForm->isSubmitted() && $recapForm->isValid()){
+        if ($recapForm->isSubmitted() && $recapForm->isValid()) {
 
             // récupere les données du formulaires
-            $user=$this->getUser();
-            if (!is_null($request->get('search'))){
+            $user = $this->getUser();
+            if (!is_null($request->get('search'))) {
                 $search = $recapForm->get('search')->getData();
-            }else {
+            } else {
                 $search = -1;
             }
             $sortieInscrit = $recapForm->get('Sortieinscrit')->getData();
             $sortieNonInscrit = $recapForm->get('SortieNonInscrit')->getData();
             $sortiePassee = $recapForm->get('SortiePassees')->getData();
             $sortieOrganisateur = $recapForm->get('SortieOrganisateur')->getData();
-            $dateStartRecupString= $request->get('dateStart');
-            $dateFinRecupString= $request->get('dateFin');
+            $dateStartRecupString = $request->get('dateStart');
+            $dateFinRecupString = $request->get('dateFin');
             $dateStartRecup = new \DateTime($dateStartRecupString);
-            $dateFinRecup = new DateTime($dateFinRecupString) ;
-            $campusFlitre= $recapForm->get('campus')->getData();
+            $dateFinRecup = new DateTime($dateFinRecupString);
+            $campusFlitre = $recapForm->get('campus')->getData();
 
-            return $this->render('/sortie/recapAll.html.twig',["RecapSortie"=>$recapForm->createView(),
-                'listeSortie'=>$filterRegistration
-                    ->globalFilter( $user,$search,$sortieNonInscrit,$sortieInscrit,$sortieOrganisateur,$sortiePassee,$campusFlitre,$dateStartRecup,$dateFinRecup),
-                'dateStart'=>$dateStartRecup,'dateFin'=>$dateFinRecup
-
+            return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+                'listeSortie' => $filterRegistration
+                    ->globalFilter($user, $search, $sortieNonInscrit, $sortieInscrit, $sortieOrganisateur, $sortiePassee, $campusFlitre, $dateStartRecup, $dateFinRecup),
+                'dateStart' => $dateStartRecup, 'dateFin' => $dateFinRecup
             ]);
-
         }
-
-
 
         //appel de la fonction search
         //if ($recapForm->isSubmitted() && $recapForm->isValid() && !is_null($request->get('search')) ) {
@@ -242,13 +236,13 @@ class HomeController extends AbstractController
         //appel de la fonction qui renvoi les date de sortie comprise entre date debut et date fin
         if ($recapForm->isSubmitted() && $recapForm->isValid()) {
             //recupére la valuer du formulaire qui c'est afficher dateStart
-            $dateStartRecupString= $request->get('dateStart');
+            $dateStartRecupString = $request->get('dateStart');
             //recupére la valuer du formulaire qui c'est afficher datefin
-            $dateFinRecupString= $request->get('dateFin');
+            $dateFinRecupString = $request->get('dateFin');
 
             $dateStartRecup = new \DateTime($dateStartRecupString);
-            $dateFinRecup = new DateTime($dateStartRecupString) ;
-        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
+            $dateFinRecup = new DateTime($dateStartRecupString);
+            return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
                 'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup)]);
 
         }
@@ -257,20 +251,59 @@ class HomeController extends AbstractController
         $dateFinRecup = new DateTime();
         $dateFinRecup->modify('+1 day');
 
-        return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
-            'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
-        ] );
-    }
-    #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
-    public function annuler($id_sortie): Response
-    {
-        return $this->render('sortie/annulerSortie.html.twig', [
-            'search' => $id_sortie,
+        return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createview(),
+            'listeSortie' => $filterRegistration->DateFilterOpen(), 'dateStart' => $dateStartRecup, 'dateFin' => $dateFinRecup,
         ]);
     }
+    /***********************************************************************************************************/
+    /***********************************************************************************************************/
+
+
+    /**
+     * recpate de la sorties et posibiliter de la modiffier
+     */
+    #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
+    //affichage de des infornation de la sortie
+    public function annuler($id_sortie, DateRepository $dateRepository, Request $request, EtatRepository $etatRepository, CampusRepository $campusRepository, lieuRepository $lieuRepository): Response
+    {
+
+        //Part : 01
+        //creation d'un date(sortie vide)
+        $sortie = new Date();
+        /************************************************************/
+        //recupere les information de la sortie
+
+        $sortie = $dateRepository->find($id_sortie);
+
+        //verifie la condition que mon boutton enregister est activer
+        if ($request->get("button") == "enregistre") {
+            $sortie->setEtat(1);
+            $sortie->setEtatSortie($etatRepository->find(1));
+        } //regarde la valeur du boutton et si la valuer est publier
+        elseif ($request->get("button") == "publier") {
+            $sortie->setEtat(2);
+            $sortie->setEtatSortie($etatRepository->find(2));
+            return $this->redirectToRoute("app_home");
+        } //regarde la valeur du boutton et si la valuer est supprimer
+        elseif ($request->get("button") == "supprimer") {
+            $sortie->setEtat(6);
+            $sortie->setEtatSortie($etatRepository->find(6));
+            return $this->redirectToRoute("app_home");
+        } //si action sur boutton annuler
+        elseif ($request->get("button") == "annuler") {
+            return $this->redirectToRoute("app_home");
+        }
+
+
+        return $this->render('sortie/modifierSortie.html.twig', ['modifierSortie' => $dateRepository->find($id_sortie),
+            'listecampus' => $campusRepository->findAll(), 'listelieu' => $lieuRepository->findall(),
+        ]);
+    }
+    /***********************************************************************************************************/
+    /***********************************************************************************************************/
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
-    public function inscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
+    public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
@@ -278,9 +311,8 @@ class HomeController extends AbstractController
         $sortie->addParticipant($user);
         $entityManager->persist($sortie);
         $entityManager->flush();
-                return $this->redirectToRoute('app_recapAll');
+        return $this->redirectToRoute('app_recapAll');
     }
-
 
 
     #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
@@ -302,4 +334,22 @@ class HomeController extends AbstractController
         ]);
     }
 
+
+    #[Route('modifierSortie/api/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
+    //EntityManagerInterface $entityManager permet de créer une requette sql
+    //{lieu} doit etre identique a  $lieu dans la bare de modifierSortie/api/1 il va cherche l'objet 1 de la base
+    public function apiLieu(Lieu $lieu): Response
+    {
+        $lieuApi=[
+            'id'=>$lieu->getId(),
+            'nom'=>$lieu->getNom(),
+            'rue'=>$lieu->getRue(),
+            'latitude'=>$lieu->getLatitude(),
+            'longitude'=>$lieu->getLongitude(),
+        ];
+        return new JsonResponse($lieuApi);
+    }
+
+
 }
+
