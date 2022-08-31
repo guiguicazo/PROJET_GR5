@@ -59,7 +59,11 @@
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
                             <div class="card-header">
+                                {% if app.user != null %}
                                 <p>Nom de la sortie : <a href="{{ path('app_recap_sortie', {'id_sortie': liste.id}) }}"> <strong>{{ liste.nom }}</strong></a></p>
+                                    {% else %}
+                                <p>Nom de la sortie : <strong>{{ liste.nom }}</strong></p>
+                                {% endif %}
                                 {% if liste.etat == 1 %}
                                     <p>Etat : <strong>Créée</strong></p>
                                 {% endif %}
@@ -85,9 +89,15 @@
                                             <p class="text-success">Vous êtes inscrit</p>
                                     {% endif %}
                                 {% endif %}
-                                <p class="text-primary">Organisateur : <a class="text-danger" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
+
+                                {% if app.user != null %}
+                                    <p class="text-primary">Organisateur : <a class="text-danger" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
+                                {% endif %}
+
+
                             </div>
                             <div class="card-body">
+                                {% if app.user != null %}
                                 <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
                                 {% if liste.etat != 1 or liste.etat != 6 %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
@@ -99,6 +109,7 @@
                                         <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
                                         {% endif %}
                                     {% endif %}
+                                {% endif %}
                                 {% endif %}
                             </div>
                         </div>
