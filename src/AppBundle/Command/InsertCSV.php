@@ -58,12 +58,9 @@ class InsertCSV extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Import en cours...');
         $reader = Reader::createFromPath('%kernel.root_dir%/../src/AppBundle/Data/MOCK_DATA.csv');
-        // https://github.com/thephpleague/csv/issues/208
         $results = $reader->fetchAssoc();
         $io->progressStart(iterator_count($results));
         foreach ($results as $row) {
-            // do a look up for existing Athlete matching first + last + dob
-            // or create new athlete
             $user = (new User())
                 ->setNom($row['nom'])
                 ->setPrenom($row['prenom'])
