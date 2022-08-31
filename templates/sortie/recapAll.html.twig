@@ -48,15 +48,60 @@
             <div class="row justify-content-around" style="padding-top:1REM ">
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
-                            <p>Sortie : <strong>{{ liste.nom }}</strong></p>
-                            <p>Date de Début : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Date Limite Inscription : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Nombre d'inscrit : {{ liste.nbInscrit }}</p>
-                            <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
-                            <p class="text-success">inscrit</p>
-                            <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
-                            <a href="{{ path('app_sortie_modifier', {'id_sortie': liste.id}) }}">Modifier</a>
-                            <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                            <div class="card-header">
+                                {% if app.user != null %}
+                                <p>Nom de la sortie : <a href="{{ path('app_recap_sortie', {'id_sortie': liste.id}) }}"> <strong>{{ liste.nom }}</strong></a></p>
+                                    {% else %}
+                                <p>Nom de la sortie : <strong>{{ liste.nom }}</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 1 %}
+                                    <p>Etat : <strong>Créée</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 2 %}
+                                    <p>Etat : <strong>Ouverte</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 3 %}
+                                    <p>Etat : <strong>En cours</strong></p>
+                                {% endif %}
+                                {% if liste.etat == 6 %}
+                                    <p>Etat : <strong>Fermée</strong></p>
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                <p>Date de la sortie : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                <p>Clotûre : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                <p>Nombre d'inscrit : {{ liste.participants|length -1 }}</p>
+                                <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
+                                {% if app.user in liste.participants %}
+                                    {% if app.user.id == liste.organisateur.id %}
+                                    <p class="text-success">Vous êtes l'organisateur</p>
+                                        {% else %}
+                                            <p class="text-success">Vous êtes inscrit</p>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if app.user != null %}
+                                    <p class="text-primary">Organisateur : <a class="text-danger" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
+                                {% endif %}
+
+
+                            </div>
+                            <div class="card-body">
+                                {% if app.user != null %}
+                                <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                                {% if liste.etat != 1 or liste.etat != 6 %}
+                                    {% if liste.dateLimiteInscritpion > dateJour %}
+                                        {% if app.user in liste.participants %}
+                                            {% if app.user.id != liste.organisateur.id %}
+                                        <a class="text-danger" href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}" >Se désinscrire</a>
+                                                {%  endif %}
+                                        {% elseif app.user not in liste.participants %}
+                                        <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                {% endif %}
+                            </div>
                         </div>
                 {% endfor %}
             </div>

@@ -24,6 +24,7 @@
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <img src="/assets/img/ENI_SORTIR.jpg" alt="" width="50" height="50" class="d-inline-block align-text-top">
+            <h1>Sortir.com</h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -68,9 +69,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_register') }}">S'enregistrer</a>
-                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -81,10 +79,76 @@
     {% block body %}
     {% endblock %}
 </div>
-<div class="Footer" style="height: 100rem; background: rgb(56,62,66)">
-    <p class="text-center" style="color: #FFFFFF;padding-top: 10rem">Site ENI Sortir.com de Renan, Thomas, Guillaume</p>
-</div>
 
+<footer class="text-center text-white" style="background-color: #f1f1f1;">
+    <!-- Grid container -->
+    <div class="container pt-4">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Facebook -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="#!"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-facebook-f"></i
+                ></a>
+
+            <!-- Twitter -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="#!"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-twitter"></i
+                ></a>
+
+            <!-- Google -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="#!"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-google"></i
+                ></a>
+
+            <!-- Instagram -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="#!"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-instagram"></i
+                ></a>
+
+            <!-- Linkedin -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="#!"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-linkedin"></i
+                ></a>
+            <!-- Github -->
+            <a
+                    class="btn btn-link btn-floating btn-lg text-dark m-1"
+                    href="https://github.com/guiguicazo/PROJET_GR5"
+                    role="button"
+                    data-mdb-ripple-color="dark"
+            ><i class="fab fa-github">Projet Github</i
+                ></a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-dark" href="https://mdbootstrap.com/">Site ENI Sortir.com de Renan, Thomas, Guillaume</a>
+    </div>
+    <!-- Copyright -->
+</footer>
 
 </body>
 </html>

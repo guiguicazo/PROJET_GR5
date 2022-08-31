@@ -47,7 +47,7 @@ class FilterRegistration extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $listesortie = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->where('d.etatSortie = 2 or d.etatSortie = 4')
+            ->where('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 6')
         ;
 
         $query = $listesortie->getQuery()->getResult();

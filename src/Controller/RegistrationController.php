@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+// On garde l'affichage sur le site ??
 class RegistrationController extends AbstractController
 {
     #[IsGranted("ROLE_ADMIN")]

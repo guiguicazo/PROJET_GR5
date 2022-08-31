@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 //entite sortie
 
 #[ORM\Entity(repositoryClass: DateRepository::class)]
@@ -24,10 +26,12 @@ class Date
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThan(propertyPath :"dateLimiteInscritpion",message: "La date de début doit être supérieure à la date de limite d'inscription")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
     private ?int $duree = null;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscritpion = null;
@@ -36,7 +40,7 @@ class Date
     private ?int $nbInscritpionsMax = null;
 
     #[ORM\Column]
-    private ?int $nbInscrit = null;
+    private ?int $nbInscrit = -1;
 
     #[ORM\Column(length: 255)]
     private ?string $infosSortie = null;
