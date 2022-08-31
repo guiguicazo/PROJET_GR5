@@ -274,8 +274,34 @@ class HomeController extends AbstractController
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
+        $participants = $sortie->getParticipants();
+        if ($user instanceof $participants)
+        {
+            $this->addFlash("message_success", sprintf("Vous êtes déjà inscrit"));
+            return $this->redirectToRoute('app_recapAll');
+        }
+        $sortie->setNbInscrit(1);
+        $sortie->addParticipant($user);
 
                 return $this->redirectToRoute('app_recapAll');
+    }
+
+    #[Route('/desinscrireSortie/{id_sortie}', name: 'app_sortie_desinscrire', methods: ['GET'])]
+    public function desinscrire($id_sortie,DateRepository $dateRepository): Response
+    {
+        $sortie = $dateRepository->find($id_sortie);
+        $user = $this->getUser();
+        $participants = $sortie->getParticipants();
+        if ($user instanceof $participants)
+        {
+            $this->addFlash("message_success", sprintf("Vous êtes déjà inscrit"));
+            return $this->redirectToRoute('app_recapAll');
+        }
+        $sortie->setNbInscrit(1);
+        $sortie->addParticipant($user);
+
+
+        return $this->redirectToRoute('app_recapAll');
     }
 
 

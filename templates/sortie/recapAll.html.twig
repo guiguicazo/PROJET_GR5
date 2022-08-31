@@ -58,15 +58,27 @@
             <div class="row justify-content-around" style="padding-top:1REM ">
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
-                            <p>Sortie : <strong>{{ liste.nom }}</strong></p>
-                            <p>Date de Début : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Date Limite Inscription : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
-                            <p>Nombre d'inscrit : {{ liste.nbInscrit }}</p>
-                            <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
-                            <p class="text-success">inscrit</p>
-                            <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
-                            <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
-                            <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                            <div class="card-header">
+                                <p>Nom de la sortie : <strong>{{ liste.nom }}</strong></p>
+                            </div>
+                            <div class="card-body">
+                                <p>Date de la sortie : {{ liste.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                <p>Clotûre : {{ liste.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+                                <p>Nombre d'inscrit': {{ liste.participants|length }}</p>
+                                <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
+                                {% if app.user in liste.participants %}
+                                    <p class="text-success">Vous êtes inscrit</p>
+                                {% endif %}
+                                <p class="text-primary">Organisateur : {{ liste.organisateur.nom }}</p>
+                            </div>
+                            <div class="card-body">
+                                <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                                {% if app.user in liste.participants %}
+                                    <a href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}">Se désinscrire</a>
+                                    {% elseif app.user not in liste.participants %}
+                                    <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
+                                {% endif %}
+                            </div>
                         </div>
                 {% endfor %}
             </div>
