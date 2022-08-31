@@ -79,16 +79,22 @@
                                 <p>Nombre d'inscrit : {{ liste.participants|length -1 }}</p>
                                 <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
                                 {% if app.user in liste.participants %}
-                                    <p class="text-success">Vous êtes inscrit</p>
+                                    {% if app.user.id == liste.organisateur.id %}
+                                    <p class="text-success">Vous êtes l'organisateur</p>
+                                        {% else %}
+                                            <p class="text-success">Vous êtes inscrit</p>
+                                    {% endif %}
                                 {% endif %}
-                                <p class="text-primary">Organisateur :<a href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
+                                <p class="text-primary">Organisateur : <a class="text-danger" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
                             </div>
                             <div class="card-body">
                                 <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
                                 {% if liste.etat != 1 or liste.etat != 6 %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
                                         {% if app.user in liste.participants %}
-                                        <a href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}">Se désinscrire</a>
+                                            {% if app.user.id != liste.organisateur.id %}
+                                        <a class="text-danger" href="{{ path('app_sortie_desinscrire', {'id_sortie': liste.id}) }}" >Se désinscrire</a>
+                                                {%  endif %}
                                         {% elseif app.user not in liste.participants %}
                                         <a href="{{ path('app_sortie_inscrire', {'id_sortie': liste.id}) }}">S'inscrire</a>
                                         {% endif %}
