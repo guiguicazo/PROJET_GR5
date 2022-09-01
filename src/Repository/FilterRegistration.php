@@ -184,7 +184,7 @@ class FilterRegistration extends ServiceEntityRepository
             ->setParameter('dateHeureDebut',$dateStartRecup)
             ->andWhere('d.dateHeureDebut <= :dateHeureFin')
             ->setParameter('dateHeureFin',$dateFinRecup)
-            ->andWhere('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 5 or d.etatSortie = 6');
+            ->andWhere('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 5 or d.etatSortie = 6 ');
 
 
             if ($sortieOrganisateur=='1'){
@@ -194,7 +194,7 @@ class FilterRegistration extends ServiceEntityRepository
              }
             if ($sortiePassee=='1'){
                 $builderFilter
-                    ->andWhere('datediff(d.dateLimiteInscritpion,current_date)>0');
+                    ->andWhere('d.etatSortie = 4');
 
             }
             if ($search!=-1){

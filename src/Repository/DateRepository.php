@@ -43,7 +43,7 @@ class DateRepository extends ServiceEntityRepository
         }
     }
 
-    public function miseAjourEtat(Etat $fermer,Etat $archiver): void
+    public function miseAjourEtat(Etat $fermer,Etat $archiver,Etat $enCours,Etat $passer): void
     {
         $listeSortie = $this->findAll();
         $dateJour1 = new DateTime();
@@ -51,8 +51,12 @@ class DateRepository extends ServiceEntityRepository
         $dateJourArchive= $dateJour2->modify('-100 day');
 
         foreach ($listeSortie as $sortie) {
+            if($sortie->getDateLimiteInscritpion() == $dateJour1) {
+                $sortie->setEtatSortie($enCours);
+            }
+
             if ($sortie->getDateLimiteInscritpion() < $dateJour1) {
-                $sortie->setEtatSortie($fermer);
+                $sortie->setEtatSortie($passer);
             }
             if ($sortie->getDateHeureDebut() < $dateJourArchive){
                 $sortie->setEtatSortie($archiver);
