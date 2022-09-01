@@ -3,131 +3,98 @@
 {% block title %}Modifier sortie{% endblock %}
 
 {% block body %}
-
-    <div class="container">
-        <div class="row">
-            <div class="card text-center w-100 align-middle">
-                <div class="card-body">
-                    <div class="d-flex justify-content-center">
-                        <div class="p-6">
-
-
-                            <form action="" method="get" class="form-example">
-                                <div class="p-3" style="background-color:  #ea7d7d">
-                                    <div class="form-modifSortie">
-                                        <label for="nameDate" >Nom de la Sortie : </label>
-                                        <input type="text" name="nameDate" id="nameDate" value="{{ modifierSortie.nom }}">
-                                    </div>
-                                    <div class="form-modifSortie">
-                                        <label for="timeStartDate" >Date et Heure de la sortie :</label>
-                                        <input type="datetime-local"  id="timeStartDate" value="{{ modifierSortie.dateHeureDebut |date('Y-m-d H:i', timezone="Europe/Paris") }}" name="timeStartDate">
-                                    </div>
-
-                                    <div class="form-modifSortie">
-                                        <label for="timeEndDate" >Date et Heure de la sortie :</label>
-                                        <input type="datetime-local"  id="timeEndDate" value="{{ modifierSortie.dateLimiteInscritpion|date('Y-m-d H:i', timezone="Europe/Paris") }}" name="timeEndDate">
-                                    </div>
-
-                                    <div class="form-modifSortie">
-                                        <label for="nbPlace" >Nombre de places : </label>
-                                        <input type="number"  id="nbPlace" value="{{ modifierSortie.nbInscritpionsMax }}" name="nbPlace">
-                                    </div>
-
-                                    <div class="form-modifSortie">
-                                        <label for="nbTime" >Durée : <input type="number"  id="nbTime"  value="{{ modifierSortie.duree }}" name="nbTime"> minutes</label>
-                                    </div>
-
-
-                                <div class="p-3" style="background-color:  #c1c1c6">
-                                    <div>Campus :   <select name="menuCampus" id="menuCampus">
-                                                        {% for c in  listecampus %}
-                                                            <option type="input" id="menuCampus" value="{{c.id}}" name="menuCampus">{{ c.nom }}</option>
-                                                        {% endfor %}
-
-                                                 </select>
-
-
-                                    </div>
-                                    <div>Lieu :   <select name="menulieu" id="menulieu">
-                                            {% for l in  listelieu %}
-                                                <option  onclick="myFunction({{ l.id }})" >{{ l.nom }} </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                    <div class="form-modifSortie">
-                                        <label for="nomRue" >Rue : <input type="text"  id="nomRue"  name="nomRue" value="" ></label>
-                                    </div>
-                                    <div class="form-modifSortie">
-                                        <label for="codePostal" >Code Postal : <input type="text"  id="codePostal"  name="codePostal" value="" ></label>
-                                    </div>
-                                    <div class="form-modifSortie">
-                                        <label for="latitude" >Latitude : <input type="text"  id="latitude"  name="latitude" value="" ></label>
-                                    </div>
-                                    <div class="form-modifSortie">
-                                        <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
-                                    </div>
-
-                                </div>
-
-                                </div>
-
-
-
-                                <a>Description et infos : <textarea name="NomSortie" id="NomSortie" cols="30" rows="1">{{ modifierSortie.infosSortie }}</textarea></a>
-
-                                <div class="d-flex justify-content-center">
-                                    <div class="p-12">
-                                        <button type="submit" name="button" value="enregistre" class="btn btn-outline-danger">
-                                            Enregistrer
-                                        </button>
-                                        <button type="submit" name="button" value="publier" class="btn btn-outline-success">Publier
-                                            la sortie
-                                        </button>
-                                        <button type="submit" name="button" value="supprimer" class="btn btn-outline-warning">Supprimer la sortie
-
-                                        </button>
-                                            <button type="submit" name="button" value="annuler" class="btn btn-outline-info">Annuler
-                                        </button>
-                                    </div>
-                                </div>
-                                <script>
-                                    /**
-                                     * fonction qui recupére id de la div ""menulieu" avec le onclick qui appel la fonction
-                                     *
-                                     * le fetch va concaténer l'api et l'id pour recupere le json
-                                     * recupération et rechercher rue, latitude , longitude  dans position =>
-                                     * */
-                                    function myFunction(id) {
-                                        fetch('http://127.0.0.1:8000/modifierSortie/apiLieu/'+id)
-                                            .then(retour=>retour.json())
-                                            .then(position=> {
-                                                let rueLieu = position.rue;
-                                                let codePostale = position.codePostal;
-                                                let longitudeLieu = position.longitude;
-                                                let latitudeLieu = position.latitude;
-                                                /**
-                                                 * console.log permet d'afficher dans la console
-                                                 * **/
-                                                console.log(longitudeLieu);
-                                                console.log(latitudeLieu);
-                                                document.getElementById("latitude").value = latitudeLieu;
-                                                document.getElementById("longitude").value = longitudeLieu;
-                                                document.getElementById("nomRue").value = rueLieu;
-                                                document.getElementById("codePostal").value = codePostale;
-                                            });
-
-                                    }
-                                </script>
-
-
-                            </form>
-
-
-
-
-                        </div>
+<div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Sortie</h1>
+    <div class="row">
+        <div class="card text-center w-100 align-middle">
+            <div class="card-body">
+                <h1> Créer une Sortie </h1>
+                <div class="d-flex justify-content-center">
+                    <div class="p-6">
+                        {{ form_start(sortieForm) }}
+                        <a>Nom de la Sortie : {{ form_widget(sortieForm.nom) }}</a> <br>
+                        <a>Date et Heure de la sortie : {{ form_widget(sortieForm.dateHeureDebut) }}</a>
+                        <a>Date limite d'inscription : {{ form_widget(sortieForm.dateLimiteInscritpion) }}</a>
+                        <a>Nombre de places : {{ form_widget(sortieForm.nbInscritpionsMax) }}</a> <br>
+                        <a>Durée : {{ form_widget(sortieForm.duree) }}</a> <br>
+                        <a>Description et infos : {{ form_widget(sortieForm.infosSortie) }}</a> <br>
                     </div>
+                </div>
+
+                <div class="p-3" style="background-color:  #c1c1c6">
+                    <div>Campus :   <select name="menuCampus" id="menuCampus">
+                            {% for c in  listecampus %}
+                                <option type="input" id="menuCampus" value="{{c.id}}" name="menuCampus">{{ c.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>Lieu :   <select name="menulieu" id="menulieu">
+                            {% for l in  listelieu %}
+                                <option  onclick="myFunction({{ l.id }})" >{{ l.nom }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-modifSortie">
+                        <label for="nomRue" >Rue : <input type="text"  id="nomRue"  name="nomRue" value="" ></label>
+                    </div>
+                    <div class="form-modifSortie">
+                        <label for="codePostal" >Code Postal : <input type="text"  id="codePostal"  name="codePostal" value="" ></label>
+                    </div>
+                    <div class="form-modifSortie">
+                        <label for="latitude" >Latitude : <input type="text"  id="latitude"  name="latitude" value="" ></label>
+                    </div>
+                    <div class="form-modifSortie">
+                        <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-12">
+                        <button type="submit" name="button" value="enregistre" class="btn btn-outline-danger">
+                            Enregistrer
+                        </button>
+                        <button type="submit" name="button" value="publier" class="btn btn-outline-success">Publier
+                            la sortie
+                        </button>
+                        <button type="submit" name="button" value="supprimer" class="btn btn-outline-warning">Supprimer la sortie
+
+                        </button>
+                        <button type="submit" name="button" value="annuler" class="btn btn-outline-info">Annuler
+                        </button>
+                    </div>
+                </div>
+                {{ form_end(sortieForm) }}
+
+
+                <script>
+                    /**
+                     * fonction qui recupére id de la div ""menulieu" avec le onclick qui appel la fonction
+                     *
+                     * le fetch va concaténer l'api et l'id pour recupere le json
+                     * recupération et rechercher rue, latitude , longitude  dans position =>
+                     * */
+                    function myFunction(id) {
+                        fetch('http://127.0.0.1:8000/modifierSortie/apiLieu/'+id)
+                            .then(retour=>retour.json())
+                            .then(position=> {
+                                let rueLieu = position.rue;
+                                let codePostale = position.codePostal;
+                                let longitudeLieu = position.longitude;
+                                let latitudeLieu = position.latitude;
+                                /**
+                                 * console.log permet d'afficher dans la console
+                                 * **/
+                                console.log(longitudeLieu);
+                                console.log(latitudeLieu);
+                                document.getElementById("latitude").value = latitudeLieu;
+                                document.getElementById("longitude").value = longitudeLieu;
+                                document.getElementById("nomRue").value = rueLieu;
+                                document.getElementById("codePostal").value = codePostale;
+                            });
+                    }
+                </script>
+
                 </div>
             </div>
         </div>

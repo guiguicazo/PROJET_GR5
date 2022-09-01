@@ -96,7 +96,8 @@ class HomeController extends AbstractController
 
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+        if ($sortieForm->isSubmitted() ) {
+
               //recuperation du campus dans grace a id recuperer sur twig
               $id_campus = $request->get('campus');
               $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
@@ -107,13 +108,11 @@ class HomeController extends AbstractController
               $user = $userRepository->findOneBy(['id'=>$idUser]);
               $sortie->setOrganisateur($user);
               $sortie->addParticipant($user);
+
+
               $entityManager->persist($sortie);
               $entityManager->flush();
-            /************************************************************************************************************************/
-            // version string format
-            $this->addFlash("message_success", sprintf("La Sortie à été crée avec succès", $sortie->getNom()));
 
-            /************************************************************************************************************************/
         // Redirection sur home
         return $this->redirectToRoute("app_recapAll");
         }
@@ -284,37 +283,24 @@ class HomeController extends AbstractController
     /**
      * recpate de la sorties et posibiliter de la modiffier
      */
-    #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
+    #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET','POST'])]
     //affichage de des infornation de la sortie
     public function modifierSortie($id_sortie, Request $request,DateRepository $dateRepository, EtatRepository $etatRepository,
                                    CampusRepository $campusRepository,
                                    LieuRepository $lieuRepository,
                                    EntityManagerInterface $entityManager): Response
     {
-
-
-//        //Part : 01
-//        //creation d'un date(sortie vide)
-//        $sortie = new Date();
-//        $sortie->setIdSortie($id_sortie);
-//
-//
-//        //Part : 02
-//        //remplie le sortieform avec request
-//        $sortieForm->handleRequest($request);
-//
-//        // Part : 03
-//        // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
-//        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-
-
         //Part : 01
         //creation d'un date(sortie vide)
         $sortie = new Date();
         /************************************************************/
         //recupere les information de la sortie
+        $sortie = $dateRepository->find ($id_sortie);
 
-        $sortie = $dateRepository->find     ($id_sortie);
+
+        //instancie le formulaire avec CreerUneSortietuypes
+        $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
+
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button") == "enregistre") {
@@ -331,10 +317,6 @@ class HomeController extends AbstractController
             elseif ($request->get("button") == "annuler") {
                 return $this->redirectToRoute("app_home");
             }
-
-
-
-        //
 
             //recuperation du campus dans grace a id recuperer sur twig
             $nameDate = $request->get('nameDate');
@@ -370,7 +352,8 @@ class HomeController extends AbstractController
 
 
 
-        return $this->render('sortie/modifierSortie.html.twig', ['modifierSortie' => $dateRepository->find($id_sortie),
+        return $this->render('sortie/modifierSortie.html.twig', ["sortieForm"=> $sortieForm->createview(),
+            'modifierSortie' => $dateRepository->find($id_sortie),
             'listecampus' => $campusRepository->findAll(),
             'listelieu' => $lieuRepository->findall(),
 
