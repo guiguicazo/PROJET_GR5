@@ -76,14 +76,11 @@ class HomeController extends AbstractController
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
-                $sortie->setEtat(1);
                 $sortie->setEtatSortie($etatRepository->find(1));
             }
             //regarde la valeur du boutton et si la valuer est publier
             elseif ($request->get("button")=="publier"){
-                $sortie->setEtat(2);
                 $sortie->setEtatSortie($etatRepository->find(2));
-                return $this->redirectToRoute("app_home");
             }
             //si action sur boutton annuler
             elseif ($request->get("button")=="annuler"){
@@ -269,7 +266,7 @@ class HomeController extends AbstractController
         }
         $dateStartRecup = new DateTime();
         $dateFinRecup = new DateTime();
-        $dateFinRecup->modify('+1 day');
+        $dateFinRecup->modify('+30 day');
 
 
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
