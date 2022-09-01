@@ -279,8 +279,6 @@ class HomeController extends AbstractController
             'user'=> $user=-1
         ] );
     }
-    /***********************************************************************************************************/
-    /***********************************************************************************************************/
 
 
     /**
@@ -320,8 +318,7 @@ class HomeController extends AbstractController
             'listecampus' => $campusRepository->findAll(), 'listelieu' => $lieuRepository->findall(),
         ]);
     }
-    /***********************************************************************************************************/
-    /***********************************************************************************************************/
+
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
     public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager): Response
@@ -402,10 +399,10 @@ class HomeController extends AbstractController
     }
 
 
-    #[Route('modifierSortie/api/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
+    #[Route('modifierSortie/apiLieu/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
     //EntityManagerInterface $entityManager permet de créer une requette sql
     //{lieu} doit etre identique a  $lieu dans la bare de modifierSortie/api/1 il va cherche l'objet 1 de la base
-    public function apiLieu(Lieu $lieu): Response
+    public function apiLieu(Lieu $lieu, VilleRepository $villeRepository): Response
     {
         $lieuApi=[
             'id'=>$lieu->getId(),
@@ -424,6 +421,10 @@ class HomeController extends AbstractController
             'search' => $id_sortie,
         ]);
     }
+
+
+
+
 
 }
 
