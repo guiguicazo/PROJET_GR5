@@ -47,8 +47,6 @@ class Date
     #[ORM\Column(length: 255)]
     private ?string $infosSortie = null;
 
-    #[ORM\Column]
-    private ?int $etat = null;
 
     #[ORM\ManyToOne]
     private ?Etat $etatSortie = null;
