@@ -49,6 +49,7 @@
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
                             <div class="card-header">
+                                <p>Ville : <strong>{{ liste.lieu.ville.nom }}</strong></p>
                                 {% if app.user != null %}
                                 <p>Nom de la sortie : <a href="{{ path('app_recap_sortie', {'id_sortie': liste.id}) }}"> <strong>{{ liste.nom }}</strong></a></p>
                                     {% else %}
