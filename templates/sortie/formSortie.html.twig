@@ -25,14 +25,11 @@
                                 <a>  {{ userSortie.campus }}</a>
                                 <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
 
+                                <div >Lieu : {{ form_widget(sortieForm.lieu) }}</div>
 
-                                <div >Lieu : {{ form_widget(sortieForm.lieu) }}</div> <br>
-
-
-
-                                <div onclick="myFunction()">Lieu :   <select name="menulieu" id="menulieu">
+                                <div >Lieu :   <select name="menulieu" id="menulieu">
                                         {% for l in  listelieu %}
-                                            <option  type="input" value="{{ l.id }}" onclick="myFunction({{ l.id }})" >{{ l.nom }} </option>
+                                            <option value="{{ l.id }}"  id="lieu" onclick="myFunction({{ l.id }})"  type="input" >{{ l.nom }} {{ l.id }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

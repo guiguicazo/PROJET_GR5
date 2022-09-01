@@ -112,6 +112,15 @@ class HomeController extends AbstractController
               $sortie->setOrganisateur($user);
               $sortie->addParticipant($user);
 
+//              //recuperation du lieu et inserstion dans sortie
+//              $id_lieux = $request->get('lieu');
+//              /*****************************************************************************************/
+//              //n'arrive pas a recuperré id_lieux
+//              dd($request->get('lieu'));
+//              /*****************************************************************************************/
+//              $lieu = $lieuRepository->findOneBy(['id'=> $id_lieux ]);
+//
+//              $sortie->setLieu($lieu);
 
               $entityManager->persist($sortie);
               $entityManager->flush();
