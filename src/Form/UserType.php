@@ -43,17 +43,8 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('administrateur', CheckboxType::class, [
-                'label_attr' => [
-                    'class' => 'checkbox-inline',
-
-                ],
-            ])
-            ->add('actif', CheckboxType::class, [
-                'label_attr' => [
-                    'class' => 'checkbox-inline',
-                ],
-            ])
+            ->add('administrateur')
+            ->add('actif')
             ->add('campus')
         ;
     }
