@@ -121,7 +121,6 @@ class HomeController extends AbstractController
         return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
             'userSortie'=>$userRepository->find($idUser),
             'villeSortie'=>$villeRepository->findall() ,
-
             'listelieu' => $lieuRepository->findall()
             ] );
     }
@@ -288,8 +287,26 @@ class HomeController extends AbstractController
     #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
     //affichage de des infornation de la sortie
     public function modifierSortie($id_sortie, Request $request,DateRepository $dateRepository, EtatRepository $etatRepository,
-                                   CampusRepository $campusRepository, lieuRepository $lieuRepository, EntityManagerInterface $entityManager,): Response
+                                   CampusRepository $campusRepository,
+                                   LieuRepository $lieuRepository,
+                                   EntityManagerInterface $entityManager): Response
     {
+
+
+//        //Part : 01
+//        //creation d'un date(sortie vide)
+//        $sortie = new Date();
+//        $sortie->setIdSortie($id_sortie);
+//
+//
+//        //Part : 02
+//        //remplie le sortieform avec request
+//        $sortieForm->handleRequest($request);
+//
+//        // Part : 03
+//        // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
+//        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
 
         //Part : 01
         //creation d'un date(sortie vide)
@@ -297,7 +314,7 @@ class HomeController extends AbstractController
         /************************************************************/
         //recupere les information de la sortie
 
-        $sortie = $dateRepository->find($id_sortie);
+        $sortie = $dateRepository->find     ($id_sortie);
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button") == "enregistre") {
@@ -354,7 +371,9 @@ class HomeController extends AbstractController
 
 
         return $this->render('sortie/modifierSortie.html.twig', ['modifierSortie' => $dateRepository->find($id_sortie),
-            'listecampus' => $campusRepository->findAll(), 'listelieu' => $lieuRepository->findall(),
+            'listecampus' => $campusRepository->findAll(),
+            'listelieu' => $lieuRepository->findall(),
+
         ]);
     }
 

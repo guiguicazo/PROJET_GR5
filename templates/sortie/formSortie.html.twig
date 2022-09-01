@@ -24,7 +24,13 @@
 
                                 <a>  {{ userSortie.campus }}</a>
                                 <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
+                                <div>Ville :  <select name="menuVille" id="menuVille">
+                                       {% for v in villeSortie %}
+                                           <option value="">{{ v.nom }}</option>
+                                        {% endfor %}
+                                    </select>
 
+                                </div>
 
 
                                 <div>Lieu :   <select name="menulieu" id="menulieu">
