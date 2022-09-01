@@ -20,8 +20,8 @@ class FilterRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $dql = "SELECT u FROM App\Entity\User u 
-        WHERE u.username LIKE '% :$text %'";
-        $query = $entityManager->createQuery($dql);
+        WHERE u.username LIKE :text ";
+        $query = $entityManager->createQuery($dql)->setParameter('text', '%' . $text . '%');
         return $query->getResult();
     }
 }

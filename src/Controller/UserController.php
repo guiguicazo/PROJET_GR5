@@ -36,7 +36,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $recherche = $request->get('username');
 
-
             return $this->render( 'user/index.html.twig',["FilterType"=> $form->createview(),
                 'users' => $filterRepository->UserFilter($form->get('username')->getData()),
             ]);
