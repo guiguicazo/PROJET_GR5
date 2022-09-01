@@ -74,11 +74,9 @@ class HomeController extends AbstractController
         $sortie = new Date();
         $sortie->setIdSortie($idUser);
 
-
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
                 $sortie->setEtatSortie($etatRepository->find(1));
-
             }
             //regarde la valeur du boutton et si la valuer est publier
             elseif ($request->get("button")=="publier"){
@@ -99,10 +97,9 @@ class HomeController extends AbstractController
 
 
 
-
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
-        if ($sortieForm->isSubmitted() ) {
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
               //recuperation du campus dans grace a id recuperer sur twig
               $id_campus = $request->get('campus');
@@ -434,9 +431,6 @@ class HomeController extends AbstractController
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
-
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $lieuRepository->add($lieu, true);
