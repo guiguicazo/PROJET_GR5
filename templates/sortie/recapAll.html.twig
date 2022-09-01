@@ -77,21 +77,21 @@
                                 <p>Nombre limite d'inscription : {{ liste.nbInscritpionsMax }}</p>
                                 {% if app.user in liste.participants %}
                                     {% if app.user.id == liste.organisateur.id %}
-                                    <p class="text-success">Vous êtes l'organisateur</p>
+                                    <p class="text-info">Vous êtes l'organisateur</p>
                                         {% else %}
-                                            <p class="text-success">Vous êtes inscrit</p>
+                                            <p class="text-succes">Vous êtes inscrit</p>
                                     {% endif %}
                                 {% endif %}
 
                                 {% if app.user != null %}
-                                    <p class="text-primary">Organisateur : <a class="text-danger" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
+                                    <p class="text-primary">Organisateur : <a class="text-success" href="{{ path('app_showuser_show',{'id' : liste.organisateur.id }) }}">{{ liste.organisateur.nom }}</a></p>
                                 {% endif %}
 
 
                             </div>
                             <div class="card-body">
                                 {% if app.user != null %}
-                                <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                                <a class="text-danger" href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
                                 {% if liste.etatSortie != etat[0] or liste.etatSortie != etat[5] %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
                                         {% if app.user in liste.participants %}

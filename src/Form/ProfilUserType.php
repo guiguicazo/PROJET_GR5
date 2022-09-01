@@ -30,10 +30,13 @@ class ProfilUserType extends AbstractType
             ->add('campus')
 
             ->add('imageFile',VichImageType::class, [
+
                 'allow_delete' => false,
                 'download_uri' => false,
+                'required'=>false
 
             ])
+
         ;
     }
 
