@@ -49,6 +49,7 @@
                 {% for liste in listeSortie %}
                         <div class="card col-3" style="margin: 1rem">
                             <div class="card-header">
+                                <p>Ville : <strong>{{ liste.lieu.ville.nom }}</strong></p>
                                 {% if app.user != null %}
                                 <p>Nom de la sortie : <a href="{{ path('app_recap_sortie', {'id_sortie': liste.id}) }}"> <strong>{{ liste.nom }}</strong></a></p>
                                     {% else %}
@@ -97,7 +98,7 @@
                             </div>
                             <div class="card-body">
                                 {% if app.user != null %}
-                                <a class="text-danger" href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                                <a class="text-danger" href="{{ path('app_sortie_modifier', {'id_sortie': liste.id}) }}">Modifier</a>
                                 {% if liste.etatSortie != etat[0] or liste.etatSortie != etat[5] %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
                                         {% if app.user in liste.participants %}
