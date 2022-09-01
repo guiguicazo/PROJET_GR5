@@ -3,7 +3,7 @@
 {% block title %}Filter les sorties!{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF"> Afficher sortie </h1>
+    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 2rem "> Afficher sortie </h1>
     <div class="container">
         <div class="row">
             <div class="card text-center w-100 align-middle">
@@ -24,15 +24,15 @@
 
                                 </div>
                                 <div>
-                                    <a>Sorties dont je suis l'organisateur/trice
+                                    <br><a>Sorties dont je suis l'organisateur/trice
                                         : {{ form_widget(RecapSortie.SortieOrganisateur) }}</a>
-                                    <br>
+                                    <br><br>
                                     <a>Sorties auxquelles je suis inscrit/e
-                                        : {{ form_widget(RecapSortie.Sortieinscrit) }}</a> <br>
+                                        : {{ form_widget(RecapSortie.Sortieinscrit) }}</a> <br><br>
                                     <a>Sorties auxquelles je me suis pas inscrit/e
                                         : {{ form_widget(RecapSortie.SortieNonInscrit) }}</a>
-                                    <br>
-                                    <a>Sorties passées : {{ form_widget(RecapSortie.SortiePassees) }}</a> <br>
+                                    <br><br>
+                                    <a>Sorties passées : {{ form_widget(RecapSortie.SortiePassees) }}</a> <br><br>
                                 </div>
                             </div>
                             {{ form_end(RecapSortie) }}
