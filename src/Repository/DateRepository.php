@@ -47,18 +47,24 @@ class DateRepository extends ServiceEntityRepository
     {
         $listeSortie = $this->findAll();
         $dateJour1 = new DateTime();
+
         $dateJour2 = new DateTime();
         $dateJourArchive= $dateJour2->modify('-100 day');
 
         foreach ($listeSortie as $sortie) {
-            if($sortie->getDateLimiteInscritpion() == $dateJour1) {
-                $sortie->setEtatSortie($enCours);
-            }
+            $duree= $sortie->getDuree();
+            $dateFinActivite = $sortie->getDateHeureDebut()->modify('+'.$duree.' minute');
 
-            if ($sortie->getDateLimiteInscritpion() < $dateJour1) {
+
+            if ($dateFinActivite < $dateJour1) {
                 $sortie->setEtatSortie($passer);
             }
-            if ($sortie->getDateHeureDebut() < $dateJourArchive){
+//
+            //&& $sortie->getEtat()==$passer->getId()
+            if($sortie->getDateHeureDebut() < $dateJour1 && $dateFinActivite > $dateJour1) {
+                $sortie->setEtatSortie($enCours);
+            }
+            if ($dateFinActivite < $dateJourArchive){
                 $sortie->setEtatSortie($archiver);
             }
             $this->getEntityManager()->persist($sortie);
