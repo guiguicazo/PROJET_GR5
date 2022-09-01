@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Date;
+use App\Entity\Etat;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpParser\Node\Expr\Array_;
@@ -36,11 +38,31 @@ class DateRepository extends ServiceEntityRepository
     public function remove(Date $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
+
+    public function miseAjourEtat(Etat $fermer,Etat $archiver): void
+    {
+        $listeSortie = $this->findAll();
+        $dateJour1 = new DateTime();
+        $dateJour2 = new DateTime();
+        $dateJourArchive= $dateJour2->modify('-100 day');
+
+        foreach ($listeSortie as $sortie) {
+            if ($sortie->getDateLimiteInscritpion() < $dateJour1) {
+                $sortie->setEtatSortie($fermer);
+            }
+            if ($sortie->getDateHeureDebut() < $dateJourArchive){
+                $sortie->setEtatSortie($archiver);
+            }
+            $this->getEntityManager()->persist($sortie);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+
 
 
 
