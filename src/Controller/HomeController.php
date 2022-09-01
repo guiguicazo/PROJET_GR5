@@ -74,9 +74,11 @@ class HomeController extends AbstractController
         $sortie = new Date();
         $sortie->setIdSortie($idUser);
 
+
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button")=="enregistre"){
                 $sortie->setEtatSortie($etatRepository->find(1));
+
             }
             //regarde la valeur du boutton et si la valuer est publier
             elseif ($request->get("button")=="publier"){
@@ -87,12 +89,16 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute("app_home");
         }
 
+
         //instancie le formulaire avec CreerUneSortietuypes
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
 
         //Part : 02
         //remplie le sortieform avec request
         $sortieForm->handleRequest($request);
+
+
+
 
         // Part : 03
         // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
@@ -422,17 +428,22 @@ class HomeController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, LieuRepository $lieuRepository): Response
+    #[Route('/new/{id}', name: 'app_lieu_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, LieuRepository $lieuRepository,$id): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $lieuRepository->add($lieu, true);
 
-            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sortie', [
+                'idUser'=>$id
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('lieu/new.html.twig', [

@@ -47,6 +47,8 @@
                                 <div class="form-modifSortie">
                                     <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
                                 </div>
+                                <button><a class="nav-link text-primary" href="{{ path('app_lieu_new',{'id': userSortie.id}) }}">Creer
+                                        Lieu</a></button>
 
                             </div>
                         </div>
@@ -69,10 +71,10 @@
                     <script>
                         /**
                          * fonction qui recupére id de la div ""menulieu" avec le onclick qui appel la fonction
-                         *
                          * le fetch va concaténer l'api et l'id pour recupere le json
                          * recupération et rechercher rue, latitude , longitude  dans position =>
                          * */
+
                         function myFunction(id) {
                             fetch('http://127.0.0.1:8000/modifierSortie/apiLieu/'+id)
                                 .then(retour=>retour.json())
