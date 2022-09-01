@@ -30,10 +30,11 @@
                                         Lieu</a></button>
 
 
-                                <a> Rue :</a>
-                                <a> Code postal : </a>
-                                <a> Latitude :</a>
-                                <a> Longitude :</a>
+
+                                <a> Rue : <input id="nomRue" value=" "></a>
+                                <a> Code postal : <input id="codePostale" value=" "></a>
+                                <a> Latitude :<input id="latitude" value=" "></a>
+                                <a> Longitude :<input id="longitude" value=" "></a>
 
 
                                 <a class="color=red">teste de menu campus :-) </a>
@@ -53,6 +54,37 @@
                             </button>
                         </div>
                     </div>
+
+
+
+                    <script>
+                        /**
+                         * fonction qui recupére id de la div ""menulieu" avec le onclick qui appel la fonction
+                         *
+                         * le fetch va concaténer l'api et l'id pour recupere le json
+                         * recupération et rechercher rue, latitude , longitude  dans position =>
+                         * */
+                        function myFunction(id) {
+                            fetch('http://127.0.0.1:8000/modifierSortie/apiLieu/'+id)
+                                .then(retour=>retour.json())
+                                .then(position=> {
+                                    let rueLieu = position.rue;
+                                    let codePostale = position.codePostal;
+                                    let longitudeLieu = position.longitude;
+                                    let latitudeLieu = position.latitude;
+                                    /**
+                                     * console.log permet d'afficher dans la console
+                                     * **/
+                                    console.log(longitudeLieu);
+                                    console.log(latitudeLieu);
+                                    document.getElementById("latitude").value = latitudeLieu;
+                                    document.getElementById("longitude").value = longitudeLieu;
+                                    document.getElementById("nomRue").value = rueLieu;
+                                    document.getElementById("codePostal").value = codePostale;
+                                });
+
+                        }
+                    </script>
                     {{ form_end(sortieForm) }}
                 </div>
             </div>

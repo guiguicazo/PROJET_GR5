@@ -41,9 +41,12 @@
                                 <div class="p-3" style="background-color:  #c1c1c6">
                                     <div>Campus :   <select name="menuCampus" id="menuCampus">
                                                         {% for c in  listecampus %}
-                                                            <option value="{{ c.nom }}">{{ c.nom }}</option>
+                                                            <option type="input" id="menuCampus" value="{{c.id}}" name="menuCampus">{{ c.nom }}</option>
                                                         {% endfor %}
+
                                                  </select>
+
+
                                     </div>
                                     <div>Lieu :   <select name="menulieu" id="menulieu">
                                             {% for l in  listelieu %}

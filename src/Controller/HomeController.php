@@ -322,6 +322,7 @@ class HomeController extends AbstractController
             $nameDate = $request->get('nameDate');
             $sortie->setNom($nameDate);
 
+
             //recuperation et mise ne base de l'heure je recupére un string que je le modifie en dateTime
             $dateStartRecupString = $request->get('timeStartDate');
             $dateFinRecupString = $request->get('timeEndDate');
@@ -339,10 +340,11 @@ class HomeController extends AbstractController
             $sortie->setDuree($nbTime);
 
 
+
             //recuperation du campus et mise ne base de l'objet campus
-//            $id_campus = $request->get('menuCampus');
-//            $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
-//            $sortie->setCampus($campus);
+            $id_campus = $request->get('menuCampus');
+            $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
+            $sortie->setCampus($campus);
 
             //mise a jour dans la base de donner
             $entityManager->persist($sortie);
@@ -441,12 +443,14 @@ class HomeController extends AbstractController
     #[Route('modifierSortie/apiLieu/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
     //EntityManagerInterface $entityManager permet de créer une requette sql
     //{lieu} doit etre identique a  $lieu dans la bare de modifierSortie/api/1 il va cherche l'objet 1 de la base
-    public function apiLieu(Lieu $lieu, VilleRepository $villeRepository): Response
+    public function apiLieu(Lieu $lieu): Response
     {
         $lieuApi=[
             'id'=>$lieu->getId(),
             'nom'=>$lieu->getNom(),
             'rue'=>$lieu->getRue(),
+            //je recherche dans lieux getVille qui a un code postal
+            'codePostal'=>$lieu->getVille()->getCodePostal(),
             'latitude'=>$lieu->getLatitude(),
             'longitude'=>$lieu->getLongitude(),
         ];
