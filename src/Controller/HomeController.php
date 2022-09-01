@@ -156,9 +156,11 @@ class HomeController extends AbstractController
     public function recapAll(Request $request,FilterRegistration $filterRegistration,EtatRepository $etatRepository, DateRepository $dateRepository): Response
     {
         //Mise à jour etat liste
+        $etatEnCours = $etatRepository->find(3);
+        $etatPasser = $etatRepository->find(4);
         $etatFermer = $etatRepository->find(6);
         $etatArchiver = $etatRepository->find(7);
-        $dateRepository->miseAjourEtat($etatFermer,$etatArchiver);
+        $dateRepository->miseAjourEtat($etatFermer,$etatArchiver,$etatEnCours,$etatPasser);
 
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
@@ -360,7 +362,7 @@ class HomeController extends AbstractController
     /**********************************************************************************************************************/
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
-    public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager): Response
+    public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
@@ -373,7 +375,7 @@ class HomeController extends AbstractController
         $sortie->setNbInscrit(1);
         if ($sortie->getNbInscrit()==$sortie->getNbInscritpionsMax())
         {
-            $sortie->setEtat(6);
+            $sortie->setEtatSortie($etatRepository->find(6));
             $sortie->addParticipant($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -391,7 +393,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/desinscrireSortie/{id_sortie}', name: 'app_sortie_desinscrire', methods: ['GET'])]
-    public function desinscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager): Response
+    public function desinscrire($id_sortie,DateRepository $dateRepository,EntityManagerInterface $entityManager,EtatRepository $etatRepository): Response
     {
         $sortie = $dateRepository->find($id_sortie);
         $user = $this->getUser();
@@ -399,7 +401,7 @@ class HomeController extends AbstractController
         {
             $sortie->setNbInscrit(-1);
             if ($sortie->getNbInscrit()<$sortie->getNbInscritpionsMax()) {
-                $sortie->setEtat(2);
+                $sortie->setEtatSortie($etatRepository->find(2));
                 $sortie->removeParticipant($user);
                 $entityManager->persist($sortie);
                 $entityManager->flush();

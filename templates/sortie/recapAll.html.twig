@@ -63,6 +63,12 @@
                                 {% if liste.etatSortie == etat[2] %}
                                     <p>Etat : <strong>En cours</strong></p>
                                 {% endif %}
+                                {% if liste.etatSortie == etat[3] %}
+                                <p>Etat : <strong>Passée</strong></p>
+                                {% endif %}
+                                {% if liste.etatSortie == etat[4] %}
+                                <p>Etat : <strong>Annulée</strong></p>
+                                {% endif %}
                                 {% if liste.etatSortie == etat[5] %}
                                     <p>Etat : <strong>Fermée</strong></p>
                                 {% endif %}
