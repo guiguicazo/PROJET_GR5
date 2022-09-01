@@ -97,7 +97,7 @@
                             </div>
                             <div class="card-body">
                                 {% if app.user != null %}
-                                <a class="text-danger" href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
+                                <a class="text-danger" href="{{ path('app_sortie_modifier', {'id_sortie': liste.id}) }}">Modifier</a>
                                 {% if liste.etatSortie != etat[0] or liste.etatSortie != etat[5] %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
                                         {% if app.user in liste.participants %}

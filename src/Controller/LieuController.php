@@ -7,6 +7,7 @@ use App\Form\FilterLieuType;
 use App\Form\LieuType;
 use App\Repository\FilterLieuRepository;
 use App\Repository\LieuRepository;
+use App\Repository\VilleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class LieuController extends AbstractController
     {
         $form = $this->createForm(FilterLieuType::class);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recherche = $request->get('nom');
