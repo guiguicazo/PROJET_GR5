@@ -3,46 +3,49 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Détail Sortie</h1>
-    <div class="row">
-        <div class="card text-center w-100 align-middle">
-            <div class="card-body">
-    <h1> {{ sortie.nom }} </h1>
-    <div>
-        <div>
-            <a>Nom de la Sortie : {{ sortie.nom }}</a> <br>
-            <a>Date et Heure de la sortie
-                : {{ sortie.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
-            <a>Date limite d'inscription
-                : {{ sortie.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
-            <a>Nombre de places : {{ sortie.nbInscritpionsMax }}</a> <br>
-            <a>Durée : {{ sortie.duree }} minutes</a> <br>
-            <a>Description et infos : {{ sortie.infosSortie }}</a> <br>
-        </div>
-        <div>
-            <a>Campus : {{ sortie.campus }}</a> <br>
-            <a>Lieu: {{ sortie.lieu }}</a> <br>
-            <a>Rue : {{ sortie.lieu.rue }}</a> <br>
-            <a>Code postal : {{ sortie.lieu.ville.codePostal }}</a> <br>
-            <a>Latitude : {{ sortie.lieu.latitude }} minutes</a> <br>
-            <a>Longitude : {{ sortie.lieu.longitude }}</a> <br>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center card-footer">
-        <a>Liste des participants inscrits:</a>
-        <table>
-            {% for participant in sortie.participants %}
-            <tr>
-                <th><a href="{{ path('app_showuser_show',{'id' : participant.id }) }}">{{ participant.nom }}</a></th>
-            </tr>
-            {% endfor %}
-        </table>
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Détail Sortie</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1> {{ sortie.nom }} </h1>
+                    <div>
+                        <div>
+                            <a>Nom de la Sortie : {{ sortie.nom }}</a> <br>
+                            <a>Date et Heure de la sortie
+                                : {{ sortie.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
+                            <a>Date limite d'inscription
+                                : {{ sortie.dateLimiteInscritpion |date('d/m/Y H:i', timezone="Europe/Paris") }}</a>
+                            <br>
+                            <a>Nombre de places : {{ sortie.nbInscritpionsMax }}</a> <br>
+                            <a>Durée : {{ sortie.duree }} minutes</a> <br>
+                            <a>Description et infos : {{ sortie.infosSortie }}</a> <br>
+                        </div>
+                        <div>
+                            <a>Campus : {{ sortie.campus }}</a> <br>
+                            <a>Lieu: {{ sortie.lieu }}</a> <br>
+                            <a>Rue : {{ sortie.lieu.rue }}</a> <br>
+                            <a>Code postal : {{ sortie.lieu.ville.codePostal }}</a> <br>
+                            <a>Latitude : {{ sortie.lieu.latitude }} minutes</a> <br>
+                            <a>Longitude : {{ sortie.lieu.longitude }}</a> <br>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center card-footer">
+                        <a>Liste des participants inscrits:</a>
+                        <table>
+                            {% for participant in sortie.participants %}
+                                <tr>
+                                    <th>
+                                        <a href="{{ path('app_showuser_show',{'id' : participant.id }) }}">{{ participant.nom }}</a>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                        </table>
 
-    </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
