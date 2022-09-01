@@ -279,13 +279,16 @@ class HomeController extends AbstractController
         ] );
     }
 
+    /**********************************************************************************************************************/
+    /**********************************************************************************************************************/
 
     /**
      * recpate de la sorties et posibiliter de la modiffier
      */
     #[Route('/modifierSortie/{id_sortie}', name: 'app_sortie_modifier', methods: ['GET'])]
     //affichage de des infornation de la sortie
-    public function modifierSortie($id_sortie, DateRepository $dateRepository, Request $request, EtatRepository $etatRepository, CampusRepository $campusRepository, lieuRepository $lieuRepository): Response
+    public function modifierSortie($id_sortie, Request $request,DateRepository $dateRepository, EtatRepository $etatRepository,
+                                   CampusRepository $campusRepository, lieuRepository $lieuRepository, EntityManagerInterface $entityManager,): Response
     {
 
         //Part : 01
@@ -300,17 +303,52 @@ class HomeController extends AbstractController
         if ($request->get("button") == "enregistre") {
             $sortie->setEtatSortie($etatRepository->find(1));
         } //regarde la valeur du boutton et si la valuer est publier
-        elseif ($request->get("button") == "publier") {
-            $sortie->setEtatSortie($etatRepository->find(2));
-            return $this->redirectToRoute("app_home");
-        } //regarde la valeur du boutton et si la valuer est supprimer
-        elseif ($request->get("button") == "supprimer") {
-            $sortie->setEtatSortie($etatRepository->find(6));
-            return $this->redirectToRoute("app_home");
-        } //si action sur boutton annuler
-        elseif ($request->get("button") == "annuler") {
-            return $this->redirectToRoute("app_home");
-        }
+            if ($request->get("button") == "publier") {
+                $sortie->setEtatSortie($etatRepository->find(2));
+                return $this->redirectToRoute("app_home");
+            } //regarde la valeur du boutton et si la valuer est supprimer
+            elseif ($request->get("button") == "supprimer") {
+                $sortie->setEtatSortie($etatRepository->find(6));
+                return $this->redirectToRoute("app_home");
+            } //si action sur boutton annuler
+            elseif ($request->get("button") == "annuler") {
+                return $this->redirectToRoute("app_home");
+            }
+
+
+
+        //
+
+            //recuperation du campus dans grace a id recuperer sur twig
+            $nameDate = $request->get('nameDate');
+            $sortie->setNom($nameDate);
+
+            //recuperation et mise ne base de l'heure je recupére un string que je le modifie en dateTime
+            $dateStartRecupString = $request->get('timeStartDate');
+            $dateFinRecupString = $request->get('timeEndDate');
+            $dateStartRecup = new \DateTime($dateStartRecupString);
+            $dateFinRecup = new DateTime($dateFinRecupString);
+            $sortie->setDateHeureDebut($dateStartRecup);
+            $sortie->setDateLimiteInscritpion($dateFinRecup);
+
+            //recupération des monbre de place
+            $nbPlace = $request->get('nbPlace');
+            $sortie->setNbInscrit($nbPlace);
+
+            //recupérer le temps pour mise a jour
+            $nbTime = $request->get('nbTime');
+            $sortie->setDuree($nbTime);
+
+
+            //recuperation du campus et mise ne base de l'objet campus
+//            $id_campus = $request->get('menuCampus');
+//            $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
+//            $sortie->setCampus($campus);
+
+            //mise a jour dans la base de donner
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
 
 
         return $this->render('sortie/modifierSortie.html.twig', ['modifierSortie' => $dateRepository->find($id_sortie),
@@ -318,6 +356,8 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**********************************************************************************************************************/
+    /**********************************************************************************************************************/
 
     #[Route('/inscrireSortie/{id_sortie}', name: 'app_sortie_inscrire', methods: ['GET'])]
     public function inscrire($id_sortie, DateRepository $dateRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
@@ -397,6 +437,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+/**********************************************************************************************************************/
 
     #[Route('modifierSortie/apiLieu/{lieu}', name: 'app_api', methods: ['GET', 'POST'])]
     //EntityManagerInterface $entityManager permet de créer une requette sql
