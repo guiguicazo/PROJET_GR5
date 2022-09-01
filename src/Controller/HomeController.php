@@ -121,7 +121,8 @@ class HomeController extends AbstractController
         return $this->render( 'sortie/formSortie.html.twig',["sortieForm"=> $sortieForm->createview(),
             'userSortie'=>$userRepository->find($idUser),
             'villeSortie'=>$villeRepository->findall() ,
-            'lieuSortie'=>$lieuRepository->findall() ,
+
+            'listelieu' => $lieuRepository->findall()
             ] );
     }
 

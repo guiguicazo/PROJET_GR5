@@ -15,7 +15,6 @@
                             <a>Date et Heure de la sortie : {{ form_widget(sortieForm.dateHeureDebut) }}</a>
                             <a>Date limite d'inscription : {{ form_widget(sortieForm.dateLimiteInscritpion) }}</a>
                             <a>Nombre de places : {{ form_widget(sortieForm.nbInscritpionsMax) }}</a> <br>
-
                             <a>Durée : {{ form_widget(sortieForm.duree) }}</a> <br>
                             <a>Description et infos : {{ form_widget(sortieForm.infosSortie) }}</a> <br>
 
@@ -25,20 +24,31 @@
 
                                 <a>  {{ userSortie.campus }}</a>
                                 <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
-                                <a>Lieu : {{ form_widget(sortieForm.lieu) }}</a> <br>
+
+
+
+                                <div>Lieu :   <select name="menulieu" id="menulieu">
+                                        {% for l in  listelieu %}
+                                            <option  onclick="myFunction({{ l.id }})" >{{ l.nom }} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-modifSortie">
+                                    <label for="nomRue" >Rue : <input type="text"  id="nomRue"  name="nomRue" value="" ></label>
+                                </div>
+                                <div class="form-modifSortie">
+                                    <label for="codePostal" >Code Postal : <input type="text"  id="codePostal"  name="codePostal" value="" ></label>
+                                </div>
+                                <div class="form-modifSortie">
+                                    <label for="latitude" >Latitude : <input type="text"  id="latitude"  name="latitude" value="" ></label>
+                                </div>
+                                <div class="form-modifSortie">
+                                    <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
+                                </div>
                                 <button><a class="nav-link text-primary" href="{{ path('app_lieu_new') }}">Creer
                                         Lieu</a></button>
 
-
-
-                                <a> Rue : <input id="nomRue" value=" "></a>
-                                <a> Code postal : <input id="codePostale" value=" "></a>
-                                <a> Latitude :<input id="latitude" value=" "></a>
-                                <a> Longitude :<input id="longitude" value=" "></a>
-
-
-                                <a class="color=red">teste de menu campus :-) </a>
-                                <a>Campus : {{ form_widget(sortieForm.campus) }}</a> <br>
                             </div>
                         </div>
                     </div>
@@ -60,10 +70,10 @@
                     <script>
                         /**
                          * fonction qui recupére id de la div ""menulieu" avec le onclick qui appel la fonction
-                         *
                          * le fetch va concaténer l'api et l'id pour recupere le json
                          * recupération et rechercher rue, latitude , longitude  dans position =>
                          * */
+
                         function myFunction(id) {
                             fetch('http://127.0.0.1:8000/modifierSortie/apiLieu/'+id)
                                 .then(retour=>retour.json())
