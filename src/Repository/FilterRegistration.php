@@ -160,6 +160,7 @@ class FilterRegistration extends ServiceEntityRepository
         $idUser = $user->getId();
         $idCampus =$campusFlitre->getId();
 
+
         $em = $this->getEntityManager();
         $builderFilter = $em->getRepository('App\Entity\Date')->createQueryBuilder('d')
             ->Where('d.campus = :monCampus')
@@ -188,8 +189,9 @@ class FilterRegistration extends ServiceEntityRepository
 
 
             if ($sortieOrganisateur=='1'){
+
                 $builderFilter
-                    ->andWhere('d.organisateur = : iduser')
+                    ->andWhere('d.organisateur = :iduser')
                     ->setParameter('iduser',$idUser);
              }
             if ($sortiePassee=='1'){

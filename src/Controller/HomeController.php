@@ -271,7 +271,6 @@ class HomeController extends AbstractController
         $dateFinRecup = new DateTime();
         $dateFinRecup->modify('+30 day');
 
-
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
             'dateJour'=> $dateJour = new DateTime(),
