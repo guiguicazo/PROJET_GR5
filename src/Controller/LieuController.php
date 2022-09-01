@@ -44,6 +44,7 @@ class LieuController extends AbstractController
     {
         return $this->render('lieu/show.html.twig', [
             'lieu' => $lieu,
+
         ]);
     }
 

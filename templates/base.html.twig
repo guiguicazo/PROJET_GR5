@@ -62,7 +62,7 @@
                                 <a class="nav-link text-danger" href="{{ path('app_ville_index') }}">Gerer Ville</a>
                             </li>
                             <li>
-                                <a class="nav-link text-danger" href="{{ path('app_lieu_index') }}">Gerer Lieu</a>
+                                <a class="nav-link text-danger" href="{{ path('app_lieu_index' , {"id": app.user.id }) }}">Gerer Lieu</a>
                             </li>
                         {% endif %}
                     {% else %}
