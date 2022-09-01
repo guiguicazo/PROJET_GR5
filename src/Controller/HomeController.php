@@ -439,17 +439,22 @@ class HomeController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, LieuRepository $lieuRepository): Response
+    #[Route('/new/{id}', name: 'app_lieu_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, LieuRepository $lieuRepository,$id): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $lieuRepository->add($lieu, true);
 
-            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sortie', [
+                'idUser'=>$id
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('lieu/new.html.twig', [

@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[IsGranted("ROLE_ADMIN")]
 #[Route('/lieu')]
 class LieuController extends AbstractController
@@ -57,6 +58,8 @@ class LieuController extends AbstractController
 
             return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
         }
+
+
 
         return $this->renderForm('lieu/edit.html.twig', [
             'lieu' => $lieu,
