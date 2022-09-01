@@ -54,17 +54,20 @@
                                     {% else %}
                                 <p>Nom de la sortie : <strong>{{ liste.nom }}</strong></p>
                                 {% endif %}
-                                {% if liste.etat == 1 %}
+                                {% if liste.etatSortie == etat[0] %}
                                     <p>Etat : <strong>Créée</strong></p>
                                 {% endif %}
-                                {% if liste.etat == 2 %}
+                                {% if liste.etatSortie == etat[1] %}
                                     <p>Etat : <strong>Ouverte</strong></p>
                                 {% endif %}
-                                {% if liste.etat == 3 %}
+                                {% if liste.etatSortie == etat[2] %}
                                     <p>Etat : <strong>En cours</strong></p>
                                 {% endif %}
-                                {% if liste.etat == 6 %}
+                                {% if liste.etatSortie == etat[5] %}
                                     <p>Etat : <strong>Fermée</strong></p>
+                                {% endif %}
+                                {% if liste.etatSortie == etat[6] %}
+                                    <p>Etat : <strong>Archivée</strong></p>
                                 {% endif %}
                             </div>
                             <div class="card-body">
@@ -89,7 +92,7 @@
                             <div class="card-body">
                                 {% if app.user != null %}
                                 <a href="{{ path('app_sortie_annuler', {'id_sortie': liste.id}) }}">Annuler</a>
-                                {% if liste.etat != 1 or liste.etat != 6 %}
+                                {% if liste.etatSortie != etat[0] or liste.etatSortie != etat[5] %}
                                     {% if liste.dateLimiteInscritpion > dateJour %}
                                         {% if app.user in liste.participants %}
                                             {% if app.user.id != liste.organisateur.id %}

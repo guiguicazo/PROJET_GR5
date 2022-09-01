@@ -47,7 +47,7 @@ class FilterRegistration extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $listesortie = $em->getRepository("App\Entity\Date")->createQueryBuilder('d')
-            ->where('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 6')
+            ->where('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 5 or d.etatSortie = 6')
         ;
 
         $query = $listesortie->getQuery()->getResult();
@@ -183,7 +183,9 @@ class FilterRegistration extends ServiceEntityRepository
             ->andWhere('d.dateHeureDebut >= :dateHeureDebut')
             ->setParameter('dateHeureDebut',$dateStartRecup)
             ->andWhere('d.dateHeureDebut <= :dateHeureFin')
-            ->setParameter('dateHeureFin',$dateFinRecup);
+            ->setParameter('dateHeureFin',$dateFinRecup)
+            ->andWhere('d.etatSortie = 1 or d.etatSortie = 2 or d.etatSortie = 3 or d.etatSortie = 4 or d.etatSortie = 5 or d.etatSortie = 6');
+
 
             if ($sortieOrganisateur=='1'){
                 $builderFilter

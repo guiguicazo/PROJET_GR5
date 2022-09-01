@@ -156,8 +156,13 @@ class HomeController extends AbstractController
      * recpate de toutes les sorties
      */
     #[Route('/recapAll', name: 'app_recapAll')]
-    public function recapAll(Request $request,FilterRegistration $filterRegistration): Response
+    public function recapAll(Request $request,FilterRegistration $filterRegistration,EtatRepository $etatRepository, DateRepository $dateRepository): Response
     {
+        //Mise à jour etat liste
+        $etatFermer = $etatRepository->find(6);
+        $etatArchiver = $etatRepository->find(7);
+        $dateRepository->miseAjourEtat($etatFermer,$etatArchiver);
+
         //instancie le formulaire avec CreerUneSortietuypes
         $recapForm = $this->createForm(RegistrationFormDateType::class);
         $recapForm->handleRequest($request);
@@ -175,6 +180,7 @@ class HomeController extends AbstractController
                 } else {
                     $search = -1;
                 }
+
                 $sortieInscrit = $recapForm->get('Sortieinscrit')->getData();
                 $sortieNonInscrit = $recapForm->get('SortieNonInscrit')->getData();
                 $sortiePassee = $recapForm->get('SortiePassees')->getData();
@@ -188,7 +194,9 @@ class HomeController extends AbstractController
                 return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
                     'listeSortie' => $filterRegistration
                         ->globalFilter($user, $search, $sortieNonInscrit, $sortieInscrit, $sortieOrganisateur, $sortiePassee, $campusFlitre, $dateStartRecup, $dateFinRecup),
-                    'dateStart' => $dateStartRecup, 'dateFin' => $dateFinRecup, 'dateJour' => $dateJour = new DateTime()
+                    'dateStart' => $dateStartRecup, 'dateFin' => $dateFinRecup,
+                    'dateJour' => $dateJour = new DateTime(),
+                    'etat'=> $etat = $etatRepository->findAll()
 
                 ]);
 
@@ -254,6 +262,7 @@ class HomeController extends AbstractController
                 $dateFinRecup = new DateTime($dateStartRecupString);
                 return $this->render('/sortie/recapAll.html.twig', ["RecapSortie" => $recapForm->createView(),
                     'listeSortie' => $filterRegistration->startEndDate($dateStartRecup, $dateFinRecup),
+                    'etat'=> $etat = $etatRepository->findAll(),
                     'dateJour' => $dateJour = new DateTime()]);
 
             }
@@ -262,9 +271,11 @@ class HomeController extends AbstractController
         $dateFinRecup = new DateTime();
         $dateFinRecup->modify('+1 day');
 
+
         return $this->render( '/sortie/recapAll.html.twig',[ "RecapSortie"=> $recapForm->createview(),
             'listeSortie'=>$filterRegistration->DateFilterOpen(),'dateStart'=>$dateStartRecup ,'dateFin'=>$dateFinRecup,
             'dateJour'=> $dateJour = new DateTime(),
+            'etat'=> $etat = $etatRepository->findAll(),
             'user'=> $user=-1
         ] );
     }
@@ -290,16 +301,13 @@ class HomeController extends AbstractController
 
         //verifie la condition que mon boutton enregister est activer
         if ($request->get("button") == "enregistre") {
-            $sortie->setEtat(1);
             $sortie->setEtatSortie($etatRepository->find(1));
         } //regarde la valeur du boutton et si la valuer est publier
         elseif ($request->get("button") == "publier") {
-            $sortie->setEtat(2);
             $sortie->setEtatSortie($etatRepository->find(2));
             return $this->redirectToRoute("app_home");
         } //regarde la valeur du boutton et si la valuer est supprimer
         elseif ($request->get("button") == "supprimer") {
-            $sortie->setEtat(6);
             $sortie->setEtatSortie($etatRepository->find(6));
             return $this->redirectToRoute("app_home");
         } //si action sur boutton annuler
