@@ -43,7 +43,7 @@ use App\Form\CreerUneSortieType;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
 
@@ -52,7 +52,6 @@ class HomeController extends AbstractController
         //    'controller_name' => 'HomeController',
         //]);
     }
-
 
 
 
@@ -86,7 +85,6 @@ class HomeController extends AbstractController
             elseif ($request->get("button")=="annuler"){
                 return $this->redirectToRoute("app_home");
         }
-
 
         //instancie le formulaire avec CreerUneSortietuypes
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
