@@ -24,12 +24,18 @@
 
                                 <a>  {{ userSortie.campus }}</a>
                                 <input type="hidden" id="campus" value="{{ userSortie.campus.id }}" name="campus">
+                                <div>Ville :  <select name="menuVille" id="menuVille">
+                                       {% for v in villeSortie %}
+                                           <option value="">{{ v.nom }}</option>
+                                        {% endfor %}
+                                    </select>
 
-                                <div >Lieu : {{ form_widget(sortieForm.lieu) }}</div>
+                                </div>
 
-                                <div >Lieu :   <select name="menulieu" id="menulieu">
+
+                                <div>Lieu :   <select name="menulieu" id="menulieu">
                                         {% for l in  listelieu %}
-                                            <option value="{{ l.id }}"  id="lieu" onclick="myFunction({{ l.id }})"  type="input" >{{ l.nom }} {{ l.id }}</option>
+                                            <option  onclick="myFunction({{ l.id }})" >{{ l.nom }} </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -46,7 +52,7 @@
                                 <div class="form-modifSortie">
                                     <label for="longitude" >Longitude : <input type="text"  id="longitude"  name="longitude" value="" ></label>
                                 </div>
-                                <button><a class="nav-link text-primary" href="{{ path('app_lieu_new',{'id': userSortie.id}) }}">Creer
+                                <button><a class="nav-link text-primary" href="{{ path('app_lieu_new',{userSortie.id}) }}">Creer
                                         Lieu</a></button>
 
                             </div>

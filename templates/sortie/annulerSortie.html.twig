@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div class="container"><h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 5rem">Détail Sortie</h1>
+        <div class="row">
+            <div class="card text-center w-100 align-middle">
+                <div class="card-body">
+                    <h1> Annuler une sortie </h1>
+                    <div>
+                        <div>
+                            <a>Nom de la Sortie : {{ sortie.nom }}</a> <br>
+                            <a>Date et Heure de la sortie
+                                : {{ sortie.dateHeureDebut |date('d/m/Y H:i', timezone="Europe/Paris") }}</a> <br>
+
+                        </div>
+                        <div>
+                            <a>Campus : {{ sortie.campus }}</a> <br>
+                            <a>Lieu: {{ sortie.lieu }}</a> <br>
+                            <a>Ville : {{ sortie.lieu.ville.nom }}</a> <br>
+                            <a>Rue : {{ sortie.lieu.rue }}</a> <br>
+                            <a>Code postal : {{ sortie.lieu.ville.codePostal }}</a> <br>
+
+                        </div>
+
+
+                        <libellé>formulez votre motif</libellé>
+                        <input id="motif" value="{{ sortie.motif }}" name="motif" aria-setsize="120">
+
+
+
+                    </div>
+                    <div class="d-flex justify-content-center card-footer">
+                        <a>Liste des participants inscrits:</a>
+                        <table>
+                            {% for participant in sortie.participants %}
+                                <tr>
+                                    <th>
+                                        <a href="{{ path('app_sortie_annuler',{'id_sortie' : sortie.id }) }}">{{ participant.nom }}</a>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                        </table>
+
+                    </div>
+
+                    <div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -62,6 +62,8 @@
                         </button>
                         <button type="submit" name="button" value="annuler" class="btn btn-outline-info">Annuler
                         </button>
+                        <button><a class="nav-link text-primary" href="{{ path('app_sortie_annuler',{'id_sortie': modifierSortie.id}) }}">Annuler
+                                </a></button>
                     </div>
                 </div>
                 {{ form_end(sortieForm) }}

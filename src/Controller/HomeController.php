@@ -487,10 +487,13 @@ class HomeController extends AbstractController
     }
 
     #[Route('/annulerSortie/{id_sortie}', name: 'app_sortie_annuler', methods: ['GET'])]
-    public function annuler($id_sortie): Response
+    public function annuler($id_sortie,DateRepository $dateRepository): Response
     {
+
+
         return $this->render('sortie/annulerSortie.html.twig', [
             'search' => $id_sortie,
+            'sortie' => $dateRepository->find($id_sortie),
         ]);
     }
 
