@@ -29,7 +29,8 @@
 
                                 <div >Lieu :   <select name="menulieu" id="menulieu">
                                         {% for l in  listelieu %}
-                                            <option value="{{ l.id }}"  id="lieu" onclick="myFunction({{ l.id }})" >{{ l.nom }} {{ l.id }}</option>
+                                            <option value="{{ l.id }}"  id="lieu" onclick="myFunction({{ l.id }})"
+                                            >{{ l.nom }} {{ l.id }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
