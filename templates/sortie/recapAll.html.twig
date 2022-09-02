@@ -3,7 +3,17 @@
 {% block title %}Filter les sorties!{% endblock %}
 
 {% block body %}
-    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 2rem "> Afficher sortie </h1>
+    <h1 style="color: #FFFFFF; padding-top: 2rem; padding-bottom: 2rem "> Envie de sortir ? </h1>
+    <div class="container-fluid">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-light">
+            <li class="nav-item">
+                <p>Bienvenue {{ app.user.prenom }}</p>
+            </li>
+            <li class="nav-item">
+                <p>Nous sommes le  {{ dateJour |date('d/m/Y H:i', timezone="Europe/Paris") }}</p>
+            </li>
+        </ul>
+    </div>
     <div class="container">
         <div class="row">
             <div class="card text-center w-100 align-middle">

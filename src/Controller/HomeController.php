@@ -43,7 +43,7 @@ use App\Form\CreerUneSortieType;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
 
@@ -52,7 +52,6 @@ class HomeController extends AbstractController
         //    'controller_name' => 'HomeController',
         //]);
     }
-
 
 
 
@@ -87,7 +86,6 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute("app_home");
         }
 
-
         //instancie le formulaire avec CreerUneSortietuypes
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
 
@@ -119,7 +117,6 @@ class HomeController extends AbstractController
 //              dd($request->get('lieu'));
 //              /*****************************************************************************************/
 //              $lieu = $lieuRepository->findOneBy(['id'=> $id_lieux ]);
-//
 //              $sortie->setLieu($lieu);
 
               $entityManager->persist($sortie);
@@ -330,37 +327,51 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute("app_home");
             }
 
-            //recuperation du campus dans grace a id recuperer sur twig
-            $nameDate = $request->get('nameDate');
-            $sortie->setNom($nameDate);
+        //Part : 02
+        //remplie le sortieform avec request
+        $sortieForm->handleRequest($request);
+
+        // Part : 03
+        // --Tester si le form à des données envoyées et renregistrment dans la base de donnée
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+
+                // Redirection sur home
+                return $this->redirectToRoute("app_recapAll");
+            }
 
 
-            //recuperation et mise ne base de l'heure je recupére un string que je le modifie en dateTime
-            $dateStartRecupString = $request->get('timeStartDate');
-            $dateFinRecupString = $request->get('timeEndDate');
-            $dateStartRecup = new \DateTime($dateStartRecupString);
-            $dateFinRecup = new DateTime($dateFinRecupString);
-            $sortie->setDateHeureDebut($dateStartRecup);
-            $sortie->setDateLimiteInscritpion($dateFinRecup);
-
-            //recupération des monbre de place
-            $nbPlace = $request->get('nbPlace');
-            $sortie->setNbInscrit($nbPlace);
-
-            //recupérer le temps pour mise a jour
-            $nbTime = $request->get('nbTime');
-            $sortie->setDuree($nbTime);
-
-
-
-            //recuperation du campus et mise ne base de l'objet campus
-            $id_campus = $request->get('menuCampus');
-            $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
-            $sortie->setCampus($campus);
-
-            //mise a jour dans la base de donner
-            $entityManager->persist($sortie);
-            $entityManager->flush();
+//            //recuperation du campus dans grace a id recuperer sur twig
+//            $nameDate = $request->get('nameDate');
+//            $sortie->setNom($nameDate);
+//
+//
+//            //recuperation et mise ne base de l'heure je recupére un string que je le modifie en dateTime
+//            $dateStartRecupString = $request->get('timeStartDate');
+//            $dateFinRecupString = $request->get('timeEndDate');
+//            $dateStartRecup = new \DateTime($dateStartRecupString);
+//            $dateFinRecup = new DateTime($dateFinRecupString);
+//            $sortie->setDateHeureDebut($dateStartRecup);
+//            $sortie->setDateLimiteInscritpion($dateFinRecup);
+//
+//            //recupération des monbre de place
+//            $nbPlace = $request->get('nbPlace');
+//            $sortie->setNbInscrit($nbPlace);
+//
+//            //recupérer le temps pour mise a jour
+//            $nbTime = $request->get('nbTime');
+//            $sortie->setDuree($nbTime);
+//
+//            //recuperation du campus et mise ne base de l'objet campus
+//            $id_campus = $request->get('menuCampus');
+//            $campus = $campusRepository->findOneBy(['id'=> $id_campus ]);
+//            $sortie->setCampus($campus);
+//
+//            //mise a jour dans la base de donner
+//            $entityManager->persist($sortie);
+//            $entityManager->flush();
 
 
 
