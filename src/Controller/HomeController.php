@@ -55,7 +55,6 @@ class HomeController extends AbstractController
 
 
 
-
     /**
      * affichage du formulaire vide
      */
@@ -89,15 +88,12 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute("app_home");
         }
 
-
         //instancie le formulaire avec CreerUneSortietuypes
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
 
         //Part : 02
         //remplie le sortieform avec request
         $sortieForm->handleRequest($request);
-
-
 
 
         // Part : 03
