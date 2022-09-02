@@ -117,7 +117,6 @@ class HomeController extends AbstractController
 //              dd($request->get('lieu'));
 //              /*****************************************************************************************/
 //              $lieu = $lieuRepository->findOneBy(['id'=> $id_lieux ]);
-//
 //              $sortie->setLieu($lieu);
 
               $entityManager->persist($sortie);
